@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.reactive;
 
 import com.mongodb.async.client.MongoClientSettings;
 import com.mongodb.connection.*;
-import org.particleframework.context.annotation.ConfigurationBuilder;
-import org.particleframework.context.annotation.ConfigurationProperties;
-import org.particleframework.context.annotation.Requires;
-import org.particleframework.runtime.ApplicationConfiguration;
+import io.micronaut.context.annotation.ConfigurationBuilder;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.ConfigurationBuilder;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.runtime.ApplicationConfiguration;
 
 /**
  * The default MongoDB configuration class

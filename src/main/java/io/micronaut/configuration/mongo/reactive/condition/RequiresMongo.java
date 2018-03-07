@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.reactive.condition;
+
+import com.mongodb.reactivestreams.client.MongoClient;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.configuration.mongo.reactive.MongoSettings;
+import io.micronaut.context.annotation.Requires;
+
+import java.lang.annotation.*;
 
 /**
- * Common constants to for MongoDB settings
+ * A custom requirement for MongoDB
  *
  * @author graemerocher
  * @since 1.0
  */
-public interface MongoSettings {
-    /**
-     * The prefix to use for all MongoDB settings
-     */
-    String PREFIX = "mongodb";
-    /**
-     * The MongoDB URI setting
-     */
-    String MONGODB_URI = PREFIX + ".uri";
-    /**
-     * The MongoDB servers settings
-     */
-    String MONGODB_SERVERS = PREFIX + ".servers";
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PACKAGE, ElementType.TYPE})
+@Requires(classes = MongoClient.class)
+@Requires(property = MongoSettings.PREFIX)
+public @interface RequiresMongo {
 }

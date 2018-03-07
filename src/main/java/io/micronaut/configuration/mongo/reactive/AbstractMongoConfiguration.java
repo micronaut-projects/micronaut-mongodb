@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.reactive;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.ServerAddress;
 import com.mongodb.async.client.MongoClientSettings;
 import com.mongodb.connection.*;
 import com.mongodb.reactivestreams.client.MongoClients;
+import io.micronaut.context.env.Environment;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.particleframework.context.env.Environment;
-import org.particleframework.core.util.StringUtils;
-import org.particleframework.runtime.ApplicationConfiguration;
+import io.micronaut.context.env.Environment;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.runtime.ApplicationConfiguration;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Collections;

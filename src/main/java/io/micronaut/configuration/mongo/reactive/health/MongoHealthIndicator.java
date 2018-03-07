@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive.health;
+package io.micronaut.configuration.mongo.reactive.health;
 
 import com.mongodb.reactivestreams.client.MongoClient;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.management.health.indicator.HealthIndicator;
+import io.micronaut.management.health.indicator.HealthResult;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
-import org.particleframework.context.annotation.Requires;
-import org.particleframework.health.HealthStatus;
-import org.particleframework.management.health.indicator.HealthIndicator;
-import org.particleframework.management.health.indicator.HealthResult;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.health.HealthStatus;
+import io.micronaut.management.health.indicator.HealthIndicator;
+import io.micronaut.management.health.indicator.HealthResult;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;

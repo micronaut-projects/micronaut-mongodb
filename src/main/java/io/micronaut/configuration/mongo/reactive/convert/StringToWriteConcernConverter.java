@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive.condition;
+package io.micronaut.configuration.mongo.reactive.convert;
 
-import com.mongodb.reactivestreams.client.MongoClient;
-import org.particleframework.configuration.mongo.reactive.MongoSettings;
-import org.particleframework.context.annotation.Requires;
+import com.mongodb.WriteConcern;
+import io.micronaut.core.convert.ConversionContext;
+import io.micronaut.core.convert.TypeConverter;
 
-import java.lang.annotation.*;
+import javax.inject.Singleton;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
- * A custom requirement for MongoDB
- *
  * @author graemerocher
  * @since 1.0
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PACKAGE, ElementType.TYPE})
-@Requires(classes = MongoClient.class)
-@Requires(property = MongoSettings.PREFIX)
-public @interface RequiresMongo {
+@Singleton
+public class StringToWriteConcernConverter implements TypeConverter<CharSequence, WriteConcern> {
+    @Override
+    public Optional<WriteConcern> convert(CharSequence object, Class<WriteConcern> targetType, ConversionContext context) {
+        return Optional.ofNullable(WriteConcern.valueOf(object.toString().toUpperCase(Locale.ENGLISH)));
+    }
 }
+

@@ -1,12 +1,15 @@
-package org.particleframework.configuration.mongo.reactive
+package io.micronaut.configuration.mongo.reactive
 
 import com.mongodb.async.client.MongoClientSettings
 import com.mongodb.reactivestreams.client.MongoClient
 import groovy.transform.NotYetImplemented
+import io.micronaut.context.ApplicationContext
+import io.micronaut.core.io.socket.SocketUtils
+import io.micronaut.inject.qualifiers.Qualifiers
 import io.reactivex.Flowable
-import org.particleframework.context.ApplicationContext
-import org.particleframework.core.io.socket.SocketUtils
-import org.particleframework.inject.qualifiers.Qualifiers
+import io.micronaut.context.ApplicationContext
+import io.micronaut.core.io.socket.SocketUtils
+import io.micronaut.inject.qualifiers.Qualifiers
 import spock.lang.Specification
 import spock.lang.Unroll
 

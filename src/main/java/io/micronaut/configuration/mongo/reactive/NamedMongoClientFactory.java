@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.reactive;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
-import org.particleframework.context.annotation.Bean;
-import org.particleframework.context.annotation.EachBean;
-import org.particleframework.context.annotation.Factory;
-import org.particleframework.context.annotation.Primary;
-import org.particleframework.runtime.context.scope.Refreshable;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.EachBean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.EachBean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.runtime.context.scope.Refreshable;
 
 /**
  * Factory for named {@link MongoClient} instances. Creates the injectable {@link Primary} bean

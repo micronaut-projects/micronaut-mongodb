@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.particleframework.configuration.mongo.reactive.test;
+package io.micronaut.configuration.mongo.reactive.test;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.ServerAddress;
@@ -25,13 +25,18 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import org.particleframework.configuration.mongo.reactive.MongoConfiguration;
-import org.particleframework.context.annotation.Requires;
-import org.particleframework.context.env.Environment;
-import org.particleframework.context.event.BeanCreatedEvent;
-import org.particleframework.context.event.BeanCreatedEventListener;
-import org.particleframework.context.exceptions.ConfigurationException;
-import org.particleframework.core.io.socket.SocketUtils;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
+import io.micronaut.context.event.BeanCreatedEvent;
+import io.micronaut.context.event.BeanCreatedEventListener;
+import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.configuration.mongo.reactive.MongoConfiguration;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
+import io.micronaut.context.event.BeanCreatedEvent;
+import io.micronaut.context.event.BeanCreatedEventListener;
+import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.core.io.socket.SocketUtils;
 
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
