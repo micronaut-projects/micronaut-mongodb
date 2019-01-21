@@ -1,0 +1,58 @@
+The configuration options for the blocking client and the non-blocking client differ at the driver level.
+
+To configure the blocking client options you can use the `mongodb.options` setting which allows you to configure any property of the `MongoClientOptions.Builder` class. For example in `application.yml`:
+
+.Configuring Blocking Driver Options
+[source,yaml]
+----
+mongodb:
+    ...
+    options:
+        maxConnectionIdleTime: 10000
+        readConcern: majority
+----
+
+See the API for api:configuration.mongo.reactive.DefaultMongoConfiguration[] for more information on the available configuration options.
+
+For the Reactive driver, the api:configuration.mongo.reactive.ReactiveMongoConfiguration[] exposes options to configure the Reactive Streams driver. For example:
+
+
+.Configuring the Reactive Streams Driver
+[source,yaml]
+----
+mongodb:
+    ...
+    cluster:
+        maxWaitQueueSize: 5
+    connectionPool:
+        maxSize: 20
+----
+
+==== Multiple MongoDB Drivers
+
+You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in `application.yml`:
+
+.Configuring Multiple MongoDB Drivers
+[source,yaml]
+----
+mongodb:
+    servers:
+        another:
+            uri: mongodb://localhost:27018
+----
+
+With the above configuration in place you can inject a `MongoClient` using the name `another`:
+
+[source,java]
+----
+import com.mongodb.reactivestreams.client.*;
+import javax.inject.*;
+...
+@Inject @Named("another") MongoClient mongoClient;
+----
+
+==== MongoDB Health Checks
+
+When the `mongo-reactive` module is activated a api:configuration.mongo.reactive.health.MongoHealthIndicator[] is activated resulting in the `/health` endpoint and api:health.CurrentHealthStatus[] interface resolving the health of the MongoDB connection.
+
+See the section on the https://docs.micronaut.io/latest/guide/index.html#healthEndpoint[Health Endpoint] for more information.

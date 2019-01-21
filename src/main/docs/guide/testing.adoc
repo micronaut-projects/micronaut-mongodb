@@ -1,0 +1,3 @@
+For testing you can add a dependency on https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo[Embedded MongoDB] and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:
+
+dependency:de.flapdoodle.embed.mongo[groupId="de.flapdoodle.embed", version="2.0.1", scope="test"]
