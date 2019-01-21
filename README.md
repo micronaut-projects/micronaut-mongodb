@@ -1,10 +1,10 @@
-# Micronaut SQL
+# Micronaut MongoDB
 
-[![Build Status](https://travis-ci.org/micronaut-projects/micronaut-sql.svg?branch=master)](https://travis-ci.org/micronaut-projects/micronaut-sql)
+[![Build Status](https://travis-ci.org/micronaut-projects/micronaut-mongodb.svg?branch=master)](https://travis-ci.org/micronaut-projects/micronaut-mongodb)
 
-Projects to support SQL Database access in Micronaut
+Integrates Micronaut and MongoDB.
 
 ## Documentation
 
-See the [Documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide) for more information.
+See the [Documentation](https://micronaut-projects.github.io/micronaut-mongodb/latest/guide) for more information.
 
