@@ -203,7 +203,6 @@ class MongoReactiveConfigurationSpec extends Specification {
         where:
         property           | value
         "maxWaitQueueSize" | 5
-        "description"      | "my hosts"
     }
 
     @Unroll
