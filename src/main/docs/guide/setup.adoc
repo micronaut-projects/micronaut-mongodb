@@ -55,7 +55,7 @@ To add support for GORM for MongoDB, first configure the MongoDB connection as p
 compile "io.micronaut.configuration:micronaut-mongo-gorm"
 ----
 
-WARNING: For GORM for MongoDB you will need to configure the database name separately as the `grails.mongodb.datataseName` property in `application.yml`.
+WARNING: For GORM for MongoDB you will need to configure the database name separately as the `grails.mongodb.databaseName` property in `application.yml`.
 
 The following should be noted regarding using GORM for MongoDB in Micronaut:
 
