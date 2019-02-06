@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Micronaut MongoDB</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <link rel="stylesheet" href="../css/highlight/agate.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script src="../js/guide.js"></script>
+    <script src="../js/multi-language-sample.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../css/multi-language-sample.css"/>
+    <script src="../js/docs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <script type="text/javascript">
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
+    </script>
+
+</head>
+
+<body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
+
+<div id="table-of-content-nav-link" class="desktop">
+    <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
+</div>
+
+<div id="main">
+    <div id="navigation" class="no-print">
+        <div class="navTitle">
+            <span id="logo"><a href="http://micronaut.io" title="Go to Micronaut Website"><img src="../img/micronaut-logo-white.svg" alt="Micronaut"/></a></span>
+        </div>
+        <div class="navLinks">
+            <ul>
+                    <li>
+                        <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                            <a href="../guide/index.html" class="button">Table of contents</a>
+                            <div id="nav-summary-childs" style="display:none;">
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#setup"><strong>2</strong><span>Setting up the Mongo Driver</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#config"><strong>3</strong><span>Configuring the Mongo Driver</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#testing"><strong>4</strong><span>MongoDB and Testing</span></a></div>
+                                
+                            </div>
+                        </div>
+                    </li>
+
+                <li id="table-of-content-nav-link-mobile" class="mobile">
+                    <a title="Scroll to Table of contents" href="javascript:scrollToTop();" class="button">Toc</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Configuration Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    
+    <div id="table-of-content">
+        <div class="toc-content">
+
+        <h2>Table of Contents</h2>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-setup"><a href="#setup"><strong>2</strong><span>Setting up the Mongo Driver</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>3</strong><span>Configuring the Mongo Driver</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-testing"><a href="#testing"><strong>4</strong><span>MongoDB and Testing</span></a></div>
+        
+        </div>
+    </div>
+    
+    <div class="docs-content">
+    <div class="project">
+        <h1>Micronaut MongoDB</h1>
+        <p></p>
+        <p>Integration between Micronaut and MongoDB</p>
+        <p><strong>Version:</strong> 1.1.0.RC1</p>
+    </div>
+    
+
+<h1 id="introduction">1 Introduction</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/introduction.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This project includes integration between Micronaut and MongoDB.</p>
+</div>
+<div class="sect2">
+<h3 id="_release_history">Release History</h3>
+<div class="sect3">
+<h4 id="_1_1_0">1.1.0</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Upgrade to <code>mongo-java-driver</code> &#8594; <code>3.10.0</code></p>
+</li>
+<li>
+<p>Upgrade to <code>mongodb-driver-reactivestreams</code> &#8594; <code>1.10.0</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<h1 id="setup">2 Setting up the Mongo Driver</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/setup.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Using the CLI</div>
+<div class="paragraph">
+<p>If you are creating your project using the Micronaut CLI, supply the <code>mongo-reactive</code> feature to configure the native MongoDB driver in your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ mn create-app my-app --features mongo-reactive</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Micronaut includes a configuration to automatically configure the native MongoDB Java driver. To use this configuration, add the following dependency to your application:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut.configuration:micronaut-mongo-reactive'</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.configuration&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-mongo-reactive&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then configure the URI of the MongoDB server in <code>application.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring a MongoDB server</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+    uri: mongodb://username:password@localhost:27017/databaseName</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manual/reference/connection-string">MongoDB Connection String</a> format.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A non-blocking Reactive Streams <a href="http://mongodb.github.io/mongo-java-driver-reactivestreams/1.8/javadoc/com/mongodb/reactivestreams/client/MongoClient.html">MongoClient</a> is then available for dependency injection.</p>
+</div>
+<div class="paragraph">
+<p>To use the blocking driver, add a dependency to your application to the mongo-java-driver.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "org.mongodb:mongo-java-driver"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then the blocking <a href="http://mongodb.github.io/mongo-java-driver/3.7/javadoc/com/mongodb/MongoClient.html">MongoClient</a> will be available for injection.</p>
+</div>
+<div class="sect3">
+<h4 id="_using_gorm_for_mongodb">Using GORM for MongoDB</h4>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">Using the CLI</div>
+<div class="paragraph">
+<p>If you are creating your project using the Micronaut CLI, supply the <code>mongo-gorm</code> feature to configure GORM for MongoDB in your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ mn create-app my-app --features mongo-gorm</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For Groovy users and users familiar with Grails, special support has been added to Micronaut for using <a href="http://gorm.grails.org/latest/mongodb/manual">GORM for MongoDB</a>.</p>
+</div>
+<div class="paragraph">
+<p>To add support for GORM for MongoDB, first configure the MongoDB connection as per instructions earlier in the guide, then add the following dependency to your application:</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "io.micronaut.configuration:micronaut-mongo-gorm"</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+For GORM for MongoDB you will need to configure the database name separately as the <code>grails.mongodb.datataseName</code> property in <code>application.yml</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following should be noted regarding using GORM for MongoDB in Micronaut:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each class you wish to be a GORM entity should be annotated with the <code>grails.gorm.annotation.Entity</code> annotation.</p>
+</li>
+<li>
+<p>Each method that interacts with GORM should be annotated with GORM&#8217;s <code>grails.gorm.transactions.Transactional</code> to ensure a session is present. You can also add the <code>@Transactional</code> annotation to the class.</p>
+</li>
+<li>
+<p>By default Micronaut will scan for entities relative to your <code>Application</code> class. If you wish to customize this specify additional packages via the <a href="../api/io/micronaut/context/ApplicationContextBuilder.html">ApplicationContextBuilder</a> when starting your application.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+<h1 id="config">3 Configuring the Mongo Driver</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/config.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The configuration options for the blocking client and the non-blocking client differ at the driver level.</p>
+</div>
+<div class="paragraph">
+<p>To configure the blocking client options you can use the <code>mongodb.options</code> setting which allows you to configure any property of the <code>MongoClientOptions.Builder</code> class. For example in <code>application.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring Blocking Driver Options</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+    ...
+    options:
+        maxConnectionIdleTime: 10000
+        readConcern: majority</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See the API for <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> for more information on the available configuration options.</p>
+</div>
+<div class="paragraph">
+<p>For the Reactive driver, the <a href="../api/io/micronaut/configuration/mongo/reactive/ReactiveMongoConfiguration.html">ReactiveMongoConfiguration</a> exposes options to configure the Reactive Streams driver. For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring the Reactive Streams Driver</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+    ...
+    cluster:
+        maxWaitQueueSize: 5
+    connectionPool:
+        maxSize: 20</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multiple_mongodb_drivers">Multiple MongoDB Drivers</h4>
+<div class="paragraph">
+<p>You can create multiple MongoDB connections using the <code>mongodb.servers</code> setting. For example in <code>application.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">Configuring Multiple MongoDB Drivers</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+    servers:
+        another:
+            uri: mongodb://localhost:27018</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the above configuration in place you can inject a <code>MongoClient</code> using the name <code>another</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.mongodb.reactivestreams.client.*;
+import javax.inject.*;
+...
+@Inject @Named("another") MongoClient mongoClient;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb_health_checks">MongoDB Health Checks</h4>
+<div class="paragraph">
+<p>When the <code>mongo-reactive</code> module is activated a <a href="../api/io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html">MongoHealthIndicator</a> is activated resulting in the <code>/health</code> endpoint and <a href="../api/io/micronaut/health/CurrentHealthStatus.html">CurrentHealthStatus</a> interface resolving the health of the MongoDB connection.</p>
+</div>
+<div class="paragraph">
+<p>See the section on the <a href="https://docs.micronaut.io/latest/guide/index.html#healthEndpoint">Health Endpoint</a> for more information.</p>
+</div>
+</div>
+
+
+<h1 id="testing">4 MongoDB and Testing</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/testing.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>For testing you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">testCompile <span class="hljs-string">'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1'</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;de.flapdoodle.embed&lt;/groupId&gt;
+    &lt;artifactId&gt;de.flapdoodle.embed.mongo&lt;/artifactId&gt;
+    &lt;version&gt;2.0.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
