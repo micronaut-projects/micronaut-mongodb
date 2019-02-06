@@ -1,1 +1,8 @@
 This project includes integration between Micronaut and MongoDB.
+
+=== Release History
+
+==== 1.1.0
+
+* Upgrade to `mongo-java-driver` -> `3.10.0`
+* Upgrade to `mongodb-driver-reactivestreams` -> `1.10.0`
