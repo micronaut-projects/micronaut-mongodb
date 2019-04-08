@@ -97,7 +97,7 @@
         <h1>Micronaut MongoDB</h1>
         <p></p>
         <p>Integration between Micronaut and MongoDB</p>
-        <p><strong>Version:</strong> 1.0.4</p>
+        <p><strong>Version:</strong> 1.1.0</p>
     </div>
     
 
@@ -112,6 +112,22 @@
 
 <div class="paragraph">
 <p>This project includes integration between Micronaut and MongoDB.</p>
+</div>
+<div class="sect2">
+<h3 id="_release_history">Release History</h3>
+<div class="sect3">
+<h4 id="_1_1_0">1.1.0</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Upgrade to <code>mongo-java-driver</code> &#8594; <code>3.10.0</code></p>
+</li>
+<li>
+<p>Upgrade to <code>mongodb-driver-reactivestreams</code> &#8594; <code>1.10.0</code></p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -240,7 +256,7 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-For GORM for MongoDB you will need to configure the database name separately as the <code>grails.mongodb.datataseName</code> property in <code>application.yml</code>.
+For GORM for MongoDB you will need to configure the database name separately as the <code>grails.mongodb.databaseName</code> property in <code>application.yml</code>.
 </td>
 </tr>
 </table>
@@ -358,7 +374,7 @@ import javax.inject.*;
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">test <span class="hljs-string">'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1'</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">testCompile <span class="hljs-string">'de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1'</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
