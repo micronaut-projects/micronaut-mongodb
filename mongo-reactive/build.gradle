@@ -16,7 +16,7 @@ dependencies {
     compile("org.mongodb:mongodb-driver-async:$mongoDriverVersion")    
 
     compileOnly("org.mongodb:mongo-java-driver:$mongoDriverVersion")    
-    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
