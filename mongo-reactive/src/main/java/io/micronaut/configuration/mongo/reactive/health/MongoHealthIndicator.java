@@ -16,6 +16,9 @@
 
 package io.micronaut.configuration.mongo.reactive.health;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.mongodb.BasicDBObject;
 import com.mongodb.reactivestreams.client.MongoClient;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanRegistration;
@@ -25,11 +28,13 @@ import io.micronaut.management.health.aggregator.HealthAggregator;
 import io.micronaut.management.health.indicator.HealthIndicator;
 import io.micronaut.management.health.indicator.HealthResult;
 import io.reactivex.Flowable;
+
+import org.bson.Document;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * A {@link HealthIndicator} for MongoDB.
@@ -40,18 +45,13 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 @Requires(beans = MongoClient.class)
 public class MongoHealthIndicator implements HealthIndicator {
-    /**
-     * The name to expose details with.
-     */
-    public static final String NAME = "mongodb";
+    private static final String HEALTH_INDICATOR_NAME = "mongodb";
+
     private final BeanContext beanContext;
     private final HealthAggregator<?> healthAggregator;
-    // needed to initialize beans, do not remove
     private final MongoClient[] mongoClients;
 
     /**
-     * Constructor.
-     *
      * @param beanContext beanContext
      * @param healthAggregator healthAggregator
      * @param mongoClients The mongo clients
@@ -64,45 +64,60 @@ public class MongoHealthIndicator implements HealthIndicator {
 
     @Override
     public Publisher<HealthResult> getResult() {
-        List<BeanRegistration<MongoClient>> registrations = new ArrayList();
-        for (MongoClient mongoClient : mongoClients) {
-            Optional<BeanRegistration<MongoClient>> registration = beanContext.findBeanRegistration(mongoClient);
-            registration.ifPresent(registrations::add);
+
+        List<BeanRegistration<MongoClient>> registrations = getRegisteredConnections();
+
+        Flowable<HealthResult> healthResults = Flowable.fromIterable(registrations)
+                .flatMap(this::checkRegisteredMongoClient)
+                .onErrorReturn(throwable -> buildStatusDown(throwable, HEALTH_INDICATOR_NAME));
+
+        return this.healthAggregator.aggregate(HEALTH_INDICATOR_NAME, healthResults);
+    }
+
+    private List<BeanRegistration<MongoClient>> getRegisteredConnections() {
+        return Arrays.stream(mongoClients)
+                .map(beanContext::findBeanRegistration)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
+
+    private Publisher<HealthResult> checkRegisteredMongoClient(BeanRegistration<MongoClient> registration) {
+        MongoClient mongoClient = registration.getBean();
+        String databaseName = "mongodb (" + registration.getIdentifier().getName() + ")";
+
+        Flowable<Map<String, String>> databasePings = Flowable.fromPublisher(pingMongo(mongoClient))
+                .map(this::getVersionDetails)
+                .timeout(10, SECONDS)
+                .retry(3);
+
+        return databasePings.map(detail -> buildStatusUp(databaseName, detail))
+                .onErrorReturn(throwable -> buildStatusDown(throwable, databaseName));
+    }
+
+    private Publisher<Document> pingMongo(MongoClient mongoClient) {
+        return mongoClient.getDatabase("admin").runCommand(new BasicDBObject("buildinfo", "1"));
+    }
+
+    private Map<String, String> getVersionDetails(Document document) {
+        String version = document.get("version", String.class);
+        if (version == null) {
+            throw new IllegalStateException("Mongo version not found");
         }
-        Flowable<BeanRegistration<MongoClient>> mongoClients = Flowable.fromIterable(registrations);
-        Flowable<HealthResult> healthResultFlowable = mongoClients.flatMap(registration -> {
-            MongoClient mongoClient = registration.getBean();
-            String name = "mongodb (" + registration.getIdentifier().getName() + ")";
-            Flowable<String> databaseNameFlowable = Flowable.fromPublisher(mongoClient.listDatabaseNames())
-                                .timeout(10, TimeUnit.SECONDS)
-                                .retry(3);
-            return databaseNameFlowable
-                .toList()
-                .map(strings -> {
-                    HealthResult.Builder builder = HealthResult.builder(name);
-                    builder.status(HealthStatus.UP);
-                    builder.details(Collections.singletonMap(
-                        "databases", strings
-                    ));
-                    return builder.build();
-                }).onErrorReturn(throwable -> {
-                    HealthResult.Builder builder = HealthResult.builder(name);
-                    builder.status(HealthStatus.DOWN);
-                    builder.exception(throwable);
-                    return builder.build();
+        return Collections.singletonMap("version", version);
+    }
 
-                }).toFlowable();
-        }).onErrorReturn(throwable -> {
-            HealthResult.Builder builder = HealthResult.builder(NAME);
-            builder.status(HealthStatus.DOWN);
-            builder.exception(throwable);
-            return builder.build();
+    private HealthResult buildStatusUp(String name, Map<String, String> details) {
+        HealthResult.Builder builder = HealthResult.builder(name);
+        builder.status(HealthStatus.UP);
+        builder.details(details);
+        return builder.build();
+    }
 
-        });
-
-        return this.healthAggregator.aggregate(
-                NAME,
-                healthResultFlowable
-        );
+    private HealthResult buildStatusDown(Throwable throwable, String name) {
+        HealthResult.Builder builder = HealthResult.builder(name);
+        builder.status(HealthStatus.DOWN);
+        builder.exception(throwable);
+        return builder.build();
     }
 }
