@@ -43,7 +43,7 @@ fi
 
 if [[ $EXIT_STATUS -eq 0 ]]; then
     echo "Publishing archives for branch $TRAVIS_BRANCH"
-    if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^1.0.x$ && $TRAVIS_PULL_REQUEST == 'false' ]]; then
+    if [[ -n $TRAVIS_TAG ]] || [[ $TRAVIS_BRANCH =~ ^master$ && $TRAVIS_PULL_REQUEST == 'false' ]]; then
 
       echo "Publishing archives"
       ./gradlew --stop
@@ -63,7 +63,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
 
         cd gh-pages
         
-        if [[ $TRAVIS_BRANCH =~ ^master|[12]\..\.x$ ]]; then
+        if [[ $TRAVIS_BRANCH =~ ^master$ ]]; then
            mkdir -p snapshot
            cp -r ../build/docs/. ./snapshot/
 
