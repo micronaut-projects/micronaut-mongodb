@@ -14,7 +14,7 @@ mongodb:
 
 See the API for api:configuration.mongo.reactive.DefaultMongoConfiguration[] for more information on the available configuration options.
 
-For the Reactive driver, the api:configuration.mongo.reactive.ReactiveMongoConfiguration[] exposes options to configure the Reactive Streams driver. For example:
+For the Reactive driver, the api:configuration.mongo.reactive.DefaultReactiveMongoConfiguration[] exposes options to configure the Reactive Streams driver. For example:
 
 
 .Configuring the Reactive Streams Driver
