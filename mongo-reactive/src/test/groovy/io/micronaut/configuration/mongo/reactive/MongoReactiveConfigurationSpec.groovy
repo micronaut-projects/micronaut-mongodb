@@ -48,7 +48,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         then:
         !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
 
-        when:"A POJO is saved"
+        when: "A POJO is saved"
         Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
                 title: "The Stand"
         ))).blockingGet()
@@ -68,7 +68,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         then:
         !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
 
-        when:"A POJO is saved"
+        when: "A POJO is saved"
         Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
                 title: "The Stand"
         ))).blockingGet()
@@ -108,12 +108,11 @@ class MongoReactiveConfigurationSpec extends Specification {
     }
 
 
-
     void "test configure pick up custom codecs"() {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url":"mongodb://localhost"
+                "mongodb.url": "mongodb://localhost"
         )
 
         DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
@@ -137,7 +136,6 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
-
 
 
         expect:
@@ -194,15 +192,15 @@ class MongoReactiveConfigurationSpec extends Specification {
         MongoClientSettings clientSettings = configuration.buildSettings()
 
         expect:
-        clientSettings.clusterSettings."$property" == value
+        clientSettings.clusterSettings."$readProperty" == expected
 
 
         and:
         context.stop()
 
         where:
-        property           | value
-        "maxWaitQueueSize" | 5
+        property                 | value | readProperty               | expected
+        "serverSelectionTimeout" | "60s" | 'serverSelectionTimeoutMS' | 60000
     }
 
     @Unroll
@@ -227,9 +225,9 @@ class MongoReactiveConfigurationSpec extends Specification {
         "maxSize" | 10
     }
 
-     static class Book {
-         String title
-     }
+    static class Book {
+        String title
+    }
 
     static class Fluff {
 
