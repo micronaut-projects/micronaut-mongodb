@@ -5,28 +5,28 @@ dependencies {
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"    
 
 
-    compile "io.micronaut:micronaut-aop:$micronautVersion"
-    compile "io.micronaut:micronaut-runtime:$micronautVersion"
-    compile "io.micronaut:micronaut-validation:$micronautVersion"
+    implementation "io.micronaut:micronaut-aop:$micronautVersion"
+    implementation "io.micronaut:micronaut-runtime:$micronautVersion"
+    implementation "io.micronaut:micronaut-validation:$micronautVersion"
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
-    compile("org.mongodb:mongodb-driver-reactivestreams:$mongoReactiveVersion") {
+    api("org.mongodb:mongodb-driver-reactivestreams:1.12.0") {
         exclude group:'org.mongodb', module:'mongodb-driver-async'
     }
-    compile("org.mongodb:mongodb-driver-async:$mongoDriverVersion")    
+    api("org.mongodb:mongodb-driver-async:3.11.2")    
 
-    compileOnly("org.mongodb:mongo-java-driver:$mongoDriverVersion")    
+    compileOnly("org.mongodb:mongo-java-driver:3.11.2")    
     compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
-    testCompile "io.micronaut:micronaut-management"
-    testCompile "io.micronaut:micronaut-inject-groovy"
-    testCompile "io.micronaut:micronaut-function-web"
-    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
-    testCompile("org.mongodb:mongo-java-driver:$mongoDriverVersion")    
+    testImplementation "io.micronaut:micronaut-management"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "io.micronaut:micronaut-function-web"
+    testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+    testImplementation("org.mongodb:mongo-java-driver:3.11.2")    
     
-    testRuntime "io.netty:netty-handler"
+    testRuntimeOnly "io.netty:netty-handler"
 }
 
 //compileJava.options.forkOptions.jvmArgs =['-verbose']
