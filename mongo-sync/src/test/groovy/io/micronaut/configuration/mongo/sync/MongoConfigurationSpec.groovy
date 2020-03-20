@@ -23,6 +23,9 @@ import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
 import org.bson.Document
+import org.testcontainers.containers.GenericContainer
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
 /**
@@ -31,9 +34,20 @@ import spock.lang.Specification
  */
 class MongoConfigurationSpec extends Specification {
 
+    @Shared @AutoCleanup GenericContainer mongo =
+            new GenericContainer("mongo:4.0")
+                    .withExposedPorts(27017)
+
+    def setupSpec() {
+        mongo.start()
+    }
+
+
     void "test a basic blocking driver connection"() {
         when:
-        ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}")
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
         then:

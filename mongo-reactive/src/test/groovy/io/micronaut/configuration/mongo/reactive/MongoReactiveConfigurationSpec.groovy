@@ -34,6 +34,9 @@ import org.bson.BsonWriter
 import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
+import org.testcontainers.containers.GenericContainer
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -41,9 +44,19 @@ import javax.inject.Singleton
 
 class MongoReactiveConfigurationSpec extends Specification {
 
+    @Shared @AutoCleanup GenericContainer mongo =
+            new GenericContainer("mongo:4.0")
+                    .withExposedPorts(27017)
+
+    def setupSpec() {
+        mongo.start()
+    }
+
     void "test connection with connection string"() {
         when:
-        ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}")
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
         then:
@@ -60,33 +73,11 @@ class MongoReactiveConfigurationSpec extends Specification {
         cleanup:
         applicationContext.stop()
     }
-
-    void "test connection with host"() {
-        when:
-        ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_HOST): "")
-        MongoClient mongoClient = applicationContext.getBean(MongoClient)
-
-        then:
-        !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
-
-        when: "A POJO is saved"
-        Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
-                title: "The Stand"
-        ))).blockingGet()
-
-        then:
-        success != null
-
-        cleanup:
-        applicationContext.stop()
-    }
-
 
     @Unroll
     void "test configure #property client setting"() {
         given:
         ApplicationContext context = ApplicationContext.run(
-                (MongoSettings.EMBEDDED): false,
                 ("${MongoSettings.PREFIX}.${property}".toString()): value
         )
 
@@ -131,7 +122,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                (MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
+                (MongoSettings.MONGODB_URI): "mongodb://localhost:${mongo.exposedPorts[0]}",
                 ("${MongoSettings.PREFIX}.connectionPool.${property}".toString()): value
         )
 
