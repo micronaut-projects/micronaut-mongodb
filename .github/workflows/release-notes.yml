@@ -17,7 +17,7 @@ jobs:
           allowUpdates: true
           commit: master
           draft: true
-          name: Micronaut SQL ${{ steps.release_notes.outputs.next_version }}
+          name: Micronaut MongoDB ${{ steps.release_notes.outputs.next_version }}
           tag: v${{ steps.release_notes.outputs.next_version }}
           bodyFile: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
