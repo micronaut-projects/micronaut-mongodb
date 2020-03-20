@@ -165,15 +165,27 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <p>A non-blocking Reactive Streams <a href="http://mongodb.github.io/mongo-java-driver-reactivestreams/1.8/javadoc/com/mongodb/reactivestreams/client/MongoClient.html">MongoClient</a> is then available for dependency injection.</p>
 </div>
 <div class="paragraph">
-<p>To use the blocking driver, add a dependency to your application to the mongo-java-driver.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "org.mongodb:mongo-java-driver"</code></pre>
-</div>
+<p>To use the blocking driver, add a dependency to your application to the <code>micronaut-mongo-sync</code> module.</p>
 </div>
 <div class="paragraph">
-<p>Then the blocking <a href="http://mongodb.github.io/mongo-java-driver/3.7/javadoc/com/mongodb/MongoClient.html">MongoClient</a> will be available for injection.</p>
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.configuration:micronaut-mongo-sync")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.configuration&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-mongo-sync&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then the blocking <a href="https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html">MongoClient</a> will be available for injection.</p>
 </div>
 <div class="sect3">
 <h4 id="_using_gorm_for_mongodb">Using GORM for MongoDB</h4>
