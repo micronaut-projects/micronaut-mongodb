@@ -13,7 +13,7 @@ dependencies {
     api("org.mongodb:mongodb-driver-reactivestreams:1.13.0") {
         exclude group:'org.mongodb', module:'mongodb-driver-async'
     }
-    api("org.mongodb:mongodb-driver-async:3.12.1")    
+    api("org.mongodb:mongodb-driver-async:3.12.2")    
 
     compileOnly("org.mongodb:mongo-java-driver:3.12.2")    
     compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
