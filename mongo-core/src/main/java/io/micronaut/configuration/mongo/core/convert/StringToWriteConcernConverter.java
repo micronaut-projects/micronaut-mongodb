@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive.convert;
+package io.micronaut.configuration.mongo.core.convert;
 
 import com.mongodb.WriteConcern;
 import io.micronaut.core.convert.ConversionContext;
 import io.micronaut.core.convert.TypeConverter;
-
-import javax.inject.Singleton;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -28,7 +26,6 @@ import java.util.Optional;
  * @author graemerocher
  * @since 1.0
  */
-@Singleton
 public class StringToWriteConcernConverter implements TypeConverter<CharSequence, WriteConcern> {
     @Override
     public Optional<WriteConcern> convert(CharSequence object, Class<WriteConcern> targetType, ConversionContext context) {

@@ -1,11 +1,11 @@
 package io.micronaut.configuration.mongo.reactive
 
-import com.mongodb.MongoClient
+
+import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.health.HealthStatus
-import io.micronaut.management.health.indicator.HealthResult
 import io.reactivex.Flowable
 import spock.lang.Specification
 

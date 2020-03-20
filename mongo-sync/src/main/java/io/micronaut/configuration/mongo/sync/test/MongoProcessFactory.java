@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive.test;
+package io.micronaut.configuration.mongo.sync.test;
 
 import com.mongodb.ConnectionString;
 import de.flapdoodle.embed.mongo.MongodProcess;
-import io.micronaut.configuration.mongo.reactive.DefaultMongoConfiguration;
-import io.micronaut.configuration.mongo.reactive.MongoSettings;
+import io.micronaut.configuration.mongo.core.test.AbstractMongoProcessFactory;
+import io.micronaut.configuration.mongo.core.MongoSettings;
+import io.micronaut.configuration.mongo.sync.DefaultMongoConfiguration;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.event.BeanCreatedEvent;

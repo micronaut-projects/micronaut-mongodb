@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive
+package io.micronaut.configuration.mongo.sync
 
-import com.mongodb.MongoClient
-import com.mongodb.MongoClientOptions
+import com.mongodb.MongoClientSettings
+import com.mongodb.ReadConcern
+import com.mongodb.client.MongoClient
+import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
 import org.bson.Document
@@ -52,15 +54,15 @@ class MongoConfigurationSpec extends Specification {
     void "test build mongo client options"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
-            "mongodb.options.maxConnectionIdleTime":'10000'
+            "mongodb.options.readConcern":'LOCAL'
         )
 
         DefaultMongoConfiguration configuration = applicationContext.getBean(DefaultMongoConfiguration)
-        MongoClientOptions clientOptions = configuration.buildOptions()
+        MongoClientSettings clientOptions = configuration.buildSettings()
 
 
         expect:
-        clientOptions.getMaxConnectionIdleTime() == 10000
+        clientOptions.readConcern == ReadConcern.LOCAL
 
         cleanup:
         applicationContext?.close()

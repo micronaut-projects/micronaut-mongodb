@@ -16,8 +16,10 @@
 
 package io.micronaut.configuration.mongo.reactive;
 
+import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
+import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
@@ -33,6 +35,16 @@ import io.micronaut.runtime.context.scope.Refreshable;
 @Requires(beans = DefaultReactiveMongoConfiguration.class)
 @Factory
 public class DefaultReactiveMongoClientFactory {
+
+    /**
+     * Factory Method for creating a client.
+     * @param mongoConfiguration mongoConfiguration
+     * @return mongoClient
+     */
+    @Primary
+    MongoClientSettings mongoClientSettings(DefaultReactiveMongoConfiguration mongoConfiguration) {
+        return mongoConfiguration.buildSettings();
+    }
 
     /**
      * Factory Method for creating a client.

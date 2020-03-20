@@ -17,7 +17,7 @@
 package io.micronaut.configuration.mongo.reactive.condition;
 
 import com.mongodb.reactivestreams.client.MongoClient;
-import io.micronaut.configuration.mongo.reactive.MongoSettings;
+import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Requires;
 
 import java.lang.annotation.Documented;

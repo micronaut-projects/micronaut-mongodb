@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive.convert;
+package io.micronaut.configuration.mongo.core.convert;
 
 import com.mongodb.ServerAddress;
 import io.micronaut.core.convert.ConversionContext;
 import io.micronaut.core.convert.TypeConverter;
 
-import javax.inject.Singleton;
 import java.util.Optional;
 
 /**
  * @author graemerocher
  * @since 1.0
  */
-@Singleton
 public class StringToServerAddressConverter implements TypeConverter<CharSequence, ServerAddress> {
     @Override
     public Optional<ServerAddress> convert(CharSequence object, Class<ServerAddress> targetType, ConversionContext context) {

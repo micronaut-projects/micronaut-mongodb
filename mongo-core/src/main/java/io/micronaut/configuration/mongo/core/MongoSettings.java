@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.core;
 
 /**
  * Common constants to for MongoDB settings.

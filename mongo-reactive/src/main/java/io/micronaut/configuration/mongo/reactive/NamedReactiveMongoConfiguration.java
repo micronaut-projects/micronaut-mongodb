@@ -22,6 +22,9 @@ import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
+import com.mongodb.reactivestreams.client.MongoClients;
+import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
+import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
@@ -40,7 +43,7 @@ import java.util.List;
  * @since 1.0
  */
 @EachProperty(value = MongoSettings.MONGODB_SERVERS)
-public class NamedReactiveMongoConfiguration extends AbstractReactiveMongoConfiguration {
+public class NamedReactiveMongoConfiguration extends AbstractMongoConfiguration {
 
     @ConfigurationBuilder(prefixes = "")
     protected MongoClientSettings.Builder clientSettings = MongoClientSettings.builder();

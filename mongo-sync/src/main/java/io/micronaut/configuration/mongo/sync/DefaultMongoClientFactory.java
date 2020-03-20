@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.sync;
 
-import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
@@ -40,10 +42,23 @@ public class DefaultMongoClientFactory {
      * @param configuration configuration pulled in
      * @return mongoClient
      */
+    @Primary
+    @Singleton
+    protected MongoClientSettings mongoClientSettings(DefaultMongoConfiguration configuration) {
+        return configuration.buildSettings();
+    }
+
+    /**
+     * Factory method to return a client.
+     * @param settings configuration pulled in
+     * @return mongoClient
+     */
     @Bean(preDestroy = "close")
     @Primary
     @Singleton
-    MongoClient mongoClient(DefaultMongoConfiguration configuration) {
-        return new MongoClient(configuration.buildURI());
+    protected MongoClient mongoClient(MongoClientSettings settings) {
+        return MongoClients.create(
+                settings
+        );
     }
 }

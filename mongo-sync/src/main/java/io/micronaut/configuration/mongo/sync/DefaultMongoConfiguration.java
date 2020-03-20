@@ -14,28 +14,18 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.sync;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.ServerAddress;
-import com.mongodb.connection.ClusterSettings;
-import com.mongodb.connection.ConnectionPoolSettings;
-import com.mongodb.connection.ServerSettings;
-import com.mongodb.connection.SocketSettings;
-import com.mongodb.connection.SslSettings;
-import com.mongodb.reactivestreams.client.MongoClients;
+import com.mongodb.connection.*;
 import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
 import io.micronaut.runtime.ApplicationConfiguration;
-import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
-import javax.inject.Inject;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,12 +35,12 @@ import java.util.List;
  * @since 1.0
  */
 @Requires(property = MongoSettings.PREFIX)
-@Requires(missingProperty = MongoSettings.MONGODB_SERVERS)
+@Requires(classes = MongoClientSettings.class)
 @ConfigurationProperties(MongoSettings.PREFIX)
-public class DefaultReactiveMongoConfiguration extends AbstractMongoConfiguration {
+public class DefaultMongoConfiguration extends AbstractMongoConfiguration {
 
-    @ConfigurationBuilder(prefixes = "")
-    protected MongoClientSettings.Builder clientSettings = MongoClientSettings.builder();
+    @ConfigurationBuilder(prefixes = "", configurationPrefix = "options")
+    protected MongoClientSettings.Builder clientOptions = MongoClientSettings.builder();
 
     @ConfigurationBuilder(prefixes = "", configurationPrefix = "cluster")
     protected ClusterSettings.Builder clusterSettings = ClusterSettings.builder();
@@ -71,108 +61,52 @@ public class DefaultReactiveMongoConfiguration extends AbstractMongoConfiguratio
      * Constructor.
      * @param applicationConfiguration applicationConfiguration
      */
-    public DefaultReactiveMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
+    public DefaultMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
         super(applicationConfiguration);
     }
 
-    /**
-     * Constructor.
-     * @param applicationConfiguration applicationConfiguration
-     * @param environment the environment
-     */
-    @Inject public DefaultReactiveMongoConfiguration(ApplicationConfiguration applicationConfiguration, Environment environment) {
-        super(applicationConfiguration);
-        if (environment != null) {
-            setPackageNames(environment.getPackages());
-        }
-    }
-
-    @Override
-    @Inject
-    public void codecs(List<Codec<?>> codecList) {
-        super.codecs(codecList);
-    }
-
-    @Override
-    @Inject
-    public void codecRegistries(List<CodecRegistry> codecRegistries) {
-        super.codecRegistries(codecRegistries);
-    }
-
-    /**
-     * Sets the server MongoDB server address.
-     *
-     * @param serverAddress The server address
-     */
-    public void setHost(ServerAddress serverAddress) {
-        getClusterSettings().hosts(Collections.singletonList(serverAddress));
-    }
-
-    /**
-     * Sets the server MongoDB server address.
-     *
-     * @param serverAddresses The server addresses
-     */
-    public void setHosts(List<ServerAddress> serverAddresses) {
-        if (serverAddresses != null) {
-            getClusterSettings().hosts(serverAddresses);
-        }
-    }
-
-    /**
-     * @return The {@link ClusterSettings#builder()}
-     */
     @Override
     public ClusterSettings.Builder getClusterSettings() {
         return clusterSettings;
     }
 
-    /**
-     * @return The {@link MongoClientSettings#builder()}
-     */
     @Override
     public MongoClientSettings.Builder getClientSettings() {
-        return clientSettings;
+        return clientOptions;
     }
 
-    /**
-     * @return The {@link ServerSettings#builder()}
-     */
     @Override
     public ServerSettings.Builder getServerSettings() {
         return serverSettings;
     }
 
-    /**
-     * @return The {@link ConnectionPoolSettings#builder()}
-     */
     @Override
     public ConnectionPoolSettings.Builder getPoolSettings() {
         return poolSettings;
     }
 
-    /**
-     * @return The {@link SocketSettings#builder()}
-     */
     @Override
     public SocketSettings.Builder getSocketSettings() {
         return socketSettings;
     }
 
-    /**
-     * @return The {@link SslSettings#builder()}
-     */
     @Override
     public SslSettings.Builder getSslSettings() {
         return sslSettings;
     }
 
+    /**
+     * @return Builds the {@link MongoClientSettings}
+     */
     @Override
-    public String toString() {
-        return "DefaultReactiveMongoConfiguration{" +
-            "uri='" + getUri() + '\'' +
-            ", clientSettings=" + clientSettings +
-            ", clusterSettings=" + clusterSettings +
-            '}';
+    public MongoClientSettings buildSettings() {
+        clientOptions.applicationName(getApplicationName());
+        return clientOptions.build();
     }
+
+    @Override
+    protected void addDefaultCodecRegistry(List<CodecRegistry> codecRegistries) {
+        codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
+    }
+
 }

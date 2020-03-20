@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.core;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -27,8 +27,6 @@ import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
-import com.mongodb.connection.netty.NettyStreamFactoryFactory;
-import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
@@ -46,7 +44,7 @@ import java.util.*;
  * @author graemerocher
  * @since 1.0
  */
-public abstract class AbstractReactiveMongoConfiguration {
+public abstract class AbstractMongoConfiguration {
 
     private String uri;
 
@@ -60,7 +58,7 @@ public abstract class AbstractReactiveMongoConfiguration {
      * Constructor.
      * @param applicationConfiguration applicationConfiguration
      */
-    protected AbstractReactiveMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
+    protected AbstractMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
         this.applicationConfiguration = applicationConfiguration;
     }
 
@@ -217,7 +215,7 @@ public abstract class AbstractReactiveMongoConfiguration {
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
 
         List<CodecRegistry> codecRegistries = new ArrayList<>();
-        codecRegistries.add(MongoClients.getDefaultCodecRegistry());
+        addDefaultCodecRegistry(codecRegistries);
 
         if (this.codecRegistries != null) {
             codecRegistries.addAll(this.codecRegistries);
@@ -242,6 +240,14 @@ public abstract class AbstractReactiveMongoConfiguration {
             fromRegistries(codecRegistries)
         );
         return clientSettings.build();
+    }
+
+    /**
+     * Adds the default codec registry.
+     * @param codecRegistries The codec registries
+     */
+    protected void addDefaultCodecRegistry(List<CodecRegistry> codecRegistries) {
+        codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
     }
 
     /**

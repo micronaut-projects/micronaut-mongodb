@@ -1,20 +1,14 @@
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
-    // needed because otherwise IntelliJ integration broken
-    compileOnly "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     api project(":mongo-core")
     api "io.micronaut:micronaut-aop:$micronautVersion"
-    api "io.micronaut:micronaut-runtime:$micronautVersion"
     api "io.micronaut:micronaut-validation:$micronautVersion"
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
-    api("org.mongodb:mongodb-driver-reactivestreams:1.13.1") {
-        exclude group:'org.mongodb', module:'mongodb-driver-async'
-    }
-    api("org.mongodb:mongodb-driver-async:3.12.2")
 
+    api 'org.mongodb:mongodb-driver-sync:4.0.1'
     compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"

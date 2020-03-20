@@ -20,4 +20,4 @@
  * @author James Kleeh
  * @since 1.0
  */
-package io.micronaut.configuration.mongo.reactive.convert;
+package io.micronaut.configuration.mongo.core.convert;

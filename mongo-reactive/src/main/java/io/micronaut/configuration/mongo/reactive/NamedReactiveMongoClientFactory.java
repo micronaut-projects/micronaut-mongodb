@@ -18,6 +18,7 @@ package io.micronaut.configuration.mongo.reactive;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
+import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;

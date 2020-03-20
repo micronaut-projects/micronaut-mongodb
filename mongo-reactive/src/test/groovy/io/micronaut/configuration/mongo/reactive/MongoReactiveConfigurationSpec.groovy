@@ -23,6 +23,7 @@ import com.mongodb.WriteConcern
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.Success
 import groovy.transform.NotYetImplemented
+import io.micronaut.configuration.mongo.core.MongoSettings
 import io.reactivex.Flowable
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils

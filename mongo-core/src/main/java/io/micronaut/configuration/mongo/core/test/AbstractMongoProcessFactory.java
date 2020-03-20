@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive.test;
+package io.micronaut.configuration.mongo.core.test;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.ServerAddress;
@@ -39,8 +39,8 @@ import java.util.List;
  * @author Graeme Rocher
  * @since 1.0
  */
-abstract class AbstractMongoProcessFactory {
-    MongodProcess process;
+public abstract class AbstractMongoProcessFactory {
+    protected MongodProcess process;
 
     /**
      * Starts a MongoDB process if possible.
@@ -49,7 +49,7 @@ abstract class AbstractMongoProcessFactory {
      * @param clusterSettings The optional cluster settings
      * @throws IOException If an error occurs starting the process
      */
-    void startEmbeddedMongoIfPossible(
+    protected void startEmbeddedMongoIfPossible(
             @Nullable ConnectionString connectionString,
             @Nullable ClusterSettings.Builder clusterSettings) throws IOException {
         if (connectionString != null) {
