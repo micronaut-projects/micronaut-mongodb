@@ -19,6 +19,7 @@ package io.micronaut.configuration.mongo.sync;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;

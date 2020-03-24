@@ -14,40 +14,33 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.core;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.ServerAddress;
 import com.mongodb.connection.ClusterSettings;
 import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
-import com.mongodb.reactivestreams.client.MongoClients;
-import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
-import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.ConfigurationBuilder;
-import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.env.Environment;
 import io.micronaut.runtime.ApplicationConfiguration;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
 import javax.inject.Inject;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * The default MongoDB configuration class.
+ * Creates a named configuration for each entry under {@link MongoSettings#MONGODB_SERVERS}.
  *
  * @author graemerocher
  * @since 1.0
  */
-@Requires(property = MongoSettings.PREFIX)
-@Requires(missingProperty = MongoSettings.MONGODB_SERVERS)
-@ConfigurationProperties(MongoSettings.PREFIX)
-public class DefaultReactiveMongoConfiguration extends AbstractMongoConfiguration {
+@EachProperty(value = MongoSettings.MONGODB_SERVERS, primary = "default")
+public class NamedMongoConfiguration extends AbstractMongoConfiguration {
 
     @ConfigurationBuilder(prefixes = "")
     protected MongoClientSettings.Builder clientSettings = MongoClientSettings.builder();
@@ -67,21 +60,28 @@ public class DefaultReactiveMongoConfiguration extends AbstractMongoConfiguratio
     @ConfigurationBuilder(prefixes = "", configurationPrefix = "ssl")
     protected SslSettings.Builder sslSettings = SslSettings.builder();
 
-    /**
-     * Constructor.
-     * @param applicationConfiguration applicationConfiguration
-     */
-    public DefaultReactiveMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
-        super(applicationConfiguration);
-    }
+    private final String serverName;
 
     /**
      * Constructor.
+     * @param serverName serverName from properties
      * @param applicationConfiguration applicationConfiguration
-     * @param environment the environment
      */
-    @Inject public DefaultReactiveMongoConfiguration(ApplicationConfiguration applicationConfiguration, Environment environment) {
+    public NamedMongoConfiguration(@Parameter String serverName, ApplicationConfiguration applicationConfiguration) {
         super(applicationConfiguration);
+        this.serverName = serverName;
+    }
+
+
+    /**
+     * Constructor.
+     * @param serverName serverName from properties
+     * @param applicationConfiguration applicationConfiguration
+     * @param environment The environment
+     */
+    @Inject public NamedMongoConfiguration(@Parameter String serverName, ApplicationConfiguration applicationConfiguration, Environment environment) {
+        super(applicationConfiguration);
+        this.serverName = serverName;
         if (environment != null) {
             setPackageNames(environment.getPackages());
         }
@@ -100,79 +100,45 @@ public class DefaultReactiveMongoConfiguration extends AbstractMongoConfiguratio
     }
 
     /**
-     * Sets the server MongoDB server address.
-     *
-     * @param serverAddress The server address
+     * @return The name of the server
      */
-    public void setHost(ServerAddress serverAddress) {
-        getClusterSettings().hosts(Collections.singletonList(serverAddress));
+    public String getServerName() {
+        return serverName;
     }
 
-    /**
-     * Sets the server MongoDB server address.
-     *
-     * @param serverAddresses The server addresses
-     */
-    public void setHosts(List<ServerAddress> serverAddresses) {
-        if (serverAddresses != null) {
-            getClusterSettings().hosts(serverAddresses);
-        }
-    }
-
-    /**
-     * @return The {@link ClusterSettings#builder()}
-     */
     @Override
     public ClusterSettings.Builder getClusterSettings() {
         return clusterSettings;
     }
 
-    /**
-     * @return The {@link MongoClientSettings#builder()}
-     */
     @Override
     public MongoClientSettings.Builder getClientSettings() {
         return clientSettings;
     }
 
-    /**
-     * @return The {@link ServerSettings#builder()}
-     */
     @Override
     public ServerSettings.Builder getServerSettings() {
         return serverSettings;
     }
 
-    /**
-     * @return The {@link ConnectionPoolSettings#builder()}
-     */
     @Override
     public ConnectionPoolSettings.Builder getPoolSettings() {
         return poolSettings;
     }
 
-    /**
-     * @return The {@link SocketSettings#builder()}
-     */
     @Override
     public SocketSettings.Builder getSocketSettings() {
         return socketSettings;
     }
 
-    /**
-     * @return The {@link SslSettings#builder()}
-     */
     @Override
     public SslSettings.Builder getSslSettings() {
         return sslSettings;
     }
 
     @Override
-    public String toString() {
-        return "DefaultReactiveMongoConfiguration{" +
-            "uri='" + getUri() + '\'' +
-            ", clientSettings=" + clientSettings +
-            ", clusterSettings=" + clusterSettings +
-            '}';
+    protected String getApplicationName() {
+        String applicationName = super.getApplicationName();
+        return applicationName + "-" + serverName;
     }
 }

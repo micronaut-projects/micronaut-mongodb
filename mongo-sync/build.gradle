@@ -9,8 +9,6 @@ dependencies {
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
 
     api 'org.mongodb:mongodb-driver-sync:4.0.1'
-    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
-
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
     testImplementation "io.micronaut:micronaut-management"

@@ -19,6 +19,7 @@ package io.micronaut.configuration.mongo.sync
 import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.client.MongoClient
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
@@ -68,7 +69,7 @@ class MongoConfigurationSpec extends Specification {
     void "test build mongo client options"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
-            "mongodb.options.readConcern":'LOCAL'
+            "mongodb.readConcern":'LOCAL'
         )
 
         DefaultMongoConfiguration configuration = applicationContext.getBean(DefaultMongoConfiguration)

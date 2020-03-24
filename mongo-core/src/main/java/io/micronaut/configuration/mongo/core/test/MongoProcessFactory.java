@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package io.micronaut.configuration.mongo.reactive.test;
+package io.micronaut.configuration.mongo.core.test;
 
 import com.mongodb.ConnectionString;
-import com.mongodb.connection.ClusterSettings;
 import de.flapdoodle.embed.mongo.MongodProcess;
-import io.micronaut.configuration.mongo.core.test.AbstractMongoProcessFactory;
-import io.micronaut.configuration.mongo.reactive.DefaultReactiveMongoConfiguration;
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -36,25 +34,22 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * This class will configure a {@link MongodProcess} if the class is on the classpath and the server is not configured.
- *
  * @author graemerocher
  * @since 1.0
  */
 @Requires(classes = MongodProcess.class)
-@Requires(beans = DefaultReactiveMongoConfiguration.class)
+@Requires(beans = DefaultMongoConfiguration.class)
 @Requires(env = Environment.TEST)
 @Requires(property = MongoSettings.EMBEDDED, notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 @Singleton
-public class ReactiveMongoProcessFactory extends AbstractMongoProcessFactory implements BeanCreatedEventListener<DefaultReactiveMongoConfiguration>, Closeable {
+public class MongoProcessFactory extends AbstractMongoProcessFactory implements BeanCreatedEventListener<DefaultMongoConfiguration>, Closeable {
 
     @Override
-    public DefaultReactiveMongoConfiguration onCreated(BeanCreatedEvent<DefaultReactiveMongoConfiguration> event) {
-        DefaultReactiveMongoConfiguration configuration = event.getBean();
+    public DefaultMongoConfiguration onCreated(BeanCreatedEvent<DefaultMongoConfiguration> event) {
+        DefaultMongoConfiguration configuration = event.getBean();
         try {
             Optional<ConnectionString> connectionString = configuration.getConnectionString();
-            ClusterSettings.Builder clusterSettings = configuration.getClusterSettings();
-            startEmbeddedMongoIfPossible(connectionString.orElse(null), clusterSettings);
+            startEmbeddedMongoIfPossible(connectionString.orElse(null), null);
         } catch (IOException e) {
             throw new ConfigurationException("Error starting Embedded MongoDB server: " + e.getMessage(), e);
         }

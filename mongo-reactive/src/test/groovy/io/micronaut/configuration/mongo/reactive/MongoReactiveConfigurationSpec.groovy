@@ -23,7 +23,9 @@ import com.mongodb.WriteConcern
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.reactivestreams.client.MongoClient
 import groovy.transform.NotYetImplemented
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.reactivex.Flowable
 import io.micronaut.context.ApplicationContext
 import io.micronaut.inject.qualifiers.Qualifiers
@@ -81,7 +83,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 ("${MongoSettings.PREFIX}.${property}".toString()): value
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
 
@@ -107,7 +109,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 "mongodb.url": "mongodb://localhost"
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
 
         expect:
         configuration.codecs.size() == 1
@@ -126,7 +128,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 ("${MongoSettings.PREFIX}.connectionPool.${property}".toString()): value
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
 
@@ -156,7 +158,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
         expect:
@@ -180,7 +182,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
         expect:
@@ -204,7 +206,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 ("mongodb.servers.myServer.connectionPool.${property}".toString()): value
         )
 
-        NamedReactiveMongoConfiguration configuration = context.getBean(NamedReactiveMongoConfiguration, Qualifiers.byName('my-server'))
+        NamedMongoConfiguration configuration = context.getBean(NamedMongoConfiguration, Qualifiers.byName('my-server'))
         MongoClientSettings clientSettings = configuration.buildSettings()
         MongoClient mongoClient = context.getBean(MongoClient, Qualifiers.byName('my-server'))
 

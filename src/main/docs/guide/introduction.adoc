@@ -8,7 +8,7 @@ This project includes integration between Micronaut and MongoDB.
 * Remove deprecated `mongo-java-driver`
 * Add new `micronaut-mongo-sync` module to support `mongodb-driver-sync`
 * Upgrade to `mongo-driver-sync` -> `4.0.1`
-* Upgrade to `mongodb-driver-reactivestreams` -> `1.13.1`
+* Upgrade to `mongodb-driver-reactivestreams` -> `4.0.1`
 
 ==== 1.3.0
 

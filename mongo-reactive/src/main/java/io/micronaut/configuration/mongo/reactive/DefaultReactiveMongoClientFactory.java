@@ -19,6 +19,7 @@ package io.micronaut.configuration.mongo.reactive;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
@@ -34,7 +35,7 @@ import javax.inject.Singleton;
  * @author Graeme Rocher
  * @since 1.0
  */
-@Requires(beans = DefaultReactiveMongoConfiguration.class)
+@Requires(beans = DefaultMongoConfiguration.class)
 @Factory
 public class DefaultReactiveMongoClientFactory {
 
@@ -45,7 +46,7 @@ public class DefaultReactiveMongoClientFactory {
      */
     @Primary
     @Singleton
-    MongoClientSettings mongoClientSettings(DefaultReactiveMongoConfiguration mongoConfiguration) {
+    MongoClientSettings mongoClientSettings(DefaultMongoConfiguration mongoConfiguration) {
         return mongoConfiguration.buildSettings();
     }
 
@@ -57,7 +58,7 @@ public class DefaultReactiveMongoClientFactory {
     @Bean(preDestroy = "close")
     @Refreshable(MongoSettings.PREFIX)
     @Primary
-    MongoClient mongoClient(DefaultReactiveMongoConfiguration mongoConfiguration) {
+    MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
         return MongoClients.create(mongoConfiguration.buildSettings());
     }
 }
