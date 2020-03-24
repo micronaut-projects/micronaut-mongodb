@@ -20,13 +20,12 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.ReadPreference
 import com.mongodb.WriteConcern
+import com.mongodb.client.result.InsertOneResult
 import com.mongodb.reactivestreams.client.MongoClient
-import com.mongodb.reactivestreams.client.Success
 import groovy.transform.NotYetImplemented
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.reactivex.Flowable
 import io.micronaut.context.ApplicationContext
-import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.inject.qualifiers.Qualifiers
 import io.reactivex.Single
 import org.bson.BsonReader
@@ -63,12 +62,13 @@ class MongoReactiveConfigurationSpec extends Specification {
         !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
 
         when: "A POJO is saved"
-        Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
+        InsertOneResult success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
                 title: "The Stand"
         ))).blockingGet()
 
         then:
         success != null
+        success.wasAcknowledged()
 
         cleanup:
         applicationContext.stop()
