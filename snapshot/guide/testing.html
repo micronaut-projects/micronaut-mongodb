@@ -100,7 +100,21 @@ function addJsClass() {
 
 
 <div class="paragraph">
-<p>For testing you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
+<p><a href="https://www.testcontainers.org/">Test Containers</a> is the recommended way to test Mongo interaction. For Spock tests this is a simple matter of:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Shared @AutoCleanup GenericContainer mongo =
+        new GenericContainer("mongo:4.0")
+                .withExposedPorts(27017)
+
+def setupSpec() {
+    mongo.start()
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
 </div>
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
