@@ -8,7 +8,7 @@ dependencies {
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
 
-    api 'org.mongodb:mongodb-driver-sync:4.0.1'
+    api 'org.mongodb:mongodb-driver-sync:4.0.2'
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
     testImplementation "io.micronaut:micronaut-management"
