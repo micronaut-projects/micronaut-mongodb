@@ -2,6 +2,12 @@ This project includes integration between Micronaut and MongoDB.
 
 === Release History
 
+==== 2.1.0
+
+* New Group ID: `io.micronaut.mongodb`
+* Upgrade to `mongo-driver-sync` -> `4.0.3`
+* Upgrade to `mongodb-driver-reactivestreams` -> `4.0.3`
+
 ==== 2.0.0
 
 * Micronaut 1.3.3 minimum version
