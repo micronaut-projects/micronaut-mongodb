@@ -15,7 +15,6 @@
  */
 package io.micronaut.configuration.mongo.reactive;
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
@@ -25,8 +24,6 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.runtime.context.scope.Refreshable;
-
-import javax.inject.Singleton;
 
 /**
  * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
@@ -38,16 +35,6 @@ import javax.inject.Singleton;
 @Factory
 public class DefaultReactiveMongoClientFactory {
 
-    /**
-     * Factory Method for creating a client.
-     * @param mongoConfiguration mongoConfiguration
-     * @return mongoClient
-     */
-    @Primary
-    @Singleton
-    MongoClientSettings mongoClientSettings(DefaultMongoConfiguration mongoConfiguration) {
-        return mongoConfiguration.buildSettings();
-    }
 
     /**
      * Factory Method for creating a client.
