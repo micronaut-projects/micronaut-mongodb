@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.sync;
 
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
@@ -31,7 +31,7 @@ import io.micronaut.runtime.context.scope.Refreshable;
  * @since 1.0
  */
 @Factory
-public class NamedReactiveMongoClientFactory {
+public class NamedMongoClientFactory {
 
     /**
      * Factory name to create a client.
