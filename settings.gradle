@@ -1,4 +1,6 @@
 rootProject.name = 'mongodb'
 
+include 'mongo-core'
+include 'mongo-sync'
 include 'mongo-reactive'
 

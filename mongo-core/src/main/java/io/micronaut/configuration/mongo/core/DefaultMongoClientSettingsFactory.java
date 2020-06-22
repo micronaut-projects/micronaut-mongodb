@@ -13,38 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.core;
 
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
-import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
-import io.micronaut.configuration.mongo.core.MongoSettings;
-import io.micronaut.context.annotation.Bean;
+import com.mongodb.MongoClientSettings;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.runtime.context.scope.Refreshable;
 
-/**
- * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
- *
- * @author Graeme Rocher
- * @since 1.0
- */
+import javax.inject.Singleton;
+
 @Requires(beans = DefaultMongoConfiguration.class)
 @Factory
-public class DefaultReactiveMongoClientFactory {
-
-
+public class DefaultMongoClientSettingsFactory {
     /**
      * Factory Method for creating a client.
      * @param mongoConfiguration mongoConfiguration
      * @return mongoClient
      */
-    @Bean(preDestroy = "close")
-    @Refreshable(MongoSettings.PREFIX)
     @Primary
-    MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
-        return MongoClients.create(mongoConfiguration.buildSettings());
+    @Singleton
+    MongoClientSettings mongoClientSettings(DefaultMongoConfiguration mongoConfiguration) {
+        return mongoConfiguration.buildSettings();
     }
 }

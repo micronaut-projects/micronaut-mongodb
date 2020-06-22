@@ -1,11 +1,11 @@
 /*
- * Copyright 2017-2018 original authors
+ * Copyright 2017-2020 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.micronaut.configuration.mongo.reactive
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.ReadPreference
 import com.mongodb.WriteConcern
+import com.mongodb.client.result.InsertOneResult
 import com.mongodb.reactivestreams.client.MongoClient
-import com.mongodb.reactivestreams.client.Success
 import groovy.transform.NotYetImplemented
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
+import io.micronaut.configuration.mongo.core.MongoSettings
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.reactivex.Flowable
 import io.micronaut.context.ApplicationContext
-import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.inject.qualifiers.Qualifiers
 import io.reactivex.Single
 import org.bson.BsonReader
@@ -33,6 +34,9 @@ import org.bson.BsonWriter
 import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
+import org.testcontainers.containers.GenericContainer
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -40,56 +44,45 @@ import javax.inject.Singleton
 
 class MongoReactiveConfigurationSpec extends Specification {
 
+    @Shared @AutoCleanup GenericContainer mongo =
+            new GenericContainer("mongo:4.0")
+                    .withExposedPorts(27017)
+
+    def setupSpec() {
+        mongo.start()
+    }
+
     void "test connection with connection string"() {
         when:
-        ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}")
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
         then:
         !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
 
         when: "A POJO is saved"
-        Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
+        InsertOneResult success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
                 title: "The Stand"
         ))).blockingGet()
 
         then:
         success != null
+        success.wasAcknowledged()
 
         cleanup:
         applicationContext.stop()
     }
-
-    void "test connection with host"() {
-        when:
-        ApplicationContext applicationContext = ApplicationContext.run((MongoSettings.MONGODB_HOST): "")
-        MongoClient mongoClient = applicationContext.getBean(MongoClient)
-
-        then:
-        !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
-
-        when: "A POJO is saved"
-        Success success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
-                title: "The Stand"
-        ))).blockingGet()
-
-        then:
-        success != null
-
-        cleanup:
-        applicationContext.stop()
-    }
-
 
     @Unroll
     void "test configure #property client setting"() {
         given:
         ApplicationContext context = ApplicationContext.run(
-                (MongoSettings.EMBEDDED): false,
                 ("${MongoSettings.PREFIX}.${property}".toString()): value
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
 
@@ -115,7 +108,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 "mongodb.url": "mongodb://localhost"
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
 
         expect:
         configuration.codecs.size() == 1
@@ -130,11 +123,11 @@ class MongoReactiveConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                (MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
+                (MongoSettings.MONGODB_URI): "mongodb://localhost:${mongo.exposedPorts[0]}",
                 ("${MongoSettings.PREFIX}.connectionPool.${property}".toString()): value
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
 
@@ -164,7 +157,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
         expect:
@@ -188,7 +181,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         )
 
-        DefaultReactiveMongoConfiguration configuration = context.getBean(DefaultReactiveMongoConfiguration)
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
         MongoClientSettings clientSettings = configuration.buildSettings()
 
         expect:
@@ -212,7 +205,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 ("mongodb.servers.myServer.connectionPool.${property}".toString()): value
         )
 
-        NamedReactiveMongoConfiguration configuration = context.getBean(NamedReactiveMongoConfiguration, Qualifiers.byName('my-server'))
+        NamedMongoConfiguration configuration = context.getBean(NamedMongoConfiguration, Qualifiers.byName('my-server'))
         MongoClientSettings clientSettings = configuration.buildSettings()
         MongoClient mongoClient = context.getBean(MongoClient, Qualifiers.byName('my-server'))
 

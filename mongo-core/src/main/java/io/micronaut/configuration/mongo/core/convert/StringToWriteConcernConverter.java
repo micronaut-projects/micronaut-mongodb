@@ -13,10 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.micronaut.configuration.mongo.core.convert;
+
+import com.mongodb.WriteConcern;
+import io.micronaut.core.convert.ConversionContext;
+import io.micronaut.core.convert.TypeConverter;
+import java.util.Locale;
+import java.util.Optional;
+
 /**
- * MongoDB Health indicators.
- *
- * @author James Kleeh
+ * @author graemerocher
  * @since 1.0
  */
-package io.micronaut.configuration.mongo.reactive.health;
+public class StringToWriteConcernConverter implements TypeConverter<CharSequence, WriteConcern> {
+    @Override
+    public Optional<WriteConcern> convert(CharSequence object, Class<WriteConcern> targetType, ConversionContext context) {
+        return Optional.ofNullable(WriteConcern.valueOf(object.toString().toUpperCase(Locale.ENGLISH)));
+    }
+}
+

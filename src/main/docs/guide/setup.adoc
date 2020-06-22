@@ -9,7 +9,7 @@ $ mn create-app my-app --features mongo-reactive
 
 Micronaut includes a configuration to automatically configure the native MongoDB Java driver. To use this configuration, add the following dependency to your application:
 
-dependency:micronaut-mongo-reactive[groupId="io.micronaut.configuration"]
+dependency:micronaut-mongo-reactive[groupId="io.micronaut.mongodb"]
 
 Then configure the URI of the MongoDB server in `application.yml`:
 
@@ -24,14 +24,11 @@ TIP: The `mongodb.uri` follows the https://docs.mongodb.com/manual/reference/con
 
 A non-blocking Reactive Streams http://mongodb.github.io/mongo-java-driver-reactivestreams/1.8/javadoc/com/mongodb/reactivestreams/client/MongoClient.html[MongoClient] is then available for dependency injection.
 
-To use the blocking driver, add a dependency to your application to the mongo-java-driver.
+To use the blocking driver, add a dependency to your application to the `micronaut-mongo-sync` module.
 
-[source,groovy]
-----
-compile "org.mongodb:mongo-java-driver"
-----
+dependency:micronaut-mongo-sync[groupId="io.micronaut.mongodb"]
 
-Then the blocking http://mongodb.github.io/mongo-java-driver/3.7/javadoc/com/mongodb/MongoClient.html[MongoClient] will be available for injection.
+Then the blocking https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html[MongoClient] will be available for injection.
 
 
 ==== Using GORM for MongoDB

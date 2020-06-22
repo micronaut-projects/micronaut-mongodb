@@ -1,0 +1,10 @@
+dependencies {
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+
+    api "io.micronaut:micronaut-runtime:$micronautVersion"
+    api "io.micronaut:micronaut-validation:$micronautVersion"
+    api("org.mongodb:mongodb-driver-core:$mongoVersion")
+
+    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
+}

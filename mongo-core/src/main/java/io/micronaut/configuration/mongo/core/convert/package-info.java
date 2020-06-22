@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 /**
- * MongoDB Health indicators.
+ * MongoDB converters.
  *
  * @author James Kleeh
  * @since 1.0
  */
-package io.micronaut.configuration.mongo.reactive.health;
+package io.micronaut.configuration.mongo.core.convert;
