@@ -106,7 +106,7 @@
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/1.3.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -117,44 +117,6 @@
 </div>
 <div class="sect2">
 <h3 id="_release_history">Release History</h3>
-<div class="sect3">
-<h4 id="_2_1_0">2.1.0</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>New Group ID: <code>io.micronaut.mongodb</code></p>
-</li>
-<li>
-<p>Upgrade to <code>mongo-driver-sync</code> &#8594; <code>4.0.3</code></p>
-</li>
-<li>
-<p>Upgrade to <code>mongodb-driver-reactivestreams</code> &#8594; <code>4.0.3</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_2_0_0">2.0.0</h4>
-<div class="ulist">
-<ul>
-<li>
-<p>Micronaut 1.3.3 minimum version</p>
-</li>
-<li>
-<p>Remove deprecated <code>mongo-java-driver</code></p>
-</li>
-<li>
-<p>Add new <code>micronaut-mongo-sync</code> module to support <code>mongodb-driver-sync</code></p>
-</li>
-<li>
-<p>Upgrade to <code>mongo-driver-sync</code> &#8594; <code>4.0.1</code></p>
-</li>
-<li>
-<p>Upgrade to <code>mongodb-driver-reactivestreams</code> &#8594; <code>4.0.1</code></p>
-</li>
-</ul>
-</div>
-</div>
 <div class="sect3">
 <h4 id="_1_3_0">1.3.0</h4>
 <div class="ulist">
@@ -202,7 +164,7 @@
 <h1 id="setup"><a class="anchor" href="#setup"></a>2 Setting up the Mongo Driver</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/setup.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/1.3.x/src/main/docs/guide/setup.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -235,13 +197,13 @@
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.mongodb:micronaut-mongo-reactive")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.configuration:micronaut-mongo-reactive")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;io.micronaut.mongodb&lt;/groupId&gt;
+    &lt;groupId&gt;io.micronaut.configuration&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-mongo-reactive&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
@@ -274,27 +236,15 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <p>A non-blocking Reactive Streams <a href="http://mongodb.github.io/mongo-java-driver-reactivestreams/1.8/javadoc/com/mongodb/reactivestreams/client/MongoClient.html">MongoClient</a> is then available for dependency injection.</p>
 </div>
 <div class="paragraph">
-<p>To use the blocking driver, add a dependency to your application to the <code>micronaut-mongo-sync</code> module.</p>
+<p>To use the blocking driver, add a dependency to your application to the mongo-java-driver.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "org.mongodb:mongo-java-driver"</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.mongodb:micronaut-mongo-sync")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;io.micronaut.mongodb&lt;/groupId&gt;
-    &lt;artifactId&gt;micronaut-mongo-sync&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</p>
-</div>
-<div class="paragraph">
-<p>Then the blocking <a href="https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html">MongoClient</a> will be available for injection.</p>
+<p>Then the blocking <a href="http://mongodb.github.io/mongo-java-driver/3.7/javadoc/com/mongodb/MongoClient.html">MongoClient</a> will be available for injection.</p>
 </div>
 <div class="sect3">
 <h4 id="_using_gorm_for_mongodb">Using GORM for MongoDB</h4>
@@ -363,7 +313,7 @@ For GORM for MongoDB you will need to configure the database name separately as 
 <h1 id="config"><a class="anchor" href="#config"></a>3 Configuring the Mongo Driver</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/config.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/1.3.x/src/main/docs/guide/config.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -441,28 +391,14 @@ import javax.inject.*;
 <h1 id="testing"><a class="anchor" href="#testing"></a>4 MongoDB and Testing</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/testing.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/1.3.x/src/main/docs/guide/testing.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
 <div class="paragraph">
-<p><a href="https://www.testcontainers.org/">Test Containers</a> is the recommended way to test Mongo interaction. For Spock tests this is a simple matter of:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Shared @AutoCleanup GenericContainer mongo =
-        new GenericContainer("mongo:4.0")
-                .withExposedPorts(27017)
-
-def setupSpec() {
-    mongo.start()
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Alternatively, you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
+<p>For testing you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
 </div>
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
@@ -487,7 +423,7 @@ def setupSpec() {
 <h1 id="repository"><a class="anchor" href="#repository"></a>5 Repository</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/1.3.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
