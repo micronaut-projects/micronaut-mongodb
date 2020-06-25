@@ -9,7 +9,7 @@ $ mn create-app my-app --features hibernate-jpa
 ----
 ====
 
-Micronaut features built in support for configuring a http://hibernate.org[Hibernate] / JPA `EntityManager` that builds on the <<jdbc, SQL DataSource support>>.
+Micronaut features built in support for configuring a https://hibernate.org[Hibernate] / JPA `EntityManager` that builds on the <<jdbc, SQL DataSource support>>.
 
 Once you have <<jdbc, configured one or many DataSources>> to use Hibernate, you will need to add the `hibernate-jpa` dependency to your build configuration:
 
