@@ -19,7 +19,7 @@ dependency:micronaut-jdbc-hikari[groupId="io.micronaut.configuration", scope="ru
 
 dependency:micronaut-jdbc-dbcp[groupId="io.micronaut.configuration", scope="runtime"]
 
-You also need to add a JDBC driver dependency to your classpath. For example to add the http://www.h2database.com[H2 In-Memory Database]:
+You also need to add a JDBC driver dependency to your classpath. For example to add the https://www.h2database.com[H2 In-Memory Database]:
 
 dependency:h2[groupId="com.h2database", scope="runtime"]
 
@@ -68,8 +68,8 @@ For a list of other properties able to be configured, simply refer to the implem
 [cols="20%,80%"]
 |=======
 |Tomcat |link:https://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/tomcat/jdbc/pool/PoolProperties.html[PoolProperties]
-|Hikari |link:http://static.javadoc.io/com.zaxxer/HikariCP/2.7.1/com/zaxxer/hikari/HikariConfig.html[HikariConfig]
-|Apache DBCP |link:http://commons.apache.org/proper/commons-dbcp/api-2.1.1/org/apache/commons/dbcp2/BasicDataSource.html[BasicDataSource]
+|Hikari |link:https://static.javadoc.io/com.zaxxer/HikariCP/2.7.1/com/zaxxer/hikari/HikariConfig.html[HikariConfig]
+|Apache DBCP |link:https://commons.apache.org/proper/commons-dbcp/api-2.1.1/org/apache/commons/dbcp2/BasicDataSource.html[BasicDataSource]
 |=======
 
 == Configuring Multiple Data Sources

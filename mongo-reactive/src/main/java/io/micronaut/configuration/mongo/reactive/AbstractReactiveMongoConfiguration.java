@@ -26,7 +26,6 @@ import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
-import com.mongodb.connection.netty.NettyStreamFactoryFactory;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.CollectionUtils;
@@ -95,7 +94,6 @@ public abstract class AbstractReactiveMongoConfiguration {
             this.packageNames = packageNames;
         }
     }
-
 
     /**
      * The configured codecs.
