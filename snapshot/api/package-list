@@ -1,7 +1,5 @@
-io.micronaut.configuration.mongo.core
-io.micronaut.configuration.mongo.core.convert
-io.micronaut.configuration.mongo.core.test
 io.micronaut.configuration.mongo.reactive
 io.micronaut.configuration.mongo.reactive.condition
+io.micronaut.configuration.mongo.reactive.convert
 io.micronaut.configuration.mongo.reactive.health
-io.micronaut.configuration.mongo.sync
+io.micronaut.configuration.mongo.reactive.test
