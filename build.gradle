@@ -27,6 +27,11 @@ subprojects { Project subproject ->
         }
         testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"        
     }
+
+    micronautBuild {
+        dependencyUpdatesPattern = /.+(-|\.?)(b|M|RC|rc)\d.*/
+    }
 }
 
 apply plugin: "io.micronaut.build.docs"
+apply plugin: "io.micronaut.build.dependency-updates"
