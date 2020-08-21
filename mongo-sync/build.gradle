@@ -6,7 +6,7 @@ dependencies {
     api "io.micronaut:micronaut-aop:$micronautVersion"
     api "io.micronaut:micronaut-validation:$micronautVersion"
     compileOnly "io.micronaut:micronaut-management"
-    compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
+    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
 
     api "org.mongodb:mongodb-driver-sync:$mongoVersion"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
