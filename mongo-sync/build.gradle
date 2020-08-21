@@ -8,13 +8,14 @@ dependencies {
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
 
-    api 'org.mongodb:mongodb-driver-sync:4.0.2'
+    api "org.mongodb:mongodb-driver-sync:$mongoVersion"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
+    testImplementation project(":mongo-reactive")
     testImplementation "io.micronaut:micronaut-management"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-function-web"
-    testImplementation "org.testcontainers:spock:1.13.0"
+    testImplementation "org.testcontainers:spock:1.14.3"
     testRuntimeOnly "io.netty:netty-handler"
 }
 

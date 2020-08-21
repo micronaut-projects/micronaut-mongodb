@@ -13,41 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.configuration.mongo.sync;
+package io.micronaut.configuration.mongo.core;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
-import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 
 import javax.inject.Singleton;
 
-/**
- * Builds the primary MongoClient.
- *
- * @author graemerocher
- * @since 1.0
- */
-@Requires(classes = MongoClient.class)
 @Requires(beans = DefaultMongoConfiguration.class)
 @Factory
-public class DefaultMongoClientFactory {
-
+public class DefaultMongoClientSettingsFactory {
     /**
-     * Factory method to return a client.
-     * @param settings configuration pulled in
+     * Factory Method for creating a client.
+     * @param mongoConfiguration mongoConfiguration
      * @return mongoClient
      */
-    @Bean(preDestroy = "close")
     @Primary
     @Singleton
-    protected MongoClient mongoClient(MongoClientSettings settings) {
-        return MongoClients.create(
-                settings
-        );
+    MongoClientSettings mongoClientSettings(DefaultMongoConfiguration mongoConfiguration) {
+        return mongoConfiguration.buildSettings();
     }
 }

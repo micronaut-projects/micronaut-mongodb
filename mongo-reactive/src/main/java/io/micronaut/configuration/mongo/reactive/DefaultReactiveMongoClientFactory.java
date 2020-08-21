@@ -1,11 +1,11 @@
 /*
- * Copyright 2017-2018 original authors
+ * Copyright 2017-2020 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.micronaut.configuration.mongo.reactive;
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
@@ -26,8 +24,6 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.runtime.context.scope.Refreshable;
-
-import javax.inject.Singleton;
 
 /**
  * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
@@ -39,16 +35,6 @@ import javax.inject.Singleton;
 @Factory
 public class DefaultReactiveMongoClientFactory {
 
-    /**
-     * Factory Method for creating a client.
-     * @param mongoConfiguration mongoConfiguration
-     * @return mongoClient
-     */
-    @Primary
-    @Singleton
-    MongoClientSettings mongoClientSettings(DefaultMongoConfiguration mongoConfiguration) {
-        return mongoConfiguration.buildSettings();
-    }
 
     /**
      * Factory Method for creating a client.
