@@ -46,14 +46,14 @@
         <div class="docs-content">
             <div class="project">
                 <h1>Configuration Reference</h1>
-                <p><strong>Version:</strong>1.3.1.BUILD-SNAPSHOT</p>
+                <p><strong>Version:</strong>2.1.1.BUILD-SNAPSHOT</p>
                 <p></p>
             </div>
 <div class="sect2">
-<h3 id="_mongo_reactive_config_properties">Mongo Reactive Config Properties</h3>
-<a id="io.micronaut.configuration.mongo.reactive.DefaultMongoConfiguration" href="#io.micronaut.configuration.mongo.reactive.DefaultMongoConfiguration">&#128279;</a>
+<h3 id="_mongo_core_config_properties">Mongo Core Config Properties</h3>
+<a id="io.micronaut.configuration.mongo.core.DefaultMongoConfiguration" href="#io.micronaut.configuration.mongo.core.DefaultMongoConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a></caption>
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -372,192 +372,12 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sets the server MongoDB server address.</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.application-name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.compressor-list</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.min-connections-per-host</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.connections-per-host</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.server-selection-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.max-wait-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.max-connection-idle-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.max-connection-life-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.connect-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.socket-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.ssl-enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.ssl-invalid-host-name-allowed</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.ssl-context</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">javax.net.ssl.SSLContext</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.read-preference</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadPreference</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.write-concern</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.WriteConcern</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.retry-writes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.retry-reads</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.read-concern</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadConcern</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.codec-registry</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.codecs.configuration.CodecRegistry</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.uuid-representation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.UuidRepresentation</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.server-selector</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.selector.ServerSelector</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.add-command-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.CommandListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.add-connection-pool-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ConnectionPoolListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.add-cluster-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ClusterListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.add-server-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.add-server-monitor-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerMonitorListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.cursor-finalizer-enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.db-decoder-factory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.DBDecoderFactory</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.db-encoder-factory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.DBEncoderFactory</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.heartbeat-frequency</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.min-heartbeat-frequency</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.heartbeat-connect-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.heartbeat-socket-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.local-threshold</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.required-replica-set-name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.options.auto-encryption-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.AutoEncryptionSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<a id="io.micronaut.configuration.mongo.reactive.NamedReactiveMongoConfiguration" href="#io.micronaut.configuration.mongo.reactive.NamedReactiveMongoConfiguration">&#128279;</a>
+<a id="io.micronaut.configuration.mongo.core.NamedMongoConfiguration" href="#io.micronaut.configuration.mongo.core.NamedMongoConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/reactive/NamedReactiveMongoConfiguration.html">NamedReactiveMongoConfiguration</a></caption>
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
