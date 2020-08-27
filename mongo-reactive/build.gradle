@@ -10,7 +10,7 @@ dependencies {
     api "io.micronaut:micronaut-validation:$micronautVersion"
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "io.micronaut.configuration:micronaut-micrometer-core"
-    api("org.mongodb:mongodb-driver-reactivestreams:$mongoVersion") {
+    api("org.mongodb:mongodb-driver-reactivestreams:$mongoReactiveVersion") {
         exclude group:'org.mongodb', module:'mongodb-driver-async'
     }
 
