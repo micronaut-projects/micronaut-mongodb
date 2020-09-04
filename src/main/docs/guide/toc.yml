@@ -1,4 +1,5 @@
 introduction: Introduction
+releaseHistory: Release History
 setup: Setting up the Mongo Driver
 config: Configuring the Mongo Driver
 testing: MongoDB and Testing
