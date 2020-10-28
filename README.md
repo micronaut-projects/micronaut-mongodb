@@ -1,6 +1,6 @@
 # Micronaut MongoDB
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.configuration/micronaut-mongo-reactive.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.configuration%22%20AND%20a:%22micronaut-mongo-reactive%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.mongodb/micronaut-mongo-reactive.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.mongodb%22%20AND%20a:%22micronaut-mongo-reactive%22)
 [![Build Status](https://github.com/micronaut-projects/micronaut-mongodb/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-mongodb/actions)
 
 Integrates Micronaut and MongoDB.
