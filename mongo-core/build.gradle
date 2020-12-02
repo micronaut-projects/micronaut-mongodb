@@ -6,5 +6,11 @@ dependencies {
     api "io.micronaut:micronaut-validation:$micronautVersion"
     api("org.mongodb:mongodb-driver-core:$mongoVersion")
 
-    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0"
+    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodleVersion"
+}
+
+micronautBuild {
+    resolutionStrategy {
+        force "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodleVersion"
+    }
 }
