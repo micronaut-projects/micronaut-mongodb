@@ -23,7 +23,7 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.convert.TypeConverterRegistrar;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * A converter registrar for Mongo converters.
