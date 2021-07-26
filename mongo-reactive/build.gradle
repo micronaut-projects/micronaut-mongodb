@@ -14,8 +14,6 @@ dependencies {
         exclude group:'org.mongodb', module:'mongodb-driver-async'
     }
 
-    implementation 'jakarta.inject:jakarta.inject-api:2.0.0'
-    
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
     testImplementation "io.micronaut:micronaut-management"
