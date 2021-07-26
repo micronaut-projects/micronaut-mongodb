@@ -28,7 +28,7 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import io.micronaut.core.io.socket.SocketUtils;
 
-import javax.annotation.Nullable;
+import io.micronaut.core.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
