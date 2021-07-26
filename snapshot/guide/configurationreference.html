@@ -46,328 +46,14 @@
         <div class="docs-content">
             <div class="project">
                 <h1>Configuration Reference</h1>
-                <p><strong>Version:</strong>3.2.1-SNAPSHOT</p>
+                <p><strong>Version:</strong>4.0.0-SNAPSHOT</p>
                 <p></p>
             </div>
 <div class="sect2">
 <h3 id="_mongo_core_config_properties">Mongo Core Config Properties</h3>
-<a id="io.micronaut.configuration.mongo.core.NamedMongoConfiguration" href="#io.micronaut.configuration.mongo.core.NamedMongoConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.uri</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the MongoDB URI.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.package-names</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The package names to allow for POJOs.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.automatic-class-models</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to allow automatic class models (defaults to true).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-cluster-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-socket-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-connection-pool-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-server-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-ssl-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.read-preference</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadPreference</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.write-concern</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.WriteConcern</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.retry-writes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.retry-reads</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.read-concern</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadConcern</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.credential</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.MongoCredential</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.codec-registry</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.codecs.configuration.CodecRegistry</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.stream-factory-factory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.StreamFactoryFactory</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.add-command-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.CommandListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.command-listener-list</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.application-name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.compressor-list</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.uuid-representation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.UuidRepresentation</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.auto-encryption-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.AutoEncryptionSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.apply-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.srv-host</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.hosts</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterConnectionMode</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.required-replica-set-name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.required-cluster-type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterType</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.local-threshold</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.server-selector</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.selector.ServerSelector</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.server-selection-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.add-cluster-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ClusterListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.apply-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ServerSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.heartbeat-frequency</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.min-heartbeat-frequency</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.add-server-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.add-server-monitor-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerMonitorListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.apply-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ConnectionPoolSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.min-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-wait-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-connection-life-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-connection-idle-time</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.maintenance-initial-delay</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.maintenance-frequency</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.add-connection-pool-listener</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ConnectionPoolListener</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.apply-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SocketSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.receive-buffer-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.send-buffer-size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.apply-settings</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SslSettings</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.invalid-host-name-allowed</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.context</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">javax.net.ssl.SSLContext</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.apply-connection-string</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
 <a id="io.micronaut.configuration.mongo.core.DefaultMongoConfiguration" href="#io.micronaut.configuration.mongo.core.DefaultMongoConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a></caption>
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -685,6 +371,320 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.hosts</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sets the server MongoDB server address.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.configuration.mongo.core.NamedMongoConfiguration" href="#io.micronaut.configuration.mongo.core.NamedMongoConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.uri</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the MongoDB URI.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.package-names</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The package names to allow for POJOs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.automatic-class-models</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to allow automatic class models (defaults to true).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-cluster-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-socket-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-connection-pool-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-server-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.apply-to-ssl-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.Block</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.read-preference</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadPreference</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.write-concern</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.WriteConcern</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.retry-writes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.retry-reads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.read-concern</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ReadConcern</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.credential</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.MongoCredential</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.codec-registry</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.codecs.configuration.CodecRegistry</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.stream-factory-factory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.StreamFactoryFactory</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.add-command-listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.CommandListener</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.command-listener-list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.application-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.compressor-list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.uuid-representation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.bson.UuidRepresentation</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.auto-encryption-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.AutoEncryptionSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.apply-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.srv-host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.hosts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterConnectionMode</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.required-replica-set-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.required-cluster-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ClusterType</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.local-threshold</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.server-selector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.selector.ServerSelector</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.server-selection-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.add-cluster-listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ClusterListener</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.cluster.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.apply-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ServerSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.heartbeat-frequency</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.min-heartbeat-frequency</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.add-server-listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerListener</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.add-server-monitor-listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerMonitorListener</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.apply-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ConnectionPoolSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.min-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-wait-time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-connection-life-time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.max-connection-idle-time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.maintenance-initial-delay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.maintenance-frequency</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.add-connection-pool-listener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ConnectionPoolListener</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.connection-pool.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.apply-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SocketSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.receive-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.send-buffer-size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.apply-settings</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SslSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.invalid-host-name-allowed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.context</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">javax.net.ssl.SSLContext</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.ssl.apply-connection-string</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ConnectionString</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
