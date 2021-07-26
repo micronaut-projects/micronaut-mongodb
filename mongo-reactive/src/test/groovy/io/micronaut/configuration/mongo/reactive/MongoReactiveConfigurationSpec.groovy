@@ -21,7 +21,7 @@ import com.mongodb.ReadPreference
 import com.mongodb.WriteConcern
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.reactivestreams.client.MongoClient
-import groovy.transform.NotYetImplemented
+import groovy.test.NotYetImplemented
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
