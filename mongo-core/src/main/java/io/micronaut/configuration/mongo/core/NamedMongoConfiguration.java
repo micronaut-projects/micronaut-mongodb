@@ -29,7 +29,7 @@ import io.micronaut.runtime.ApplicationConfiguration;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.List;
 
 /**

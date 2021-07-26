@@ -46,7 +46,7 @@ With the above configuration in place you can inject a `MongoClient` using the n
 [source,java]
 ----
 import com.mongodb.reactivestreams.client.*;
-import javax.inject.*;
+import jakarta.inject.*;
 ...
 @Inject @Named("another") MongoClient mongoClient;
 ----

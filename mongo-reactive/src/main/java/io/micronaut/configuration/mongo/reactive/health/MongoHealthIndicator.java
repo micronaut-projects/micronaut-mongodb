@@ -31,7 +31,7 @@ import io.reactivex.Flowable;
 import org.bson.Document;
 import org.reactivestreams.Publisher;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.util.*;
 import java.util.stream.Collectors;
 
