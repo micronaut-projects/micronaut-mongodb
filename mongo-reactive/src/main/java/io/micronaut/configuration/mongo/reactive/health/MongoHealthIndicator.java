@@ -15,8 +15,6 @@
  */
 package io.micronaut.configuration.mongo.reactive.health;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.reactivestreams.client.MongoClient;
 import io.micronaut.context.BeanContext;
@@ -26,12 +24,14 @@ import io.micronaut.health.HealthStatus;
 import io.micronaut.management.health.aggregator.HealthAggregator;
 import io.micronaut.management.health.indicator.HealthIndicator;
 import io.micronaut.management.health.indicator.HealthResult;
-import io.reactivex.Flowable;
-
 import org.bson.Document;
 import org.reactivestreams.Publisher;
 
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,9 +66,9 @@ public class MongoHealthIndicator implements HealthIndicator {
 
         List<BeanRegistration<MongoClient>> registrations = getRegisteredConnections();
 
-        Flowable<HealthResult> healthResults = Flowable.fromIterable(registrations)
+        Flux<HealthResult> healthResults = Flux.fromIterable(registrations)
                 .flatMap(this::checkRegisteredMongoClient)
-                .onErrorReturn(throwable -> buildStatusDown(throwable, HEALTH_INDICATOR_NAME));
+                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, HEALTH_INDICATOR_NAME)));
 
         return this.healthAggregator.aggregate(HEALTH_INDICATOR_NAME, healthResults);
     }
@@ -85,13 +85,13 @@ public class MongoHealthIndicator implements HealthIndicator {
         MongoClient mongoClient = registration.getBean();
         String databaseName = "mongodb (" + registration.getIdentifier().getName() + ")";
 
-        Flowable<Map<String, String>> databasePings = Flowable.fromPublisher(pingMongo(mongoClient))
+        Flux<Map<String, String>> databasePings = Flux.from(pingMongo(mongoClient))
                 .map(this::getVersionDetails)
-                .timeout(10, SECONDS)
+                .timeout(Duration.of(10, ChronoUnit.SECONDS))
                 .retry(3);
 
         return databasePings.map(detail -> buildStatusUp(databaseName, detail))
-                .onErrorReturn(throwable -> buildStatusDown(throwable, databaseName));
+                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, databaseName)));
     }
 
     private Publisher<Document> pingMongo(MongoClient mongoClient) {

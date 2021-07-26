@@ -25,16 +25,16 @@ import groovy.test.NotYetImplemented
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
-import io.reactivex.Flowable
 import io.micronaut.context.ApplicationContext
 import io.micronaut.inject.qualifiers.Qualifiers
-import io.reactivex.Single
 import org.bson.BsonReader
 import org.bson.BsonWriter
 import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
 import org.testcontainers.containers.GenericContainer
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -60,12 +60,12 @@ class MongoReactiveConfigurationSpec extends Specification {
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
         then:
-        !Flowable.fromPublisher(mongoClient.listDatabaseNames()).blockingIterable().toList().isEmpty()
+        !Flux.from(mongoClient.listDatabaseNames()).collectList().block().isEmpty()
 
         when: "A POJO is saved"
-        InsertOneResult success = Single.fromPublisher(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
+        InsertOneResult success = Mono.from(mongoClient.getDatabase("test").getCollection("test", Book).insertOne(new Book(
                 title: "The Stand"
-        ))).blockingGet()
+        ))).block()
 
         then:
         success != null
