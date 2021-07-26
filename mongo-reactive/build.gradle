@@ -14,8 +14,8 @@ dependencies {
         exclude group:'org.mongodb', module:'mongodb-driver-async'
     }
 
+    implementation "io.projectreactor:reactor-core"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-
     testImplementation "io.micronaut:micronaut-management"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-function-web"

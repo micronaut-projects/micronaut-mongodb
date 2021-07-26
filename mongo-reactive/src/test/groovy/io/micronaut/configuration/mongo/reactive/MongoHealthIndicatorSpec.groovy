@@ -15,19 +15,18 @@
  */
 package io.micronaut.configuration.mongo.reactive
 
-
+import com.mongodb.reactivestreams.client.MongoClient
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.health.HealthStatus
-import io.reactivex.Flowable
+import io.micronaut.management.health.indicator.HealthResult
 import org.testcontainers.containers.GenericContainer
-import spock.lang.AutoCleanup
-import spock.lang.Shared
+import reactor.core.publisher.Flux
 import spock.lang.Specification
-
-import java.util.concurrent.TimeUnit
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 
 class MongoHealthIndicatorSpec extends Specification {
 
@@ -37,13 +36,13 @@ class MongoHealthIndicatorSpec extends Specification {
                 (MongoSettings.MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}"
         )
         try {
-            Flowable.fromPublisher(applicationContext.getBean(com.mongodb.reactivestreams.client.MongoClient).listDatabaseNames()).timeout(2, TimeUnit.SECONDS).blockingFirst()
+            Flux.from(applicationContext.getBean(MongoClient).listDatabaseNames()).timeout(Duration.of(2, ChronoUnit.SECONDS)).blockFirst()
         } catch (e) {
         }
         MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
 
         then:
-        Flowable.fromPublisher(healthIndicator.result).blockingFirst().status == HealthStatus.DOWN
+        Flux.from(healthIndicator.result).blockFirst().status == HealthStatus.DOWN
 
         cleanup:
         applicationContext.close()
@@ -60,12 +59,13 @@ class MongoHealthIndicatorSpec extends Specification {
                 (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
         )
         try {
-            Flowable.fromPublisher(applicationContext.getBean(com.mongodb.reactivestreams.client.MongoClient).listDatabaseNames()).timeout(2, TimeUnit.SECONDS).blockingFirst()
+            Flux.from(applicationContext.getBean(MongoClient).listDatabaseNames()).timeout(Duration.of(2, ChronoUnit.SECONDS)).blockFirst()
         } catch (e) {
         }
         MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
 
-        def healthResult = Flowable.fromPublisher(healthIndicator.result).blockingFirst()
+        HealthResult healthResult = Flux.from(healthIndicator.result).blockFirst()
+
         then:
         healthResult.status == HealthStatus.UP
         healthResult.details.containsKey("mongodb (Primary)")
