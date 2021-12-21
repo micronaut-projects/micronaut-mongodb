@@ -1,23 +1,20 @@
+plugins {
+    id 'io.micronaut.build.internal.mongodb-module'
+}
+
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-
-    api project(":mongo-core")
-    api "io.micronaut:micronaut-aop:$micronautVersion"
-    api "io.micronaut:micronaut-validation:$micronautVersion"
-    compileOnly "io.micronaut:micronaut-management"
-    compileOnly "io.micronaut.micrometer:micronaut-micrometer-core"
-
     api "org.mongodb:mongodb-driver-sync:$mongoVersion"
-
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-
-    testImplementation project(":mongo-reactive")
-    testImplementation "io.micronaut:micronaut-management"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-function-web"
-    testImplementation "org.testcontainers:spock:1.16.2"
-    testRuntimeOnly "io.netty:netty-handler"
+    api mn.micronaut.aop
+    api projects.mongoCore
+    compileOnly 'io.micronaut.micrometer:micronaut-micrometer-core'
+    compileOnly mn.micronaut.management
+    testAnnotationProcessor mn.micronaut.inject.java
+    testImplementation 'org.testcontainers:spock:1.16.2'
+    testImplementation mn.micronaut.function.web
+    testImplementation mn.micronaut.inject.groovy
+    testImplementation mn.micronaut.management
+    testImplementation projects.mongoReactive
+    testRuntimeOnly mn.netty.handler
 }
 
 //compileJava.options.forkOptions.jvmArgs =['-verbose']
