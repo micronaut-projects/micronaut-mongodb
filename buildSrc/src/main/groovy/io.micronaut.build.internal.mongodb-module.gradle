@@ -1,0 +1,9 @@
+plugins {
+    id 'io.micronaut.build.internal.module'
+}
+
+dependencies {
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+    annotationProcessor mn.micronaut.inject.java
+    api mn.micronaut.validation
+}
