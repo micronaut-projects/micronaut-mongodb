@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,10 @@ import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
 import org.bson.Document
+import org.bson.types.ObjectId
 import org.testcontainers.containers.GenericContainer
 import spock.lang.AutoCleanup
+import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -56,13 +58,43 @@ class MongoConfigurationSpec extends Specification {
         when:
         def coll=   mongoClient.getDatabase("foo").getCollection("bar")
 
-       coll.insertOne(new Document("foo", "bar"))
+        coll.insertOne(new Document("foo", "bar"))
 
         then:
         coll.find().first().get("foo") == "bar"
 
         cleanup:
         applicationContext?.stop()
+    }
+
+    @Issue("https://github.com/micronaut-projects/micronaut-core/issues/703")
+    void 'test id property is set automatically after inserting the document'() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
+        MongoClient mongoClient = applicationContext.getBean(MongoClient)
+
+        when:
+        User user = new User(name: 'John')
+
+        then:
+        user.id == null
+
+        when:
+        mongoClient.getDatabase('test').getCollection('user', User).insertOne(user)
+
+        then:
+        user.name == 'John'
+        user.id != null
+
+        cleanup:
+        applicationContext.stop()
+    }
+
+    static class User {
+        ObjectId id
+        String name
     }
 
     void "test build mongo client options"() {

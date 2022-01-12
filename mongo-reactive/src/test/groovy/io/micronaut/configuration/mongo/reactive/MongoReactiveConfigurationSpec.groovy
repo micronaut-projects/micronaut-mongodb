@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,10 +32,12 @@ import org.bson.BsonWriter
 import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
+import org.bson.types.ObjectId
 import org.testcontainers.containers.GenericContainer
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.AutoCleanup
+import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -73,6 +75,35 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         cleanup:
         applicationContext.stop()
+    }
+
+    @Issue("https://github.com/micronaut-projects/micronaut-core/issues/703")
+    void 'test id property is set automatically after inserting the document'() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
+        MongoClient mongoClient = applicationContext.getBean(MongoClient)
+
+        when:
+        User user = new User(name: 'John')
+        User updatedUser = Mono
+                .from(mongoClient.getDatabase('test').getCollection('user', User).insertOne(user))
+                .map { success -> user }
+                .block()
+
+        then:
+        updatedUser != null
+        updatedUser.name == 'John'
+        updatedUser.id != null
+
+        cleanup:
+        applicationContext.stop()
+    }
+
+    static class User {
+        ObjectId id
+        String name
     }
 
     @Unroll
