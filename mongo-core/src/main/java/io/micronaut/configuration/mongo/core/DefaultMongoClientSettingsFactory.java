@@ -22,6 +22,9 @@ import io.micronaut.context.annotation.Requires;
 
 import jakarta.inject.Singleton;
 
+/**
+ * Factory for MongoClientSettings.
+ */
 @Requires(beans = DefaultMongoConfiguration.class)
 @Factory
 public class DefaultMongoClientSettingsFactory {
