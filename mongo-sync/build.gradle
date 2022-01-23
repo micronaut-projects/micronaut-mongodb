@@ -9,7 +9,7 @@ dependencies {
     compileOnly 'io.micronaut.micrometer:micronaut-micrometer-core'
     compileOnly mn.micronaut.management
     testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation 'org.testcontainers:spock:1.16.2'
+    testImplementation 'org.testcontainers:spock:1.16.3'
     testImplementation mn.micronaut.function.web
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management

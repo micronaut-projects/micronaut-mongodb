@@ -17,7 +17,7 @@ dependencies {
     testImplementation mn.micronaut.function.web
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management
-    testImplementation "org.testcontainers:spock:1.16.2"
+    testImplementation "org.testcontainers:spock:1.16.3"
     testRuntimeOnly mn.netty.handler
 }
 
