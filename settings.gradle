@@ -9,14 +9,13 @@ plugins {
     id 'io.micronaut.build.shared.settings' version '5.1.2'
 }
 
-rootProject.name = 'mongodb'
+rootProject.name = 'micronaut-mongodb'
 
 include 'mongo-core'
 include 'mongo-sync'
 include 'mongo-reactive'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
-enableFeaturePreview 'VERSION_CATALOGS'
 
 dependencyResolutionManagement {
     repositories {
