@@ -3,13 +3,8 @@ plugins {
 }
 
 dependencies {
-    api "org.mongodb:mongodb-driver-core:$mongoVersion"
-    api mn.micronaut.runtime
-    compileOnly "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodleVersion"
-}
+    api libs.managed.mongo.core
+    api libs.micronaut.runtime
 
-micronautBuild {
-    resolutionStrategy {
-        force "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$flapdoodleVersion"
-    }
+    compileOnly libs.flapdoodle
 }

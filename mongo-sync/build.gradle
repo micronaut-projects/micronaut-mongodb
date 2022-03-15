@@ -3,19 +3,16 @@ plugins {
 }
 
 dependencies {
-    api "org.mongodb:mongodb-driver-sync:$mongoVersion"
-    api mn.micronaut.aop
+    api libs.managed.mongo.driver
+    api libs.micronaut.aop
     api projects.mongoCore
-    compileOnly 'io.micronaut.micrometer:micronaut-micrometer-core'
-    compileOnly mn.micronaut.management
-    testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation 'org.testcontainers:spock:1.16.3'
-    testImplementation mn.micronaut.function.web
-    testImplementation mn.micronaut.inject.groovy
-    testImplementation mn.micronaut.management
-    testImplementation projects.mongoReactive
-    testRuntimeOnly mn.netty.handler
-}
 
-//compileJava.options.forkOptions.jvmArgs =['-verbose']
-//compileJava.options.fork=true
+    compileOnly libs.micronaut.micrometer
+    compileOnly libs.micronaut.management
+
+    testImplementation libs.testcontainers.spock
+    testImplementation libs.micronaut.function.web
+    testImplementation libs.micronaut.inject.groovy
+    testImplementation libs.micronaut.management
+    testImplementation projects.mongoReactive
+}

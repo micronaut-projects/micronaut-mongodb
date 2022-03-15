@@ -3,23 +3,22 @@ plugins {
 }
 
 dependencies {
-    api mn.micronaut.aop
-    api mn.micronaut.runtime
+    api libs.micronaut.aop
+    api libs.micronaut.runtime
     api projects.mongoCore
-    api("org.mongodb:mongodb-driver-reactivestreams:$mongoReactiveVersion") {
+    api(libs.managed.mongo.reactive) {
         exclude group: 'org.mongodb', module: 'mongodb-driver-async'
     }
-    compileOnly 'io.micronaut.micrometer:micronaut-micrometer-core'
-    compileOnly mn.micronaut.inject.java
-    compileOnly mn.micronaut.management
-    implementation mn.reactor
-    testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation mn.micronaut.function.web
-    testImplementation mn.micronaut.inject.groovy
-    testImplementation mn.micronaut.management
-    testImplementation "org.testcontainers:spock:1.16.3"
-    testRuntimeOnly mn.netty.handler
+
+    compileOnly libs.micronaut.micrometer
+    compileOnly libs.micronaut.inject.java
+    compileOnly libs.micronaut.management
+
+    implementation libs.reactor
+
+    testImplementation libs.micronaut.function.web
+    testImplementation libs.micronaut.inject.groovy
+    testImplementation libs.micronaut.management
+    testImplementation libs.testcontainers.spock
 }
 
-//compileJava.options.forkOptions.jvmArgs =['-verbose']
-//compileJava.options.fork=true
