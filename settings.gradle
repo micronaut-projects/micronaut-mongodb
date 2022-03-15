@@ -11,19 +11,9 @@ plugins {
 
 rootProject.name = 'mongodb-parent'
 
+include 'mongo-bom'
 include 'mongo-core'
 include 'mongo-sync'
 include 'mongo-reactive'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
-
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-    versionCatalogs {
-        mn {
-            from "io.micronaut:micronaut-bom:${providers.gradleProperty('micronautVersion').get()}"
-        }
-    }
-}

@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-    annotationProcessor mn.micronaut.inject.java
-    api mn.micronaut.validation
+    annotationProcessor libs.micronaut.inject.java
+    api libs.micronaut.validation
 }
