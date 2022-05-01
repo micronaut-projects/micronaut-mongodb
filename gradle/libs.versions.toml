@@ -1,6 +1,6 @@
 [versions]
-managed-mongo = "4.3.4"
-managed-mongo-reactive = "4.3.4"
+managed-mongo = "4.6.0"
+managed-mongo-reactive = "4.6.0"
 flapdoodle = "2.2.0"
 
 [libraries]
