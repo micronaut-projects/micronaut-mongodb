@@ -1,1 +1,6 @@
 This project includes integration between Micronaut and MongoDB.
+
+Note that this project provides only low-level access to the MongoDB client drivers (both synchronous and reactive). If you are looking for a more complete experience including support for data access repositories see the documentation for https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo[Micronaut Data MongoDB] as well as these useful guides:
+
+* https://guides.micronaut.io/latest/micronaut-data-mongodb-synchronous.html[Learn how to access a MongoDB database with Micronaut Data and the MongoDB Sync driver.]
+* https://guides.micronaut.io/latest/micronaut-data-mongodb-asynchronous.html[Learn how to access a MongoDB database asynchronously with Micronaut Data.]
