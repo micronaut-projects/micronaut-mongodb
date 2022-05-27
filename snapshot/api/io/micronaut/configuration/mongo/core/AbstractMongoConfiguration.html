@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":6,"i7":10,"i8":10,"i9":10,"i10":6,"i11":6,"i12":6,"i13":6,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":6,"i6":6,"i7":10,"i8":10,"i9":10,"i10":10,"i11":6,"i12":6,"i13":6,"i14":6,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../../../io/micronaut/configuration/mongo/core/DefaultMongoClientSettingsFactory.html" title="class in io.micronaut.configuration.mongo.core"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" target="_top">Frames</a></li>
@@ -212,44 +212,56 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getConnectionString--">getConnectionString</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getPackageNames--">getPackageNames</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.ConnectionPoolSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getPoolSettings--">getPoolSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.ServerSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getServerSettings--">getServerSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.SocketSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getSocketSettings--">getSocketSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.SslSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getSslSettings--">getSslSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javaee/6/api/javax/validation/constraints/NotBlank.html?is-external=true" title="class or interface in javax.validation.constraints">@NotBlank</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getUri--">getUri</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#isAutomaticClassModels--">isAutomaticClassModels</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#packages-java.util.Collection-">packages</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;packageNames)</code>
 <div class="block">Additional codecs to register.</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setAutomaticClassModels-boolean-">setAutomaticClassModels</a></span>(boolean&nbsp;automaticClassModels)</code>
 <div class="block">Whether to allow automatic class models (defaults to true).</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setCodecRegistryBuilder-io.micronaut.configuration.mongo.core.CodecRegistryBuilder-">setCodecRegistryBuilder</a></span>(<a href="../../../../../io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core">CodecRegistryBuilder</a>&nbsp;codecRegistryBuilder)</code>&nbsp;</td>
+</tr>
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setPackageNames-java.util.Collection-">setPackageNames</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;packageNames)</code>
 <div class="block">The package names to allow for POJOs.</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setUri-java.lang.String-">setUri</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</code>
 <div class="block">Sets the MongoDB URI.</div>
@@ -411,6 +423,19 @@ public&nbsp;<a href="https://docs.oracle.com/javaee/6/api/javax/validation/const
 </dl>
 </li>
 </ul>
+<a name="getPackageNames--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPackageNames</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;getPackageNames()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The package names to allow for POJOs.</dd>
+</dl>
+</li>
+</ul>
 <a name="setAutomaticClassModels-boolean-">
 <!--   -->
 </a>
@@ -422,6 +447,19 @@ public&nbsp;<a href="https://docs.oracle.com/javaee/6/api/javax/validation/const
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>automaticClassModels</code> - True if automatic class models should be allowed</dd>
+</dl>
+</li>
+</ul>
+<a name="isAutomaticClassModels--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isAutomaticClassModels</h4>
+<pre>public&nbsp;boolean&nbsp;isAutomaticClassModels()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Whether to allow automatic class models (defaults to true).</dd>
 </dl>
 </li>
 </ul>
@@ -543,6 +581,19 @@ public&nbsp;<a href="https://docs.oracle.com/javaee/6/api/javax/validation/const
 </dl>
 </li>
 </ul>
+<a name="setCodecRegistryBuilder-io.micronaut.configuration.mongo.core.CodecRegistryBuilder-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCodecRegistryBuilder</h4>
+<pre>public&nbsp;void&nbsp;setCodecRegistryBuilder(<a href="../../../../../io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core">CodecRegistryBuilder</a>&nbsp;codecRegistryBuilder)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>codecRegistryBuilder</code> - The builder</dd>
+</dl>
+</li>
+</ul>
 <a name="getApplicationName--">
 <!--   -->
 </a>
@@ -585,7 +636,7 @@ public&nbsp;<a href="https://docs.oracle.com/javaee/6/api/javax/validation/const
 <div class="subNav">
 <ul class="navList">
 <li>Prev&nbsp;Class</li>
-<li><a href="../../../../../io/micronaut/configuration/mongo/core/DefaultMongoClientSettingsFactory.html" title="class in io.micronaut.configuration.mongo.core"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" target="_top">Frames</a></li>
