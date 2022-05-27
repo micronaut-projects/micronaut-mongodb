@@ -1,24 +1,27 @@
 plugins {
-    id 'io.micronaut.build.internal.mongodb-module'
+    id 'io.micronaut.build.internal.module'
 }
 
 dependencies {
-    api libs.micronaut.aop
-    api libs.micronaut.runtime
+    annotationProcessor mn.micronaut.inject.java
+
+    api mn.micronaut.aop
+    api mn.micronaut.runtime
     api projects.mongoCore
     api(libs.managed.mongo.reactive) {
         exclude group: 'org.mongodb', module: 'mongodb-driver-async'
     }
+    api mn.micronaut.validation
 
-    compileOnly libs.micronaut.micrometer
-    compileOnly libs.micronaut.inject.java
-    compileOnly libs.micronaut.management
+    compileOnly mn.micronaut.micrometer.core
+    compileOnly mn.micronaut.inject.java
+    compileOnly mn.micronaut.management
 
-    implementation libs.reactor
+    implementation mn.reactor
 
-    testImplementation libs.micronaut.function.web
-    testImplementation libs.micronaut.inject.groovy
-    testImplementation libs.micronaut.management
+    testImplementation mn.micronaut.function.web
+    testImplementation mn.micronaut.inject.groovy
+    testImplementation mn.micronaut.management
     testImplementation libs.testcontainers.spock
 }
 
