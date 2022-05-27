@@ -1,18 +1,21 @@
 plugins {
-    id 'io.micronaut.build.internal.mongodb-module'
+    id 'io.micronaut.build.internal.module'
 }
 
 dependencies {
-    api libs.managed.mongo.driver
-    api libs.micronaut.aop
-    api projects.mongoCore
+    annotationProcessor mn.micronaut.inject.java
 
-    compileOnly libs.micronaut.micrometer
-    compileOnly libs.micronaut.management
+    api libs.managed.mongo.driver
+    api mn.micronaut.aop
+    api projects.mongoCore
+    api mn.micronaut.validation
+
+    compileOnly mn.micronaut.micrometer.core
+    compileOnly mn.micronaut.management
 
     testImplementation libs.testcontainers.spock
-    testImplementation libs.micronaut.function.web
-    testImplementation libs.micronaut.inject.groovy
-    testImplementation libs.micronaut.management
+    testImplementation mn.micronaut.function.web
+    testImplementation mn.micronaut.inject.groovy
+    testImplementation mn.micronaut.management
     testImplementation projects.mongoReactive
 }

@@ -15,10 +15,6 @@
  */
 package io.micronaut.configuration.mongo.core;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.connection.ClusterSettings;
@@ -27,15 +23,16 @@ import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
 import io.micronaut.context.env.Environment;
-import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.runtime.ApplicationConfiguration;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Abstract Mongo configuration type.
@@ -52,6 +49,7 @@ public abstract class AbstractMongoConfiguration {
     private List<CodecRegistry> codecRegistries = Collections.emptyList();
     private Collection<String> packageNames;
     private boolean automaticClassModels = true;
+    private CodecRegistryBuilder codecRegistryBuilder;
 
     /**
      * Constructor.
@@ -147,11 +145,25 @@ public abstract class AbstractMongoConfiguration {
     }
 
     /**
+     * @return The package names to allow for POJOs.
+     */
+    public Collection<String> getPackageNames() {
+        return packageNames;
+    }
+
+    /**
      * Whether to allow automatic class models (defaults to true).
      * @param automaticClassModels True if automatic class models should be allowed
      */
     public void setAutomaticClassModels(boolean automaticClassModels) {
         this.automaticClassModels = automaticClassModels;
+    }
+
+    /**
+     * @return Whether to allow automatic class models (defaults to true).
+     */
+    public boolean isAutomaticClassModels() {
+        return automaticClassModels;
     }
 
     /**
@@ -211,32 +223,7 @@ public abstract class AbstractMongoConfiguration {
         clientSettings.applyToConnectionPoolSettings(builder -> builder.applySettings(poolSettings.build()));
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
-
-        List<CodecRegistry> codecRegistries = new ArrayList<>();
-        addDefaultCodecRegistry(codecRegistries);
-
-        if (this.codecRegistries != null) {
-            codecRegistries.addAll(this.codecRegistries);
-        }
-        if (codecList != null) {
-            codecRegistries.add(fromCodecs(codecList));
-        }
-
-        final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
-
-        if (CollectionUtils.isNotEmpty(packageNames)) {
-            builder.register(packageNames.toArray(new String[0]));
-        }
-
-        codecRegistries.add(
-                fromProviders(
-                        builder.automatic(automaticClassModels).build()
-                )
-        );
-
-        clientSettings.codecRegistry(
-            fromRegistries(codecRegistries)
-        );
+        clientSettings.codecRegistry(codecRegistryBuilder.build(this));
         return clientSettings.build();
     }
 
@@ -246,6 +233,13 @@ public abstract class AbstractMongoConfiguration {
      */
     protected void addDefaultCodecRegistry(List<CodecRegistry> codecRegistries) {
         codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
+    }
+
+    /**
+     * @param codecRegistryBuilder The builder
+     */
+    public void setCodecRegistryBuilder(CodecRegistryBuilder codecRegistryBuilder) {
+        this.codecRegistryBuilder = codecRegistryBuilder;
     }
 
     /**

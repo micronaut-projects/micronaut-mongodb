@@ -95,6 +95,12 @@ public class DefaultMongoConfiguration extends AbstractMongoConfiguration {
         super.codecRegistries(codecRegistries);
     }
 
+    @Inject
+    @Override
+    public void setCodecRegistryBuilder(CodecRegistryBuilder codecRegistryBuilder) {
+        super.setCodecRegistryBuilder(codecRegistryBuilder);
+    }
+
     /**
      * Sets the server MongoDB server address.
      *

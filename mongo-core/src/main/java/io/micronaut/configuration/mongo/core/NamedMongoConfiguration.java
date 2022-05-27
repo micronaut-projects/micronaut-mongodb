@@ -98,6 +98,12 @@ public class NamedMongoConfiguration extends AbstractMongoConfiguration {
         super.codecRegistries(codecRegistries);
     }
 
+    @Override
+    @Inject
+    public void setCodecRegistryBuilder(CodecRegistryBuilder codecRegistryBuilder) {
+        super.setCodecRegistryBuilder(codecRegistryBuilder);
+    }
+
     /**
      * @return The name of the server
      */

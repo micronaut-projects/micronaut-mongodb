@@ -1,4 +1,8 @@
 [versions]
+micronaut = "3.5.0"
+micronaut-docs = "2.0.0"
+groovy = "3.0.9"
+
 managed-mongo = "4.6.0"
 managed-mongo-reactive = "4.6.0"
 flapdoodle = "2.2.0"
@@ -7,15 +11,6 @@ flapdoodle = "2.2.0"
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
 managed-mongo-driver = { module = "org.mongodb:mongodb-driver-sync", version.ref = "managed-mongo" }
 managed-mongo-reactive = { module = "org.mongodb:mongodb-driver-reactivestreams", version.ref = "managed-mongo-reactive" }
-
-micronaut-aop = { module = 'io.micronaut:micronaut-aop' }
-micronaut-validation = { module = 'io.micronaut:micronaut-validation' }
-micronaut-management = { module = 'io.micronaut:micronaut-management' }
-micronaut-runtime = { module = 'io.micronaut:micronaut-runtime' }
-micronaut-inject-java = { module = 'io.micronaut:micronaut-inject-java' }
-micronaut-function-web = { module = 'io.micronaut:micronaut-function-web' }
-micronaut-inject-groovy = { module = 'io.micronaut:micronaut-inject-groovy' }
-micronaut-micrometer = { module = 'io.micronaut.micrometer:micronaut-micrometer-core'}
 
 testcontainers-spock = { module = "org.testcontainers:spock" }
 

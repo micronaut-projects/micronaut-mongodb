@@ -1,10 +1,13 @@
 plugins {
-    id 'io.micronaut.build.internal.mongodb-module'
+    id 'io.micronaut.build.internal.module'
 }
 
 dependencies {
+    annotationProcessor mn.micronaut.inject.java
+
     api libs.managed.mongo.core
-    api libs.micronaut.runtime
+    api mn.micronaut.runtime
+    api mn.micronaut.validation
 
     compileOnly libs.flapdoodle
 }
