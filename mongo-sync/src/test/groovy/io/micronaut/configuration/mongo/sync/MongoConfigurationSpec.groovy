@@ -18,6 +18,8 @@ package io.micronaut.configuration.mongo.sync
 import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.client.MongoClient
+import io.micronaut.configuration.mongo.LowercaseEnum
+import io.micronaut.configuration.mongo.LowercaseEnumCodec
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
@@ -113,5 +115,33 @@ class MongoConfigurationSpec extends Specification {
         cleanup:
         applicationContext?.close()
 
+    }
+
+    static class SomeEntity {
+        LowercaseEnum enumValue
+    }
+
+    void "test custom enum codec is used instead of default mongo enum codec"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+        )
+        applicationContext.registerSingleton(LowercaseEnumCodec.class, new LowercaseEnumCodec())
+        MongoClient mongoClient = applicationContext.getBean(MongoClient)
+
+        def typedCollection = mongoClient.getDatabase('test').getCollection('lowercase_enum', SomeEntity.class)
+        def documentCollection = mongoClient.getDatabase('test').getCollection('lowercase_enum')
+
+        when:
+        typedCollection.insertOne(new SomeEntity(
+                enumValue: LowercaseEnum.FOO
+        ))
+
+        def entityDocument = documentCollection.find()[0]
+        def entity = typedCollection.find()[0]
+
+        then:
+        entityDocument.getString('enumValue') == 'foo' // our codec encodes the enum values as lower case, the default MongoDB codec will encode as upper case
+        entity.enumValue == LowercaseEnum.FOO
     }
 }
