@@ -46,7 +46,6 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
     @Override
     public CodecRegistry build(AbstractMongoConfiguration configuration) {
         List<CodecRegistry> codecRegistries = new ArrayList<>();
-        codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
 
         List<CodecRegistry> configuredCodecRegistries = configuration.getCodecRegistries();
         if (configuredCodecRegistries != null) {
@@ -56,6 +55,8 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
         if (codecList != null) {
             codecRegistries.add(fromCodecs(codecList));
         }
+
+        codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
 
         final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
 
