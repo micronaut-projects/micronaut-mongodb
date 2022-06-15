@@ -50,6 +50,7 @@ public abstract class AbstractMongoConfiguration {
     private Collection<String> packageNames;
     private boolean automaticClassModels = true;
     private CodecRegistryBuilder codecRegistryBuilder;
+    private boolean useSerde;
 
     /**
      * Constructor.
@@ -248,5 +249,21 @@ public abstract class AbstractMongoConfiguration {
      */
     protected String getApplicationName() {
         return applicationConfiguration.getName().orElse(Environment.DEFAULT_NAME);
+    }
+
+    /**
+     * @return useSerde
+     */
+    public boolean isUseSerde() {
+        return useSerde;
+    }
+
+    /**
+     * Activates Micronaut Serialization instead of MongoDB POJO.
+     *
+     * @param useSerde true if to activate
+     */
+    public void setUseSerde(boolean useSerde) {
+        this.useSerde = useSerde;
     }
 }

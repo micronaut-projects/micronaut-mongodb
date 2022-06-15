@@ -23,4 +23,7 @@ include 'mongo-core'
 include 'mongo-sync'
 include 'mongo-reactive'
 
+include 'tests:mongo-serde'
+include 'tests:mongo-pojo'
+
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'

@@ -1,6 +1,8 @@
 [versions]
 micronaut = "3.5.0"
 micronaut-docs = "2.0.0"
+micronaut-gradle-plugin = "3.4.1"
+
 groovy = "3.0.9"
 
 managed-mongo = "4.6.0"
@@ -17,3 +19,7 @@ testcontainers-spock = { module = "org.testcontainers:spock" }
 reactor = { module = 'io.projectreactor:reactor-core' }
 
 flapdoodle = { module = 'de.flapdoodle.embed:de.flapdoodle.embed.mongo', version.ref = 'flapdoodle'}
+
+# PLUGINS
+
+gradle-micronaut = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }

@@ -16,10 +16,15 @@
 package io.micronaut.configuration.mongo.core;
 
 import com.mongodb.MongoClientSettings;
+import io.micronaut.configuration.mongo.core.serde.DataCodecRegistry;
+import io.micronaut.context.BeanProvider;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.serde.SerdeRegistry;
+import io.micronaut.serde.annotation.Serdeable;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -27,6 +32,8 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromCodecs;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -43,6 +50,14 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 @Internal
 public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
 
+    private final Environment environment;
+    private final BeanProvider<SerdeRegistry> serdeRegistry;
+
+    public DefaultCodecRegistryBuilder(Environment environment, BeanProvider<SerdeRegistry> serdeRegistry) {
+        this.environment = environment;
+        this.serdeRegistry = serdeRegistry;
+    }
+
     @Override
     public CodecRegistry build(AbstractMongoConfiguration configuration) {
         List<CodecRegistry> codecRegistries = new ArrayList<>();
@@ -58,18 +73,25 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
 
         codecRegistries.add(MongoClientSettings.getDefaultCodecRegistry());
 
-        final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
-
         Collection<String> packageNames = configuration.getPackageNames();
-        if (CollectionUtils.isNotEmpty(packageNames)) {
-            builder.register(packageNames.toArray(new String[0]));
-        }
-
-        codecRegistries.add(
+        if (configuration.isUseSerde()) {
+            Collection<Class<?>> entities = Stream.concat(
+                environment.scan(Serdeable.Serializable.class, packageNames.toArray(new String[0])),
+                environment.scan(Serdeable.Deserializable.class, packageNames.toArray(new String[0]))
+            ).collect(Collectors.toSet());
+            codecRegistries.add(new DataCodecRegistry(entities, serdeRegistry.find(null)
+                .orElseThrow(() -> new IllegalStateException("SerdeRegistry is not configured! Make sure you have added Micronaut Serialization BSON dependency."))));
+        } else {
+            final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
+            if (CollectionUtils.isNotEmpty(packageNames)) {
+                builder.register(packageNames.toArray(new String[0]));
+            }
+            codecRegistries.add(
                 fromProviders(
-                        builder.automatic(configuration.isAutomaticClassModels()).build()
+                    builder.automatic(configuration.isAutomaticClassModels()).build()
                 )
-        );
+            );
+        }
         return fromRegistries(codecRegistries);
     }
 }
