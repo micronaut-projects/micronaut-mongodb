@@ -12,7 +12,6 @@ application {
 }
 
 micronaut {
-    version micronautVersion
     testRuntime "junit5"
 }
 
