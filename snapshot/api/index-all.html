@@ -154,6 +154,14 @@
 </a>
 <h2 class="title">D</h2>
 <dl>
+<dt><a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html" title="class in io.micronaut.configuration.mongo.core.serde"><span class="typeNameLink">DataCodecRegistry</span></a> - Class in <a href="io/micronaut/configuration/mongo/core/serde/package-summary.html">io.micronaut.configuration.mongo.core.serde</a></dt>
+<dd>
+<div class="block">The Micronaut Serialization codec registry.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html#DataCodecRegistry-java.util.Collection-io.micronaut.serde.SerdeRegistry-">DataCodecRegistry(Collection&lt;Class&lt;?&gt;&gt;, SerdeRegistry)</a></span> - Constructor for class io.micronaut.configuration.mongo.core.serde.<a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html" title="class in io.micronaut.configuration.mongo.core.serde">DataCodecRegistry</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/MongoSettings.html#DEFAULT_URI">DEFAULT_URI</a></span> - Static variable in interface io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoSettings.html" title="interface in io.micronaut.configuration.mongo.core">MongoSettings</a></dt>
 <dd>
 <div class="block">The default URI.</div>
@@ -162,7 +170,7 @@
 <dd>
 <div class="block">Default builder.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html#DefaultCodecRegistryBuilder--">DefaultCodecRegistryBuilder()</a></span> - Constructor for class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html" title="class in io.micronaut.configuration.mongo.core">DefaultCodecRegistryBuilder</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html#DefaultCodecRegistryBuilder-io.micronaut.context.env.Environment-io.micronaut.context.BeanProvider-">DefaultCodecRegistryBuilder(Environment, BeanProvider&lt;SerdeRegistry&gt;)</a></span> - Constructor for class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html" title="class in io.micronaut.configuration.mongo.core">DefaultCodecRegistryBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/sync/DefaultMongoClientFactory.html" title="class in io.micronaut.configuration.mongo.sync"><span class="typeNameLink">DefaultMongoClientFactory</span></a> - Class in <a href="io/micronaut/configuration/mongo/sync/package-summary.html">io.micronaut.configuration.mongo.sync</a></dt>
 <dd>
@@ -210,6 +218,10 @@
 </a>
 <h2 class="title">G</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html#get-java.lang.Class-">get(Class&lt;T&gt;)</a></span> - Method in class io.micronaut.configuration.mongo.core.serde.<a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html" title="class in io.micronaut.configuration.mongo.core.serde">DataCodecRegistry</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html#get-java.lang.Class-org.bson.codecs.configuration.CodecRegistry-">get(Class&lt;T&gt;, CodecRegistry)</a></span> - Method in class io.micronaut.configuration.mongo.core.serde.<a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html" title="class in io.micronaut.configuration.mongo.core.serde">DataCodecRegistry</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getApplicationName--">getApplicationName()</a></span> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
 <dd>
 <div class="block">Return the appplication name or a default name.</div>
@@ -282,6 +294,8 @@
 <dd>
 <div class="block">MongoDB converters.</div>
 </dd>
+<dt><a href="io/micronaut/configuration/mongo/core/serde/package-summary.html">io.micronaut.configuration.mongo.core.serde</a> - package io.micronaut.configuration.mongo.core.serde</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/test/package-summary.html">io.micronaut.configuration.mongo.core.test</a> - package io.micronaut.configuration.mongo.core.test</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/reactive/package-summary.html">io.micronaut.configuration.mongo.reactive</a> - package io.micronaut.configuration.mongo.reactive</dt>
@@ -299,6 +313,8 @@
 <dt><a href="io/micronaut/configuration/mongo/sync/package-summary.html">io.micronaut.configuration.mongo.sync</a> - package io.micronaut.configuration.mongo.sync</dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#isAutomaticClassModels--">isAutomaticClassModels()</a></span> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#isUseSerde--">isUseSerde()</a></span> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:M">
@@ -439,6 +455,10 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setUri-java.lang.String-">setUri(String)</a></span> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
 <dd>
 <div class="block">Sets the MongoDB URI.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setUseSerde-boolean-">setUseSerde(boolean)</a></span> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
+<dd>
+<div class="block">Activates Micronaut Serialization instead of MongoDB POJO.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html#socketSettings">socketSettings</a></span> - Variable in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">DefaultMongoConfiguration</a></dt>
 <dd>&nbsp;</dd>
