@@ -1,0 +1,25 @@
+plugins {
+    id "java"
+    id "io.micronaut.application"
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = "example.Application"
+}
+
+micronaut {
+    version micronautVersion
+    runtime "netty"
+    testRuntime "junit5"
+}
+
+dependencies {
+    implementation projects.mongoSync
+
+    runtimeOnly "ch.qos.logback:logback-classic"
+    testImplementation "org.testcontainers:mongodb"
+}
