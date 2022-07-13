@@ -20,7 +20,9 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanRegistration;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.health.HealthStatus;
+import io.micronaut.management.endpoint.health.HealthEndpoint;
 import io.micronaut.management.health.aggregator.HealthAggregator;
 import io.micronaut.management.health.indicator.HealthIndicator;
 import io.micronaut.management.health.indicator.HealthResult;
@@ -35,6 +37,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator.HEALTH_INDICATOR_NAME;
+
 /**
  * A {@link HealthIndicator} for MongoDB.
  *
@@ -43,8 +47,10 @@ import java.util.stream.Collectors;
  */
 @Singleton
 @Requires(beans = MongoClient.class)
+@Requires(beans = HealthEndpoint.class)
+@Requires(property = HealthEndpoint.PREFIX + "." + HEALTH_INDICATOR_NAME + ".enabled", notEquals = StringUtils.FALSE)
 public class MongoHealthIndicator implements HealthIndicator {
-    private static final String HEALTH_INDICATOR_NAME = "mongodb";
+    public static final String HEALTH_INDICATOR_NAME = "mongodb";
 
     private final BeanContext beanContext;
     private final HealthAggregator<?> healthAggregator;

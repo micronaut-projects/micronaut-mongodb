@@ -18,6 +18,8 @@ package io.micronaut.configuration.mongo.reactive
 import com.mongodb.reactivestreams.client.MongoClient
 import io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.PropertySource
+import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.management.health.indicator.HealthResult
 import org.testcontainers.containers.GenericContainer
@@ -32,6 +34,22 @@ import static io.micronaut.health.HealthStatus.UP
 import static java.time.temporal.ChronoUnit.SECONDS
 
 class MongoHealthIndicatorSpec extends Specification {
+
+    void "test mongo health indicator disabled"() {
+        when:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                PropertySource.mapOf(
+                        MONGODB_URI, "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
+                        "endpoints.health.mongodb.enabled", false)
+        )
+        applicationContext.getBean(MongoHealthIndicator)
+
+        then:
+        thrown(NoSuchBeanException)
+
+        cleanup:
+        applicationContext.close()
+    }
 
     void "test mongo health indicator DOWN"() {
         when:
