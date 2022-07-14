@@ -112,7 +112,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>@Singleton
- @Requires(beans=com.mongodb.reactivestreams.client.MongoClient.class)
+ @Requires(beans=com.mongodb.reactivestreams.client.MongoClient.class) @Requires(beans=io.micronaut.management.endpoint.health.HealthEndpoint.class) @Requires(property="endpoints.health.mongodb.enabled",notEquals="false")
 public class <span class="typeNameLabel">MongoHealthIndicator</span>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements io.micronaut.management.health.indicator.HealthIndicator</pre>
