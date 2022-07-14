@@ -50,7 +50,7 @@ import static io.micronaut.configuration.mongo.reactive.health.MongoHealthIndica
 @Requires(beans = HealthEndpoint.class)
 @Requires(property = HealthEndpoint.PREFIX + "." + HEALTH_INDICATOR_NAME + ".enabled", notEquals = StringUtils.FALSE)
 public class MongoHealthIndicator implements HealthIndicator {
-    public static final String HEALTH_INDICATOR_NAME = "mongodb";
+    static final String HEALTH_INDICATOR_NAME = "mongodb";
 
     private final BeanContext beanContext;
     private final HealthAggregator<?> healthAggregator;
