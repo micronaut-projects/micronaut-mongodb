@@ -20,6 +20,10 @@ import com.mongodb.ReadConcern
 import com.mongodb.ReadPreference
 import com.mongodb.WriteConcern
 import com.mongodb.client.result.InsertOneResult
+import com.mongodb.event.CommandFailedEvent
+import com.mongodb.event.CommandListener
+import com.mongodb.event.CommandStartedEvent
+import com.mongodb.event.CommandSucceededEvent
 import com.mongodb.reactivestreams.client.MongoClient
 import groovy.test.NotYetImplemented
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
@@ -27,6 +31,7 @@ import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.micronaut.context.ApplicationContext
 import io.micronaut.inject.qualifiers.Qualifiers
+import jakarta.inject.Singleton
 import org.bson.BsonReader
 import org.bson.BsonWriter
 import org.bson.codecs.Codec
@@ -41,8 +46,6 @@ import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import jakarta.inject.Singleton
 
 class MongoReactiveConfigurationSpec extends Specification {
 
@@ -143,6 +146,23 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         expect:
         configuration.codecs.size() == 1
+
+        cleanup:
+        context.stop()
+
+    }
+
+    void "test configure pick up custom command listeners"() {
+        given:
+        ApplicationContext context = ApplicationContext.run(
+                (MongoSettings.EMBEDDED): false,
+                "mongodb.url": "mongodb://localhost"
+        )
+
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+
+        expect:
+        configuration.commandListeners.size() == 1
 
         cleanup:
         context.stop()
@@ -274,6 +294,22 @@ class MongoReactiveConfigurationSpec extends Specification {
         @Override
         Class<Fluff> getEncoderClass() {
             Fluff
+        }
+    }
+
+    @Singleton
+    static class FluffCommandListener implements CommandListener {
+
+        @Override
+        void commandStarted(CommandStartedEvent event) {
+        }
+
+        @Override
+        void commandSucceeded(CommandSucceededEvent event) {
+        }
+
+        @Override
+        void commandFailed(CommandFailedEvent event) {
         }
     }
 }

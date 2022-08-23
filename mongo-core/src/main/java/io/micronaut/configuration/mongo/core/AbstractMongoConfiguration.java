@@ -22,6 +22,7 @@ import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
+import com.mongodb.event.CommandListener;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.runtime.ApplicationConfiguration;
@@ -47,6 +48,7 @@ public abstract class AbstractMongoConfiguration {
     private final ApplicationConfiguration applicationConfiguration;
     private List<Codec<?>> codecList = Collections.emptyList();
     private List<CodecRegistry> codecRegistries = Collections.emptyList();
+    private List<CommandListener> commandListeners = Collections.emptyList();
     private Collection<String> packageNames;
     private boolean automaticClassModels = true;
     private CodecRegistryBuilder codecRegistryBuilder;
@@ -83,6 +85,17 @@ public abstract class AbstractMongoConfiguration {
     }
 
     /**
+     * Additional command listeners to register.
+     *
+     * @param commandListeners The list of command listeners
+     */
+    public void commandListeners(List<CommandListener> commandListeners) {
+        if (commandListeners != null) {
+            this.commandListeners = commandListeners;
+        }
+    }
+
+    /**
      * Additional codecs to register.
      *
      * @param packageNames The package names
@@ -107,6 +120,14 @@ public abstract class AbstractMongoConfiguration {
      */
     public List<CodecRegistry> getCodecRegistries() {
         return codecRegistries;
+    }
+
+    /**
+     * The configured command listeners.
+     * @return The command listeners
+     */
+    public List<CommandListener> getCommandListeners() {
+        return commandListeners;
     }
 
     /**
@@ -225,6 +246,7 @@ public abstract class AbstractMongoConfiguration {
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
         clientSettings.codecRegistry(codecRegistryBuilder.build(this));
+        clientSettings.commandListenerList(commandListeners);
         return clientSettings.build();
     }
 
