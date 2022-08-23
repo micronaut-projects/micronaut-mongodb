@@ -14,6 +14,13 @@ plugins {
 
 rootProject.name = 'mongodb-parent'
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    }
+}
+
 micronautBuild {
     importMicronautCatalog()
 }
