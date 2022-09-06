@@ -2,9 +2,3 @@ plugins {
     id 'io.micronaut.build.internal.mongodb-base'
     id 'io.micronaut.build.internal.module'
 }
-
-dependencies {
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-    annotationProcessor libs.micronaut.inject.java
-    api libs.micronaut.validation
-}
