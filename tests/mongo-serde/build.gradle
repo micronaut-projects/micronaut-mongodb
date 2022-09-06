@@ -1,11 +1,7 @@
 plugins {
     id "java"
     id "io.micronaut.application"
-}
-
-repositories {
-    mavenCentral()
-    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    id 'io.micronaut.build.internal.mongodb-tests'
 }
 
 application {
