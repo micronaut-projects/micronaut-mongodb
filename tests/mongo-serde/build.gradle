@@ -1,18 +1,5 @@
 plugins {
-    id "java"
-    id "io.micronaut.application"
-}
-
-repositories {
-    mavenCentral()
-}
-
-application {
-    mainClass = "example.Application"
-}
-
-micronaut {
-    testRuntime "junit5"
+    id "io.micronaut.build.internal.mongodb-functional-test"
 }
 
 dependencies {
@@ -22,5 +9,4 @@ dependencies {
     implementation "io.micronaut.serde:micronaut-serde-bson"
 
     runtimeOnly "ch.qos.logback:logback-classic"
-    testImplementation "org.testcontainers:mongodb"
 }
