@@ -1,0 +1,21 @@
+plugins {
+    id "java"
+    id "io.micronaut.application"
+    id "io.micronaut.test-resources"
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = "example.Application"
+}
+
+micronaut {
+    version = libs.versions.micronaut.asProvider().get()
+    testRuntime "junit5"
+    testResources {
+        additionalModules.add(MONGODB)
+    }
+}
