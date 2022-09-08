@@ -1,10 +1,7 @@
 plugins {
     id "java"
     id "io.micronaut.application"
-}
-
-repositories {
-    mavenCentral()
+    id 'io.micronaut.build.internal.mongodb-tests'
 }
 
 application {
