@@ -21,15 +21,16 @@ import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
+import com.mongodb.event.CommandListener;
 import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.env.Environment;
 import io.micronaut.runtime.ApplicationConfiguration;
+import jakarta.inject.Inject;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
-import jakarta.inject.Inject;
 import java.util.List;
 
 /**
@@ -102,6 +103,12 @@ public class NamedMongoConfiguration extends AbstractMongoConfiguration {
     @Inject
     public void setCodecRegistryBuilder(CodecRegistryBuilder codecRegistryBuilder) {
         super.setCodecRegistryBuilder(codecRegistryBuilder);
+    }
+
+    @Override
+    @Inject
+    public void commandListeners(List<CommandListener> commandListeners) {
+        super.commandListeners(commandListeners);
     }
 
     /**
