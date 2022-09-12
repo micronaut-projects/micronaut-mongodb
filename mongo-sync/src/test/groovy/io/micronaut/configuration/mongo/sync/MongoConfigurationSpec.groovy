@@ -18,12 +18,17 @@ package io.micronaut.configuration.mongo.sync
 import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.client.MongoClient
+import com.mongodb.event.CommandFailedEvent
+import com.mongodb.event.CommandListener
+import com.mongodb.event.CommandStartedEvent
+import com.mongodb.event.CommandSucceededEvent
 import io.micronaut.configuration.mongo.LowercaseEnum
 import io.micronaut.configuration.mongo.LowercaseEnumCodec
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.core.io.socket.SocketUtils
+import jakarta.inject.Singleton
 import org.bson.Document
 import org.bson.types.ObjectId
 import org.testcontainers.containers.GenericContainer
@@ -143,5 +148,38 @@ class MongoConfigurationSpec extends Specification {
         then:
         entityDocument.getString('enumValue') == 'foo' // our codec encodes the enum values as lower case, the default MongoDB codec will encode as upper case
         entity.enumValue == LowercaseEnum.FOO
+    }
+
+    void "test configure pick up custom command listeners"() {
+        given:
+        ApplicationContext context = ApplicationContext.run(
+                (MongoSettings.EMBEDDED): false,
+                "mongodb.url": "mongodb://localhost"
+        )
+
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+
+        expect:
+        configuration.commandListeners.size() == 1
+
+        cleanup:
+        context.stop()
+
+    }
+
+    @Singleton
+    static class FluffCommandListener implements CommandListener {
+
+        @Override
+        void commandStarted(CommandStartedEvent event) {
+        }
+
+        @Override
+        void commandSucceeded(CommandSucceededEvent event) {
+        }
+
+        @Override
+        void commandFailed(CommandFailedEvent event) {
+        }
     }
 }
