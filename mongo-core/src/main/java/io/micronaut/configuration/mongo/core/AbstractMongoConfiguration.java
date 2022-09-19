@@ -23,6 +23,7 @@ import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
 import com.mongodb.event.CommandListener;
+import com.mongodb.event.ConnectionPoolListener;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.runtime.ApplicationConfiguration;
@@ -49,6 +50,7 @@ public abstract class AbstractMongoConfiguration {
     private List<Codec<?>> codecList = Collections.emptyList();
     private List<CodecRegistry> codecRegistries = Collections.emptyList();
     private List<CommandListener> commandListeners = Collections.emptyList();
+    private List<ConnectionPoolListener> connectionPoolListeners = Collections.emptyList();
     private Collection<String> packageNames;
     private boolean automaticClassModels = true;
     private CodecRegistryBuilder codecRegistryBuilder;
@@ -96,6 +98,17 @@ public abstract class AbstractMongoConfiguration {
     }
 
     /**
+     * Additional command listeners to register.
+     *
+     * @param connectionPoolListeners The list of command listeners
+     */
+    public void connectionPoolListeners(List<ConnectionPoolListener> connectionPoolListeners) {
+        if (connectionPoolListeners != null) {
+            this.connectionPoolListeners = connectionPoolListeners;
+        }
+    }
+
+    /**
      * Additional codecs to register.
      *
      * @param packageNames The package names
@@ -128,6 +141,14 @@ public abstract class AbstractMongoConfiguration {
      */
     public List<CommandListener> getCommandListeners() {
         return commandListeners;
+    }
+
+    /**
+     * The configured connection pool listeners.
+     * @return The connection pool listeners
+     */
+    public List<ConnectionPoolListener> getConnectionPoolListeners() {
+        return connectionPoolListeners;
     }
 
     /**
@@ -242,7 +263,10 @@ public abstract class AbstractMongoConfiguration {
         clientSettings.applicationName(getApplicationName());
         clientSettings.applyToClusterSettings(builder -> builder.applySettings(clusterSettings.build()));
         clientSettings.applyToServerSettings(builder -> builder.applySettings(serverSettings.build()));
-        clientSettings.applyToConnectionPoolSettings(builder -> builder.applySettings(poolSettings.build()));
+        clientSettings.applyToConnectionPoolSettings(builder -> {
+            connectionPoolListeners.forEach(builder::addConnectionPoolListener);
+            builder.applySettings(poolSettings.build());
+        });
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
         clientSettings.codecRegistry(codecRegistryBuilder.build(this));

@@ -22,6 +22,7 @@ import com.mongodb.event.CommandFailedEvent
 import com.mongodb.event.CommandListener
 import com.mongodb.event.CommandStartedEvent
 import com.mongodb.event.CommandSucceededEvent
+import com.mongodb.event.ConnectionPoolListener
 import io.micronaut.configuration.mongo.LowercaseEnum
 import io.micronaut.configuration.mongo.LowercaseEnumCodec
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
@@ -167,6 +168,22 @@ class MongoConfigurationSpec extends Specification {
 
     }
 
+    void "test configure pick up custom connection pool listeners"() {
+        given:
+        ApplicationContext context = ApplicationContext.run(
+                (MongoSettings.EMBEDDED): false,
+                "mongodb.url": "mongodb://localhost"
+        )
+
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+
+        expect:
+        configuration.connectionPoolListeners.size() == 1
+
+        cleanup:
+        context.stop()
+    }
+
     @Singleton
     static class FluffCommandListener implements CommandListener {
 
@@ -181,5 +198,9 @@ class MongoConfigurationSpec extends Specification {
         @Override
         void commandFailed(CommandFailedEvent event) {
         }
+    }
+
+    @Singleton
+    static class FluffConnectionPoolListener implements ConnectionPoolListener {
     }
 }
