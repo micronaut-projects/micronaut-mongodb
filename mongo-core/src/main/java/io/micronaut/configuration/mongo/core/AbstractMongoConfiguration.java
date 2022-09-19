@@ -264,8 +264,8 @@ public abstract class AbstractMongoConfiguration {
         clientSettings.applyToClusterSettings(builder -> builder.applySettings(clusterSettings.build()));
         clientSettings.applyToServerSettings(builder -> builder.applySettings(serverSettings.build()));
         clientSettings.applyToConnectionPoolSettings(builder -> {
-            connectionPoolListeners.forEach(builder::addConnectionPoolListener);
             builder.applySettings(poolSettings.build());
+            connectionPoolListeners.forEach(builder::addConnectionPoolListener);
         });
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
