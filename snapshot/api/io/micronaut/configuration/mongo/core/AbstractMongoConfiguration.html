@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":6,"i7":6,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":6,"i14":6,"i15":6,"i16":6,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":6,"i8":6,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":6,"i16":6,"i17":6,"i18":6,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -188,102 +188,114 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#connectionPoolListeners-java.util.List-">connectionPoolListeners</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.mongodb.event.ConnectionPoolListener&gt;&nbsp;connectionPoolListeners)</code>
+<div class="block">Additional command listeners to register.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>protected <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getApplicationName--">getApplicationName</a></span>()</code>
 <div class="block">Return the appplication name or a default name.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>abstract com.mongodb.MongoClientSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getClientSettings--">getClientSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.ClusterSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getClusterSettings--">getClusterSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;org.bson.codecs.configuration.CodecRegistry&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getCodecRegistries--">getCodecRegistries</a></span>()</code>
 <div class="block">The configured codec registries.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;org.bson.codecs.Codec&lt;?&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getCodecs--">getCodecs</a></span>()</code>
 <div class="block">The configured codecs.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.mongodb.event.CommandListener&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getCommandListeners--">getCommandListeners</a></span>()</code>
 <div class="block">The configured command listeners.</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.mongodb.event.ConnectionPoolListener&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getConnectionPoolListeners--">getConnectionPoolListeners</a></span>()</code>
+<div class="block">The configured connection pool listeners.</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html?is-external=true" title="class or interface in java.util">Optional</a>&lt;com.mongodb.ConnectionString&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getConnectionString--">getConnectionString</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getPackageNames--">getPackageNames</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.ConnectionPoolSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getPoolSettings--">getPoolSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.ServerSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getServerSettings--">getServerSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.SocketSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getSocketSettings--">getSocketSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>abstract com.mongodb.connection.SslSettings.Builder</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getSslSettings--">getSslSettings</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javaee/6/api/javax/validation/constraints/NotBlank.html?is-external=true" title="class or interface in javax.validation.constraints">@NotBlank</a> <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#getUri--">getUri</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#isAutomaticClassModels--">isAutomaticClassModels</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#isUseSerde--">isUseSerde</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#packages-java.util.Collection-">packages</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;packageNames)</code>
 <div class="block">Additional codecs to register.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setAutomaticClassModels-boolean-">setAutomaticClassModels</a></span>(boolean&nbsp;automaticClassModels)</code>
 <div class="block">Whether to allow automatic class models (defaults to true).</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setCodecRegistryBuilder-io.micronaut.configuration.mongo.core.CodecRegistryBuilder-">setCodecRegistryBuilder</a></span>(<a href="../../../../../io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core">CodecRegistryBuilder</a>&nbsp;codecRegistryBuilder)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setPackageNames-java.util.Collection-">setPackageNames</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html?is-external=true" title="class or interface in java.util">Collection</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;packageNames)</code>
 <div class="block">The package names to allow for POJOs.</div>
 </td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setUri-java.lang.String-">setUri</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;uri)</code>
 <div class="block">Sets the MongoDB URI.</div>
 </td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#setUseSerde-boolean-">setUseSerde</a></span>(boolean&nbsp;useSerde)</code>
 <div class="block">Activates Micronaut Serialization instead of MongoDB POJO.</div>
@@ -375,6 +387,20 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </dl>
 </li>
 </ul>
+<a name="connectionPoolListeners-java.util.List-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>connectionPoolListeners</h4>
+<pre>public&nbsp;void&nbsp;connectionPoolListeners(<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.mongodb.event.ConnectionPoolListener&gt;&nbsp;connectionPoolListeners)</pre>
+<div class="block">Additional command listeners to register.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>connectionPoolListeners</code> - The list of command listeners</dd>
+</dl>
+</li>
+</ul>
 <a name="packages-java.util.Collection-">
 <!--   -->
 </a>
@@ -428,6 +454,20 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The command listeners</dd>
+</dl>
+</li>
+</ul>
+<a name="getConnectionPoolListeners--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConnectionPoolListeners</h4>
+<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;com.mongodb.event.ConnectionPoolListener&gt;&nbsp;getConnectionPoolListeners()</pre>
+<div class="block">The configured connection pool listeners.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The connection pool listeners</dd>
 </dl>
 </li>
 </ul>
