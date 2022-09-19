@@ -22,6 +22,7 @@ import com.mongodb.connection.ServerSettings;
 import com.mongodb.connection.SocketSettings;
 import com.mongodb.connection.SslSettings;
 import com.mongodb.event.CommandListener;
+import com.mongodb.event.ConnectionPoolListener;
 import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
@@ -109,6 +110,12 @@ public class NamedMongoConfiguration extends AbstractMongoConfiguration {
     @Inject
     public void commandListeners(List<CommandListener> commandListeners) {
         super.commandListeners(commandListeners);
+    }
+
+    @Override
+    @Inject
+    public void connectionPoolListeners(List<ConnectionPoolListener> connectionPoolListeners) {
+        super.connectionPoolListeners(connectionPoolListeners);
     }
 
     /**

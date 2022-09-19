@@ -24,6 +24,7 @@ import com.mongodb.event.CommandFailedEvent
 import com.mongodb.event.CommandListener
 import com.mongodb.event.CommandStartedEvent
 import com.mongodb.event.CommandSucceededEvent
+import com.mongodb.event.ConnectionPoolListener
 import com.mongodb.reactivestreams.client.MongoClient
 import groovy.test.NotYetImplemented
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
@@ -167,7 +168,22 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         cleanup:
         context.stop()
+    }
 
+    void "test configure pick up custom connection pool listeners"() {
+        given:
+        ApplicationContext context = ApplicationContext.run(
+                (MongoSettings.EMBEDDED): false,
+                "mongodb.url": "mongodb://localhost"
+        )
+
+        DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+
+        expect:
+        configuration.connectionPoolListeners.size() == 1
+
+        cleanup:
+        context.stop()
     }
 
     @Unroll
@@ -313,5 +329,9 @@ class MongoReactiveConfigurationSpec extends Specification {
         @Override
         void commandFailed(CommandFailedEvent event) {
         }
+    }
+
+    @Singleton
+    static class FluffConnectionPoolListener implements ConnectionPoolListener {
     }
 }
