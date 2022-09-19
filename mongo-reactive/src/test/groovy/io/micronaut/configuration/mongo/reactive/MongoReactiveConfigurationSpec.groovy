@@ -177,9 +177,11 @@ class MongoReactiveConfigurationSpec extends Specification {
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+        MongoClientSettings settings = context.getBean(MongoClientSettings)
 
         expect:
         configuration.connectionPoolListeners.size() == 1
+        settings.connectionPoolSettings.connectionPoolListeners.size() == 1
 
         cleanup:
         context.stop()
