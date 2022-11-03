@@ -57,7 +57,7 @@ class MongoReactiveConfigurationSpec extends Specification {
     void "test connection with connection string"() {
         when:
         ApplicationContext applicationContext = ApplicationContext.run(
-                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
         )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
@@ -81,7 +81,7 @@ class MongoReactiveConfigurationSpec extends Specification {
     void 'test id property is set automatically after inserting the document'() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
-                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
         )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
@@ -110,7 +110,8 @@ class MongoReactiveConfigurationSpec extends Specification {
     void "test configure #property client setting"() {
         given:
         ApplicationContext context = ApplicationContext.run(
-                ("${MongoSettings.PREFIX}.${property}".toString()): value
+                ("${MongoSettings.PREFIX}.${property}".toString()): value,
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
@@ -136,7 +137,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url": "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
@@ -209,6 +210,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
                 ("${MongoSettings.PREFIX}.cluster.${property}".toString()): value,
+                (MongoSettings.MONGODB_URI): "mongodb://localhost:${mongo.exposedPorts[0]}"
 
         )
 

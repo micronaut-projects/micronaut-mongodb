@@ -1,9 +1,9 @@
 [versions]
 micronaut = "4.0.0-SNAPSHOT"
 micronaut-docs = "2.0.0"
-micronaut-gradle-plugin = "3.5.1"
+micronaut-gradle-plugin = "3.6.1"
 
-groovy = "3.0.12"
+groovy = "4.0.6"
 
 managed-mongo = "4.7.1"
 managed-mongo-reactive = "4.7.1"
