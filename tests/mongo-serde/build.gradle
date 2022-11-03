@@ -1,23 +1,11 @@
 plugins {
-    id "java"
-    id "io.micronaut.application"
     id 'io.micronaut.build.internal.mongodb-tests'
     id "io.micronaut.build.internal.mongodb-functional-test"
 }
 
-application {
-    mainClass = "example.Application"
-}
-
-micronaut {
-    testRuntime "junit5"
-}
-
 dependencies {
     annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
-
     implementation projects.mongoSync
     implementation "io.micronaut.serde:micronaut-serde-bson"
-
     runtimeOnly "ch.qos.logback:logback-classic"
 }
