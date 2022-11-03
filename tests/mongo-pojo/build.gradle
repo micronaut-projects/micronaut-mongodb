@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "io.micronaut.application"
     id 'io.micronaut.build.internal.mongodb-tests'
+    id "io.micronaut.build.internal.mongodb-functional-test"
 }
 
 application {
@@ -16,5 +17,4 @@ dependencies {
     implementation projects.mongoSync
 
     runtimeOnly "ch.qos.logback:logback-classic"
-    testImplementation "org.testcontainers:mongodb"
 }

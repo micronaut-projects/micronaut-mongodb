@@ -1,0 +1,6 @@
+mongodb:
+  use-serde: true
+test-resources:
+  containers:
+    mongodb:
+      image-name: mongo:5

@@ -1,0 +1,4 @@
+test-resources:
+  containers:
+    mongodb:
+      image-name: mongo:5
