@@ -5,7 +5,9 @@ plugins {
 
 dependencies {
     annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
+
     implementation projects.mongoSync
     implementation "io.micronaut.serde:micronaut-serde-bson"
+
     runtimeOnly "ch.qos.logback:logback-classic"
 }
