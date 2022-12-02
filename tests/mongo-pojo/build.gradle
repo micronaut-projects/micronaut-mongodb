@@ -6,5 +6,6 @@ plugins {
 dependencies {
     implementation projects.mongoSync
 
-    runtimeOnly "ch.qos.logback:logback-classic"
+    runtimeOnly mn.logback.classic
+    runtimeOnly mn.snakeyaml
 }

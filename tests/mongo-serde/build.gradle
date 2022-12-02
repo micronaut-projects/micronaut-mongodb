@@ -4,10 +4,11 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
+    annotationProcessor mnSerde.micronaut.serde.processor
 
     implementation projects.mongoSync
-    implementation "io.micronaut.serde:micronaut-serde-bson"
+    implementation mnSerde.micronaut.serde.bson
 
-    runtimeOnly "ch.qos.logback:logback-classic"
+    runtimeOnly mn.logback.classic
+    runtimeOnly mn.snakeyaml
 }

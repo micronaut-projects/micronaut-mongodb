@@ -10,10 +10,11 @@ dependencies {
     api projects.mongoCore
     api mn.micronaut.validation
 
-    compileOnly mn.micronaut.micrometer.core
+    compileOnly mnMicrometer.micronaut.micrometer.core
     compileOnly mn.micronaut.management
 
-    testImplementation libs.testcontainers.spock
+    testImplementation(mnTest.micronaut.test.spock)
+    testImplementation libs.testcontainers
     testImplementation mn.micronaut.function.web
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management

@@ -158,7 +158,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url": "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
@@ -174,7 +174,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url": "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)

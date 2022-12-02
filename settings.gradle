@@ -6,22 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '6.0.1'
+    id 'io.micronaut.build.shared.settings' version '6.1.1'
 }
 
 rootProject.name = 'mongodb-parent'
-
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-    }
-}
-
-micronautBuild {
-    importMicronautCatalog()
-}
-
 include 'mongo-bom'
 include 'mongo-core'
 include 'mongo-sync'
@@ -31,3 +19,10 @@ include 'tests:mongo-serde'
 include 'tests:mongo-pojo'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
+micronautBuild {
+    addSnapshotRepository()
+    importMicronautCatalog()
+    importMicronautCatalog("micronaut-micrometer")
+    importMicronautCatalog("micronaut-serde")
+}
+
