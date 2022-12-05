@@ -1,16 +1,17 @@
 plugins {
-    id 'io.micronaut.build.internal.module'
+    id 'io.micronaut.build.internal.mongodb-module'
 }
 
 dependencies {
     annotationProcessor mn.micronaut.inject.java
 
+    compileOnly libs.flapdoodle
+    compileOnly mnSerde.micronaut.serde.bson
+    compileOnly mnSerde.micronaut.serde.support
+
     api libs.managed.mongo.core
     api mn.micronaut.runtime
     api mn.micronaut.validation
-    api mn.micronaut.serde.api
-    compileOnly mn.micronaut.serde.bson
-    compileOnly mn.micronaut.serde.support
+    api mnSerde.micronaut.serde.api
 
-    compileOnly libs.flapdoodle
 }

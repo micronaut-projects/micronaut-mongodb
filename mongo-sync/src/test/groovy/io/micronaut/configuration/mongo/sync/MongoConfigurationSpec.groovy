@@ -56,7 +56,7 @@ class MongoConfigurationSpec extends Specification {
     void "test a basic blocking driver connection"() {
         when:
         ApplicationContext applicationContext = ApplicationContext.run(
-                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
         )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
@@ -79,7 +79,7 @@ class MongoConfigurationSpec extends Specification {
     void 'test id property is set automatically after inserting the document'() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
-                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
         )
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
 
@@ -130,7 +130,7 @@ class MongoConfigurationSpec extends Specification {
     void "test custom enum codec is used instead of default mongo enum codec"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
-                (MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}"
+                (MongoSettings.MONGODB_URI): "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
         )
         applicationContext.registerSingleton(LowercaseEnumCodec.class, new LowercaseEnumCodec())
         MongoClient mongoClient = applicationContext.getBean(MongoClient)
@@ -155,7 +155,7 @@ class MongoConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url": "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
@@ -172,7 +172,7 @@ class MongoConfigurationSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                "mongodb.url": "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost"
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
