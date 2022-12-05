@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation projects.mongoSync
 
+    runtimeOnly mnSerde.micronaut.serde.jackson
     runtimeOnly mn.logback.classic
     runtimeOnly mn.snakeyaml
 }

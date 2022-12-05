@@ -5,12 +5,13 @@ plugins {
 dependencies {
     annotationProcessor mn.micronaut.inject.java
 
+    compileOnly libs.flapdoodle
+    compileOnly mnSerde.micronaut.serde.bson
+    compileOnly mnSerde.micronaut.serde.support
+
     api libs.managed.mongo.core
     api mn.micronaut.runtime
     api mn.micronaut.validation
     api mnSerde.micronaut.serde.api
-    compileOnly mnSerde.micronaut.serde.bson
-    compileOnly mnSerde.micronaut.serde.support
 
-    compileOnly libs.flapdoodle
 }
