@@ -7,7 +7,7 @@ groovy = "4.0.6"
 spock = "2.3-groovy-4.0"
 testcontainers = "1.17.6"
 
-managed-mongo = "4.7.2"
+managed-mongo = "4.8.0"
 managed-mongo-reactive = "4.7.2"
 flapdoodle = "2.2.0"
 
