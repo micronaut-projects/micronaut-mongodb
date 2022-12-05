@@ -1,5 +1,5 @@
 plugins {
-    id 'io.micronaut.build.internal.module'
+    id 'io.micronaut.build.internal.mongodb-module'
 }
 
 dependencies {
@@ -13,15 +13,17 @@ dependencies {
     }
     api mn.micronaut.validation
 
-    compileOnly mn.micronaut.micrometer.core
+    compileOnly mnMicrometer.micronaut.micrometer.core
     compileOnly mn.micronaut.inject.java
     compileOnly mn.micronaut.management
 
     implementation mn.reactor
 
+
     testImplementation mn.micronaut.function.web
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management
-    testImplementation libs.testcontainers.spock
+    testImplementation mnTest.micronaut.test.spock
+    testImplementation libs.testcontainers
 }
 

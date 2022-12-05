@@ -1,7 +1,4 @@
 pluginManagement {
-    plugins {
-        id 'io.micronaut.build.shared.settings' version '5.3.15'
-    }
     repositories {
         gradlePluginPortal()
         mavenCentral()
@@ -9,15 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings'
+    id 'io.micronaut.build.shared.settings' version '6.1.1'
 }
 
 rootProject.name = 'mongodb-parent'
-
-micronautBuild {
-    importMicronautCatalog()
-}
-
 include 'mongo-bom'
 include 'mongo-core'
 include 'mongo-sync'
@@ -27,3 +19,10 @@ include 'tests:mongo-serde'
 include 'tests:mongo-pojo'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
+micronautBuild {
+    addSnapshotRepository()
+    importMicronautCatalog()
+    importMicronautCatalog("micronaut-micrometer")
+    importMicronautCatalog("micronaut-serde")
+}
+

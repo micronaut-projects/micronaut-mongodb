@@ -20,7 +20,7 @@ import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.convert.ConversionService;
+import io.micronaut.core.convert.MutableConversionService;
 import io.micronaut.core.convert.TypeConverterRegistrar;
 
 import jakarta.inject.Singleton;
@@ -32,7 +32,7 @@ import jakarta.inject.Singleton;
 @Internal
 class MongoConverterRegistrar implements TypeConverterRegistrar {
     @Override
-    public void register(ConversionService<?> conversionService) {
+    public void register(MutableConversionService conversionService) {
         conversionService.addConverter(
                 CharSequence.class,
                 ReadConcern.class,

@@ -1,9 +1,12 @@
 plugins {
+    id 'io.micronaut.build.internal.mongodb-tests'
     id "io.micronaut.build.internal.mongodb-functional-test"
 }
 
 dependencies {
     implementation projects.mongoSync
 
-    runtimeOnly "ch.qos.logback:logback-classic"
+    runtimeOnly mnSerde.micronaut.serde.jackson
+    runtimeOnly mn.logback.classic
+    runtimeOnly mn.snakeyaml
 }
