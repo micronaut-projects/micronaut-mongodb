@@ -16,6 +16,7 @@ micronaut {
     version = libs.versions.micronaut.asProvider().get()
     testRuntime "junit5"
     testResources {
+        version = "1.2.1"
         additionalModules.add(MONGODB)
     }
 }
