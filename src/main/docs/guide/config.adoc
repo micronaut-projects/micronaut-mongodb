@@ -1,12 +1,11 @@
 The configuration options for the blocking client and the non-blocking client differ at the driver level.
 
-To configure the blocking client options you can use the `mongodb.options` setting which allows you to configure any property of the `MongoClientOptions.Builder` class. For example in `application.yml`:
+To configure the blocking client options you can use the `mongodb.options` setting which allows you to configure any property of the `MongoClientOptions.Builder` class. For example in the `application` configuration file:
 
 .Configuring Blocking Driver Options
-[source,yaml]
+[configuration]
 ----
 mongodb:
-    ...
     options:
         maxConnectionIdleTime: 10000
         readConcern: majority
@@ -18,10 +17,9 @@ For the Reactive driver, the api:configuration.mongo.reactive.DefaultReactiveMon
 
 
 .Configuring the Reactive Streams Driver
-[source,yaml]
+[configuration]
 ----
 mongodb:
-    ...
     cluster:
         maxWaitQueueSize: 5
     connectionPool:
@@ -30,10 +28,10 @@ mongodb:
 
 ==== Multiple MongoDB Drivers
 
-You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in `application.yml`:
+You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in the `application` configuration file:
 
 .Configuring Multiple MongoDB Drivers
-[source,yaml]
+[configuration]
 ----
 mongodb:
     servers:
