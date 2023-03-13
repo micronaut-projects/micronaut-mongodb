@@ -6,6 +6,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 application {
@@ -16,7 +17,7 @@ micronaut {
     version = libs.versions.micronaut.asProvider().get()
     testRuntime "junit5"
     testResources {
-        version = "1.2.1"
+        version = libs.versions.micronaut.testresources.get()
         additionalModules.add(MONGODB)
     }
 }

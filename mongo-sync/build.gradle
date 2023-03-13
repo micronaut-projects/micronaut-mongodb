@@ -4,11 +4,12 @@ plugins {
 
 dependencies {
     annotationProcessor mn.micronaut.inject.java
+    annotationProcessor(mnValidation.micronaut.validation.processor)
 
     api libs.managed.mongo.driver
     api mn.micronaut.aop
-    api projects.mongoCore
-    api mn.micronaut.validation
+    api projects.micronautMongoCore
+    api mnValidation.micronaut.validation
 
     compileOnly mnMicrometer.micronaut.micrometer.core
     compileOnly mn.micronaut.management
@@ -18,5 +19,5 @@ dependencies {
     testImplementation mn.micronaut.function.web
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management
-    testImplementation projects.mongoReactive
+    testImplementation projects.micronautMongoReactive
 }

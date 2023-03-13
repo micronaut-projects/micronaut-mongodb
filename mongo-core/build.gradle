@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     annotationProcessor mn.micronaut.inject.java
+    annotationProcessor(mnValidation.micronaut.validation.processor)
 
     compileOnly libs.flapdoodle
     compileOnly mnSerde.micronaut.serde.bson
@@ -11,7 +12,7 @@ dependencies {
 
     api libs.managed.mongo.core
     api mn.micronaut.runtime
-    api mn.micronaut.validation
+    api mnValidation.micronaut.validation
     api mnSerde.micronaut.serde.api
 
 }

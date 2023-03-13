@@ -6,7 +6,7 @@ plugins {
 dependencies {
     annotationProcessor mnSerde.micronaut.serde.processor
 
-    implementation projects.mongoSync
+    implementation projects.micronautMongoSync
     implementation mnSerde.micronaut.serde.bson
 
     runtimeOnly mn.logback.classic
