@@ -30,7 +30,7 @@ import io.micronaut.runtime.ApplicationConfiguration;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

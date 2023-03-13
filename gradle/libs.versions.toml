@@ -1,9 +1,9 @@
 [versions]
 micronaut = "4.0.0-SNAPSHOT"
 micronaut-docs = "2.0.0"
-micronaut-gradle-plugin = "3.6.6"
+micronaut-gradle-plugin = "4.0.0-SNAPSHOT"
 
-groovy = "4.0.6"
+groovy = "4.0.10"
 spock = "2.3-groovy-4.0"
 testcontainers = "1.17.6"
 
@@ -14,6 +14,8 @@ flapdoodle = "2.2.0"
 micronaut-micrometer = "5.0.0-SNAPSHOT"
 micronaut-serde = "2.0.0-SNAPSHOT"
 micronaut-test = "4.0.0-SNAPSHOT"
+micronaut-testresources = "2.0.0-SNAPSHOT"
+micronaut-validation = "4.0.0-SNAPSHOT"
 
 [libraries]
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
@@ -23,6 +25,7 @@ managed-mongo-reactive = { module = "org.mongodb:mongodb-driver-reactivestreams"
 micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "micronaut-micrometer" }
 micronaut-serde = { module = "io.micronaut.serde:micronaut-serde-bom", version.ref = "micronaut-serde" }
 micronaut-test = { module = "io.micronaut.test:micronaut-test-bom", version.ref = "micronaut-test" }
+micronaut-validation = { module = "io.micronaut.validation:micronaut-validation-bom", version.ref = "micronaut-validation" }
 
 flapdoodle = { module = 'de.flapdoodle.embed:de.flapdoodle.embed.mongo', version.ref = 'flapdoodle'}
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }

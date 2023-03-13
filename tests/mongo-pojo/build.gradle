@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation projects.mongoSync
+    implementation projects.micronautMongoSync
 
     runtimeOnly mnSerde.micronaut.serde.jackson
     runtimeOnly mn.logback.classic
