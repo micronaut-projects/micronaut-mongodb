@@ -12,7 +12,7 @@ managed-mongo-reactive = "4.8.0"
 flapdoodle = "2.2.0"
 
 micronaut-micrometer = "5.0.0-SNAPSHOT"
-micronaut-serde = "2.0.0-SNAPSHOT"
+micronaut-serde = "2.0.0-M1"
 micronaut-test = "4.0.0-SNAPSHOT"
 micronaut-testresources = "2.0.0-SNAPSHOT"
 micronaut-validation = "4.0.0-M2"
