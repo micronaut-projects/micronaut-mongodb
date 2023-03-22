@@ -1,5 +1,5 @@
 [versions]
-micronaut = "4.0.0-SNAPSHOT"
+micronaut = "4.0.0-M1"
 micronaut-docs = "2.0.0"
 micronaut-gradle-plugin = "4.0.0-SNAPSHOT"
 
@@ -12,10 +12,10 @@ managed-mongo-reactive = "4.8.0"
 flapdoodle = "2.2.0"
 
 micronaut-micrometer = "5.0.0-SNAPSHOT"
-micronaut-serde = "2.0.0-SNAPSHOT"
+micronaut-serde = "2.0.0-M1"
 micronaut-test = "4.0.0-SNAPSHOT"
 micronaut-testresources = "2.0.0-SNAPSHOT"
-micronaut-validation = "4.0.0-SNAPSHOT"
+micronaut-validation = "4.0.0-M2"
 
 [libraries]
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
