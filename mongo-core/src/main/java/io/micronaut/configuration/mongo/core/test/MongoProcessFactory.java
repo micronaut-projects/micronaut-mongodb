@@ -16,7 +16,7 @@
 package io.micronaut.configuration.mongo.core.test;
 
 import com.mongodb.ConnectionString;
-import de.flapdoodle.embed.mongo.MongodProcess;
+import de.flapdoodle.embed.mongo.transitions.RunningMongodProcess;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Requires;
@@ -25,10 +25,8 @@ import io.micronaut.context.event.BeanCreatedEvent;
 import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.StringUtils;
-
-import jakarta.annotation.PreDestroy;
 import jakarta.inject.Singleton;
-import java.io.Closeable;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -36,12 +34,12 @@ import java.util.Optional;
  * @author graemerocher
  * @since 1.0
  */
-@Requires(classes = MongodProcess.class)
+@Requires(classes = RunningMongodProcess.class)
 @Requires(beans = DefaultMongoConfiguration.class)
 @Requires(env = Environment.TEST)
 @Requires(property = MongoSettings.EMBEDDED, notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 @Singleton
-public class MongoProcessFactory extends AbstractMongoProcessFactory implements BeanCreatedEventListener<DefaultMongoConfiguration>, Closeable {
+public class MongoProcessFactory extends AbstractMongoProcessFactory implements BeanCreatedEventListener<DefaultMongoConfiguration> {
 
     @Override
     public DefaultMongoConfiguration onCreated(BeanCreatedEvent<DefaultMongoConfiguration> event) {
@@ -53,13 +51,5 @@ public class MongoProcessFactory extends AbstractMongoProcessFactory implements 
             throw new ConfigurationException("Error starting Embedded MongoDB server: " + e.getMessage(), e);
         }
         return configuration;
-    }
-
-    @Override
-    @PreDestroy
-    public void close() throws IOException {
-        if (process != null) {
-            process.stop();
-        }
     }
 }

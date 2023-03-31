@@ -18,17 +18,13 @@ package io.micronaut.configuration.mongo.core.test;
 import com.mongodb.ConnectionString;
 import com.mongodb.ServerAddress;
 import com.mongodb.connection.ClusterSettings;
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
-import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.runtime.Network;
+import de.flapdoodle.embed.mongo.transitions.Mongod;
+import de.flapdoodle.reverse.transitions.Start;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.io.socket.SocketUtils;
 
-import io.micronaut.core.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,7 +35,6 @@ import java.util.List;
  * @since 1.0
  */
 public abstract class AbstractMongoProcessFactory {
-    protected MongodProcess process;
 
     /**
      * Starts a MongoDB process if possible.
@@ -69,13 +64,12 @@ public abstract class AbstractMongoProcessFactory {
         }
     }
 
-    private void startMongoProcess(int port) throws IOException {
-        IMongodConfig mongodConfig = new MongodConfigBuilder()
-            .version(Version.Main.PRODUCTION)
-            .net(new Net("localhost", port, Network.localhostIsIPv6()))
+    private void startMongoProcess(int port) {
+        Mongod mongod = Mongod.builder()
+            .net(Start.to(Net.class).initializedWith(Net.defaults().withPort(port)))
             .build();
-
-        MongodExecutable mongodExecutable = MongodStarter.getDefaultInstance().prepare(mongodConfig);
-        this.process = mongodExecutable.start();
+        try (var rs = mongod.start(Version.Main.V4_4)) {
+            rs.current();
+        }
     }
 }
