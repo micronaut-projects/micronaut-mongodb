@@ -1,2 +1,2 @@
 === Version 5.0.0
-Support for etsting with `flapdoogle` has been removed. Please use `test-containers` instead as described under xref:#testing[MongoDB and Testing].
+Support for testing with `flapdoodle` has been removed. Please use `test-containers` instead as described under xref:#testing[MongoDB and Testing].
