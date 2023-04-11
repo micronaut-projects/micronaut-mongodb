@@ -1,7 +1,6 @@
 io.micronaut.configuration.mongo.core
 io.micronaut.configuration.mongo.core.convert
 io.micronaut.configuration.mongo.core.serde
-io.micronaut.configuration.mongo.core.test
 io.micronaut.configuration.mongo.reactive
 io.micronaut.configuration.mongo.reactive.condition
 io.micronaut.configuration.mongo.reactive.health

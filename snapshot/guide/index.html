@@ -48,13 +48,15 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#releaseHistory"><strong>2</strong><span>Release History</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#setup"><strong>3</strong><span>Setting up the Mongo Driver</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaks"><strong>3</strong><span>Breaking Changes</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#config"><strong>4</strong><span>Configuring the Mongo Driver</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#setup"><strong>4</strong><span>Setting up the Mongo Driver</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#testing"><strong>5</strong><span>MongoDB and Testing</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#config"><strong>5</strong><span>Configuring the Mongo Driver</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>6</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#testing"><strong>6</strong><span>MongoDB and Testing</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>7</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -89,13 +91,15 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>2</strong><span>Release History</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-setup"><a href="#setup"><strong>3</strong><span>Setting up the Mongo Driver</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaks"><a href="#breaks"><strong>3</strong><span>Breaking Changes</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>4</strong><span>Configuring the Mongo Driver</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-setup"><a href="#setup"><strong>4</strong><span>Setting up the Mongo Driver</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-testing"><a href="#testing"><strong>5</strong><span>MongoDB and Testing</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>5</strong><span>Configuring the Mongo Driver</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>6</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-testing"><a href="#testing"><strong>6</strong><span>MongoDB and Testing</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>7</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -105,7 +109,7 @@
         <h1>Micronaut MongoDB</h1>
         <p></p>
         <p>Integration between Micronaut and MongoDB</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-mongodb/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/latest/guide/index.html'>LATEST</option></select> </p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-mongodb/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/latest/guide/index.html'>LATEST</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/5.0.0-M1/guide/index.html'>5.0.0-M1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.6.0/guide/index.html'>4.6.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.5.0/guide/index.html'>4.5.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.4.0/guide/index.html'>4.4.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.3.0/guide/index.html'>4.3.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.2.0/guide/index.html'>4.2.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.1.0/guide/index.html'>4.1.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.0.0/guide/index.html'>4.0.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.0.0-M2/guide/index.html'>4.0.0-M2</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/4.0.0-M1/guide/index.html'>4.0.0-M1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/3.2.0/guide/index.html'>3.2.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/3.1.0/guide/index.html'>3.1.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/3.0.1/guide/index.html'>3.0.1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/2.2.0/guide/index.html'>2.2.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/2.1.1/guide/index.html'>2.1.1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/2.1.0/guide/index.html'>2.1.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/2.0.1/guide/index.html'>2.0.1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/2.0.0/guide/index.html'>2.0.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.3.0/guide/index.html'>1.3.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.2.0/guide/index.html'>1.2.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.1.0/guide/index.html'>1.1.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.1.0.RC1/guide/index.html'>1.1.0.RC1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.4/guide/index.html'>1.0.4</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.0.RC3/guide/index.html'>1.0.0.RC3</option><option value='https://micronaut-projects.github.io/micronaut-mongodb/1.0.0.RC2/guide/index.html'>1.0.0.RC2</option></select> </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -150,7 +154,23 @@
 <p><a href="https://github.com/micronaut-projects/micronaut-mongodb/releases">https://github.com/micronaut-projects/micronaut-mongodb/releases</a></p>
 </div>
 
-<h1 id="setup"><a class="anchor" href="#setup"></a>3 Setting up the Mongo Driver</h1>
+<h1 id="breaks"><a class="anchor" href="#breaks"></a>3 Breaking Changes</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/breaks.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="sect2">
+<h3 id="_version_5_0_0">Version 5.0.0</h3>
+<div class="paragraph">
+<p>Support for testing with <code>flapdoodle</code> has been removed. Please use <code>test-containers</code> instead as described under <a href="#testing">MongoDB and Testing</a>.</p>
+</div>
+</div>
+
+<h1 id="setup"><a class="anchor" href="#setup"></a>4 Setting up the Mongo Driver</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/setup.adoc"'>
@@ -309,7 +329,7 @@ For GORM for MongoDB you will need to configure the database name separately as 
 </div>
 </div>
 
-<h1 id="config"><a class="anchor" href="#config"></a>4 Configuring the Mongo Driver</h1>
+<h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the Mongo Driver</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/config.adoc"'>
@@ -387,7 +407,7 @@ import jakarta.inject.*;
 </div>
 </div>
 
-<h1 id="testing"><a class="anchor" href="#testing"></a>5 MongoDB and Testing</h1>
+<h1 id="testing"><a class="anchor" href="#testing"></a>6 MongoDB and Testing</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/testing.adoc"'>
@@ -397,7 +417,10 @@ import jakarta.inject.*;
 
 
 <div class="paragraph">
-<p><a href="https://www.testcontainers.org/">Test Containers</a> is the recommended way to test Mongo interaction. For Spock tests this is a simple matter of:</p>
+<p>The MongoDb support in <a href="https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/#modules-mongodb">Micronaut Test Resources</a> – which uses the Testcontainers library for Java – is the recommended way to test Mongo interaction.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, <a href="https://www.testcontainers.org/">Testcontainers for Java</a> can be used directly to test Mongo interaction. For Spock tests this is a simple matter of:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -410,29 +433,8 @@ def setupSpec() {
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Alternatively, you can add a dependency on <a href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo">Embedded MongoDB</a> and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">testImplementation(<span class="hljs-string">"de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;de.flapdoodle.embed&lt;/groupId&gt;
-    &lt;artifactId&gt;de.flapdoodle.embed.mongo&lt;/artifactId&gt;
-    &lt;version&gt;2.0.1&lt;/version&gt;
-    &lt;scope&gt;test&lt;/scope&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>6 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>7 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-mongodb/edit/master/src/main/docs/guide/repository.adoc"'>
