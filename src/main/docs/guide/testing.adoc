@@ -1,4 +1,6 @@
-https://www.testcontainers.org/[Test Containers] is the recommended way to test Mongo interaction. For Spock tests this is a simple matter of:
+The MongoDb support in https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/#modules-mongodb[Micronaut Test Resources] – which uses the Testcontainers library for Java – is the recommended way to test Mongo interaction.
+
+Alternatively, https://www.testcontainers.org/[Testcontainers for Java] can be used directly to test Mongo interaction. For Spock tests this is a simple matter of:
 
 [source,groovy]
 ----
@@ -9,8 +11,3 @@ https://www.testcontainers.org/[Test Containers] is the recommended way to test 
 def setupSpec() {
     mongo.start()
 }
-----
-
-Alternatively, you can add a dependency on https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo[Embedded MongoDB] and if the MongoDB server is not available on the configured port for the test environment an embedded MongoDB will be bootstrapped and made available for testing:
-
-dependency:de.flapdoodle.embed.mongo[groupId="de.flapdoodle.embed", version="2.0.1", scope="test"]
