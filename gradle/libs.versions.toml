@@ -1,20 +1,20 @@
 [versions]
-micronaut = "4.0.0-M1"
+micronaut = "4.0.0-M2"
 micronaut-docs = "2.0.0"
-micronaut-gradle-plugin = "4.0.0-SNAPSHOT"
+micronaut-gradle-plugin = "4.0.0-M1"
 
-groovy = "4.0.10"
+groovy = "4.0.11"
 spock = "2.3-groovy-4.0"
 testcontainers = "1.18.0"
 
 managed-mongo = "4.8.0"
 managed-mongo-reactive = "4.8.0"
 
-micronaut-micrometer = "5.0.0-SNAPSHOT"
+micronaut-micrometer = "5.0.0-M1"
 micronaut-serde = "2.0.0-M1"
-micronaut-test = "4.0.0-SNAPSHOT"
-micronaut-testresources = "2.0.0-SNAPSHOT"
-micronaut-validation = "4.0.0-M2"
+micronaut-test = "4.0.0-M2"
+micronaut-testresources = "2.0.0-M1"
+micronaut-validation = "4.0.0-M4"
 
 [libraries]
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
