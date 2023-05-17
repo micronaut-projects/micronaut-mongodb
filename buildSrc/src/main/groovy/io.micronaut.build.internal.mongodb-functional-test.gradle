@@ -14,8 +14,7 @@ application {
 }
 
 micronaut {
-    version = "4.0.0-SNAPSHOT"
-    //version = libs.versions.micronaut.asProvider().get()
+    version libs.versions.micronaut.platform.get()
     testRuntime "junit5"
     testResources {
         version = libs.versions.micronaut.testresources.get()
