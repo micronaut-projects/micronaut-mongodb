@@ -1,7 +1,8 @@
 [versions]
 micronaut = "4.0.0-M2"
+micronaut-platform = "4.0.0-M2"
 micronaut-docs = "2.0.0"
-micronaut-gradle-plugin = "4.0.0-M1"
+micronaut-gradle-plugin = "4.0.0-M2"
 
 groovy = "4.0.11"
 spock = "2.3-groovy-4.0"
@@ -12,11 +13,14 @@ managed-mongo-reactive = "4.8.0"
 
 micronaut-micrometer = "5.0.0-M1"
 micronaut-serde = "2.0.0-M1"
-micronaut-test = "4.0.0-M2"
-micronaut-testresources = "2.0.0-M1"
+micronaut-test = "4.0.0-M3"
+micronaut-testresources = "2.0.0-M3"
 micronaut-validation = "4.0.0-M4"
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
 managed-mongo-driver = { module = "org.mongodb:mongodb-driver-sync", version.ref = "managed-mongo" }
 managed-mongo-reactive = { module = "org.mongodb:mongodb-driver-reactivestreams", version.ref = "managed-mongo-reactive" }
