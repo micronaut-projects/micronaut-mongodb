@@ -18,6 +18,9 @@ micronaut-testresources = "2.0.0-M3"
 micronaut-validation = "4.0.0-M4"
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 managed-mongo-core = { module = "org.mongodb:mongodb-driver-core", version.ref = "managed-mongo" }
 managed-mongo-driver = { module = "org.mongodb:mongodb-driver-sync", version.ref = "managed-mongo" }
 managed-mongo-reactive = { module = "org.mongodb:mongodb-driver-reactivestreams", version.ref = "managed-mongo-reactive" }
