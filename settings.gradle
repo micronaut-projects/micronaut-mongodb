@@ -20,7 +20,6 @@ include 'tests:mongo-pojo'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 micronautBuild {
-    addSnapshotRepository()
     useStandardizedProjectNames = true
     importMicronautCatalog()
     importMicronautCatalog("micronaut-micrometer")
