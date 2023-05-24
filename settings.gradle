@@ -26,6 +26,5 @@ micronautBuild {
     importMicronautCatalog("micronaut-micrometer")
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
-    importMicronautCatalog("micronaut-logging")
 }
 
