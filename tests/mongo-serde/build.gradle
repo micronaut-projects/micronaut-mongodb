@@ -9,6 +9,6 @@ dependencies {
     implementation projects.micronautMongoSync
     implementation mnSerde.micronaut.serde.bson
 
-    runtimeOnly mn.logback.classic
+    runtimeOnly mnLogging.logback.classic
     runtimeOnly mn.snakeyaml
 }
