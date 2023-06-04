@@ -1,5 +1,5 @@
 [versions]
-micronaut = "4.0.0-M5"
+micronaut = "4.0.0-M6"
 micronaut-platform = "4.0.0-M2"
 micronaut-docs = "2.0.0"
 micronaut-gradle-plugin = "4.0.0-M4"
@@ -13,9 +13,9 @@ managed-mongo-reactive = "4.9.1"
 
 micronaut-micrometer = "5.0.0-M2"
 micronaut-serde = "2.0.0-M8"
-micronaut-test = "4.0.0-M5"
+micronaut-test = "4.0.0-M6"
 micronaut-testresources = "2.0.0-M8"
-micronaut-validation = "4.0.0-M8"
+micronaut-validation = "4.0.0-M9"
 micronaut-logging = "1.0.0-M3"
 
 [libraries]
