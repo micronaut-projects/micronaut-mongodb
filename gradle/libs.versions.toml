@@ -6,7 +6,7 @@ micronaut-gradle-plugin = "4.0.0-M4"
 
 groovy = "4.0.11"
 spock = "2.3-groovy-4.0"
-testcontainers = "1.18.1"
+testcontainers = "1.18.3"
 
 managed-mongo = "4.9.1"
 managed-mongo-reactive = "4.9.1"
