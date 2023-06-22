@@ -9,7 +9,7 @@ spock = "2.3-groovy-4.0"
 testcontainers = "1.18.3"
 
 managed-mongo = "4.9.1"
-managed-mongo-reactive = "4.9.1"
+managed-mongo-reactive = "4.10.0"
 
 micronaut-micrometer = "5.0.0-M5"
 micronaut-serde = "2.0.0-M12"
