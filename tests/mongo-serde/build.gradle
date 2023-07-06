@@ -3,7 +3,16 @@ plugins {
     id "io.micronaut.build.internal.mongodb-functional-test"
 }
 
+micronaut {
+    importMicronautPlatform = false
+}
+
 dependencies {
+    micronautBoms(
+            platform(mn.micronaut.core.bom),
+            platform(mnTest.micronaut.test.bom),
+            platform("io.micronaut.serde:micronaut-serde-bom:${libs.versions.micronaut.serde.get()}")
+    )
     annotationProcessor mnSerde.micronaut.serde.processor
 
     implementation projects.micronautMongoSync
