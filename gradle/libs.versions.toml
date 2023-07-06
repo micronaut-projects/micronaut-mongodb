@@ -11,11 +11,11 @@ testcontainers = "1.18.3"
 managed-mongo = "4.10.1"
 managed-mongo-reactive = "4.10.1"
 
-micronaut-micrometer = "5.0.0-M5"
+micronaut-micrometer = "5.0.0-M6"
 micronaut-serde = "2.0.0-M13"
 micronaut-test = "4.0.0-M9"
 micronaut-testresources = "2.0.0-M8"
-micronaut-validation = "4.0.0-M11"
+micronaut-validation = "4.0.0-M12"
 micronaut-logging = "1.0.0-M5"
 
 [libraries]
