@@ -16,7 +16,7 @@ micronaut-serde = "2.0.0-M13"
 micronaut-test = "4.0.0-M9"
 micronaut-testresources = "2.0.0-M8"
 micronaut-validation = "4.0.0-M12"
-micronaut-logging = "1.0.0-M5"
+micronaut-logging = "1.0.0-M6"
 
 [libraries]
 # Core
