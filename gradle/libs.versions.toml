@@ -1,18 +1,18 @@
 [versions]
-micronaut = "4.1.0"
+micronaut = "4.1.2"
 micronaut-platform = "4.0.3"
 micronaut-docs = "2.0.0"
 micronaut-gradle-plugin = "4.0.2"
 
 groovy = "4.0.13"
 spock = "2.3-groovy-4.0"
-testcontainers = "1.18.3"
+testcontainers = "1.19.0"
 
 managed-mongo = "4.10.2"
 managed-mongo-reactive = "4.10.2"
 
 micronaut-micrometer = "5.0.1"
-micronaut-serde = "2.2.0"
+micronaut-serde = "2.2.1"
 micronaut-test = "4.0.1"
 micronaut-testresources = "2.0.0"
 micronaut-validation = "4.0.1"
