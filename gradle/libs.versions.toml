@@ -12,7 +12,7 @@ managed-mongo = "4.11.0"
 managed-mongo-reactive = "4.11.0"
 
 micronaut-micrometer = "5.1.0"
-micronaut-serde = "2.3.1"
+micronaut-serde = "2.3.2"
 micronaut-test = "4.1.0"
 micronaut-testresources = "2.1.0"
 micronaut-validation = "4.1.0"
