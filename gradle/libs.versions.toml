@@ -11,7 +11,7 @@ testcontainers = "1.19.1"
 managed-mongo = "4.11.1"
 managed-mongo-reactive = "4.11.1"
 
-micronaut-micrometer = "5.1.2"
+micronaut-micrometer = "5.2.0"
 micronaut-serde = "2.4.0"
 micronaut-test = "4.1.0"
 micronaut-testresources = "2.2.0"
