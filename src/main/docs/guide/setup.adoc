@@ -46,11 +46,7 @@ For Groovy users and users familiar with Grails, special support has been added 
 
 To add support for GORM for MongoDB, first configure the MongoDB connection as per instructions earlier in the guide, then add the following dependency to your application:
 
-.build.gradle
-[source,groovy]
-----
-compile "io.micronaut.configuration:micronaut-mongo-gorm"
-----
+dependency:micronaut-mongo-gorm[groupId="io.micronaut.groovy"]
 
 WARNING: For GORM for MongoDB you will need to configure the database name separately as the `grails.mongodb.databaseName` property in `application.yml`.
 
