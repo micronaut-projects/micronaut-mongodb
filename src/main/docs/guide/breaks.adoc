@@ -1,2 +1,4 @@
 === Version 5.0.0
 Support for testing with `flapdoodle` has been removed. Please use `test-containers` instead as described under xref:#testing[MongoDB and Testing].
+
+GORM is not supported in Micronaut Framework 4.x. The setup instructions for using it are no longer relevant and have been removed.
