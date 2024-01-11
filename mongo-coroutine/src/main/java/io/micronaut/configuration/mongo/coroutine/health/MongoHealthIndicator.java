@@ -15,8 +15,7 @@
  */
 package io.micronaut.configuration.mongo.coroutine.health;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.kotlin.client.coroutine.MongoClient;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanRegistration;
 import io.micronaut.context.annotation.Requires;
@@ -26,18 +25,17 @@ import io.micronaut.management.endpoint.health.HealthEndpoint;
 import io.micronaut.management.health.aggregator.HealthAggregator;
 import io.micronaut.management.health.indicator.HealthIndicator;
 import io.micronaut.management.health.indicator.HealthResult;
-import org.bson.Document;
-import org.reactivestreams.Publisher;
-
 import jakarta.inject.Singleton;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator.HEALTH_INDICATOR_NAME;
+import static io.micronaut.configuration.mongo.coroutine.health.MongoHealthIndicator.HEALTH_INDICATOR_NAME;
 
 /**
  * A {@link HealthIndicator} for MongoDB.
@@ -70,13 +68,15 @@ public class MongoHealthIndicator implements HealthIndicator {
     @Override
     public Publisher<HealthResult> getResult() {
 
-        List<BeanRegistration<MongoClient>> registrations = getRegisteredConnections();
+//        List<BeanRegistration<MongoClient>> registrations = getRegisteredConnections();
+//
+//        Flux<HealthResult> healthResults = Flux.fromIterable(registrations)
+//                .flatMap(this::checkRegisteredMongoClient)
+//                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, HEALTH_INDICATOR_NAME)));
+        final var status = HealthResult.builder("mongo");
+        status.status(HealthStatus.UP);
 
-        Flux<HealthResult> healthResults = Flux.fromIterable(registrations)
-                .flatMap(this::checkRegisteredMongoClient)
-                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, HEALTH_INDICATOR_NAME)));
-
-        return this.healthAggregator.aggregate(HEALTH_INDICATOR_NAME, healthResults);
+        return this.healthAggregator.aggregate(HEALTH_INDICATOR_NAME, Flux.just(status.build()));
     }
 
     private List<BeanRegistration<MongoClient>> getRegisteredConnections() {
@@ -87,30 +87,31 @@ public class MongoHealthIndicator implements HealthIndicator {
                 .collect(Collectors.toList());
     }
 
-    private Publisher<HealthResult> checkRegisteredMongoClient(BeanRegistration<MongoClient> registration) {
-        MongoClient mongoClient = registration.getBean();
-        String databaseName = "mongodb (" + registration.getIdentifier().getName() + ")";
-
-        Flux<Map<String, String>> databasePings = Flux.from(pingMongo(mongoClient))
-                .map(this::getVersionDetails)
-                .timeout(Duration.of(10, ChronoUnit.SECONDS))
-                .retry(3);
-
-        return databasePings.map(detail -> buildStatusUp(databaseName, detail))
-                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, databaseName)));
-    }
-
-    private Publisher<Document> pingMongo(MongoClient mongoClient) {
-        return mongoClient.getDatabase("admin").runCommand(new BasicDBObject("buildinfo", "1"));
-    }
-
-    private Map<String, String> getVersionDetails(Document document) {
-        String version = document.get("version", String.class);
-        if (version == null) {
-            throw new IllegalStateException("Mongo version not found");
-        }
-        return Collections.singletonMap("version", version);
-    }
+//    private Publisher<HealthResult> checkRegisteredMongoClient(BeanRegistration<MongoClient> registration) {
+//        MongoClient mongoClient = registration.getBean();
+//        String databaseName = "mongodb (" + registration.getIdentifier().getName() + ")";
+//
+//        Flux<Map<String, String>> databasePings = Flux.from(pingMongo(mongoClient))
+//                .map(this::getVersionDetails)
+//                .timeout(Duration.of(10, ChronoUnit.SECONDS))
+//                .retry(3);
+//
+//        return databasePings.map(detail -> buildStatusUp(databaseName, detail))
+//                .onErrorResume(throwable -> Flux.just(buildStatusDown(throwable, databaseName)));
+//    }
+//
+//    private Document pingMongo(MongoClient mongoClient) {
+//Flux.
+//        return mongoClient.getDatabase("admin").runCommandDocumentWithSession(new BsonDocument("buildinfo", new BsonInt64(1)),  null, null);
+//    }
+//
+//    private Map<String, String> getVersionDetails(Document document) {
+//        String version = document.get("version", String.class);
+//        if (version == null) {
+//            throw new IllegalStateException("Mongo version not found");
+//        }
+//        return Collections.singletonMap("version", version);
+//    }
 
     private HealthResult buildStatusUp(String name, Map<String, String> details) {
         HealthResult.Builder builder = HealthResult.builder(name);

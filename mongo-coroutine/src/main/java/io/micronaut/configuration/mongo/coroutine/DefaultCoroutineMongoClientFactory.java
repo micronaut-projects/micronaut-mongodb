@@ -13,35 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.configuration.mongo.reactive;
+package io.micronaut.configuration.mongo.coroutine;
 
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
+
+import com.mongodb.kotlin.client.coroutine.MongoClient;
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoSettings;
-import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
-import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.runtime.context.scope.Refreshable;
 
 /**
- * Factory for named {@link MongoClient} instances. Creates the injectable {@link io.micronaut.context.annotation.Primary} bean
+ * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
  *
  * @author Graeme Rocher
  * @since 1.0
  */
+@Requires(beans = DefaultMongoConfiguration.class)
 @Factory
-public class NamedReactiveMongoClientFactory {
+public class DefaultCoroutineMongoClientFactory {
+
 
     /**
-     * Factory name to create a client.
-     * @param configuration configuration pulled in
+     * Factory Method for creating a client.
+     * @param mongoConfiguration mongoConfiguration
      * @return mongoClient
      */
     @Bean(preDestroy = "close")
-    @EachBean(NamedMongoConfiguration.class)
     @Refreshable(MongoSettings.PREFIX)
-    MongoClient mongoClient(NamedMongoConfiguration configuration) {
-        return MongoClients.create(configuration.buildSettings());
+    @Primary
+    public MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
+        return MongoClient.Factory.create(mongoConfiguration.buildSettings(), null);
     }
 }

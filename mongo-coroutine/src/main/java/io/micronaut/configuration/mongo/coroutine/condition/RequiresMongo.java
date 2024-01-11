@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.configuration.mongo.reactive.condition;
+package io.micronaut.configuration.mongo.coroutine.condition;
 
-import com.mongodb.reactivestreams.client.MongoClient;
+import com.mongodb.kotlin.client.coroutine.MongoClient;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Requires;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * A custom requirement for MongoDB.

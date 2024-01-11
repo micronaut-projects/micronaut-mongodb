@@ -19,4 +19,4 @@
  * @author James Kleeh
  * @since 1.0
  */
-package io.micronaut.configuration.mongo.reactive.condition;
+package io.micronaut.configuration.mongo.coroutine.condition;

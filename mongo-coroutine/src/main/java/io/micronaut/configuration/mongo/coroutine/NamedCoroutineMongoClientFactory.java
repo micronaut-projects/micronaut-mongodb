@@ -15,35 +15,32 @@
  */
 package io.micronaut.configuration.mongo.coroutine;
 
-
-import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
+import com.mongodb.kotlin.client.coroutine.MongoClient;
 import io.micronaut.configuration.mongo.core.MongoSettings;
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
-import io.micronaut.context.annotation.Requires;
 import io.micronaut.runtime.context.scope.Refreshable;
 
 /**
- * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
+ * Factory for named {@link MongoClient} instances. Creates the injectable {@link io.micronaut.context.annotation.Primary} bean
  *
  * @author Graeme Rocher
  * @since 1.0
  */
-@Requires(beans = DefaultMongoConfiguration.class)
 @Factory
-public class DefaultReactiveMongoClientFactory {
-
+public class NamedCoroutineMongoClientFactory {
 
     /**
-     * Factory Method for creating a client.
-     * @param mongoConfiguration mongoConfiguration
+     * Factory name to create a client.
+     * @param configuration configuration pulled in
      * @return mongoClient
      */
     @Bean(preDestroy = "close")
+    @EachBean(NamedMongoConfiguration.class)
     @Refreshable(MongoSettings.PREFIX)
-    @Primary
-    MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
-        return MongoClients.create(mongoConfiguration.buildSettings());
+    public com.mongodb.reactivestreams.client.MongoClient mongoClient(NamedMongoConfiguration configuration) {
+        return MongoClient.Factory.create(configuration.buildSettings(), null);
     }
 }
