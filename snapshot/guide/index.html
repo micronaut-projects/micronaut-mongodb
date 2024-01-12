@@ -168,6 +168,9 @@
 <div class="paragraph">
 <p>Support for testing with <code>flapdoodle</code> has been removed. Please use <code>test-containers</code> instead as described under <a href="#testing">MongoDB and Testing</a>.</p>
 </div>
+<div class="paragraph">
+<p>GORM is not supported in Micronaut Framework 4.x. The setup instructions for using it are no longer relevant and have been removed.</p>
+</div>
 </div>
 
 <h1 id="setup"><a class="anchor" href="#setup"></a>4 Setting up the Mongo Driver</h1>
@@ -264,69 +267,6 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 </div>
 <div class="paragraph">
 <p>Then the blocking <a href="https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html">MongoClient</a> will be available for injection.</p>
-</div>
-<div class="sect3">
-<h4 id="_using_gorm_for_mongodb">Using GORM for MongoDB</h4>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="title">Using the CLI</div>
-<div class="paragraph">
-<p>If you are creating your project using the Micronaut CLI, supply the <code>mongo-gorm</code> feature to configure GORM for MongoDB in your project:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ mn create-app my-app --features mongo-gorm</pre>
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>For Groovy users and users familiar with Grails, special support has been added to Micronaut for using <a href="http://gorm.grails.org/latest/mongodb/manual">GORM for MongoDB</a>.</p>
-</div>
-<div class="paragraph">
-<p>To add support for GORM for MongoDB, first configure the MongoDB connection as per instructions earlier in the guide, then add the following dependency to your application:</p>
-</div>
-<div class="listingblock">
-<div class="title">build.gradle</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">compile "io.micronaut.configuration:micronaut-mongo-gorm"</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-For GORM for MongoDB you will need to configure the database name separately as the <code>grails.mongodb.databaseName</code> property in <code>application.yml</code>.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The following should be noted regarding using GORM for MongoDB in Micronaut:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Each class you wish to be a GORM entity should be annotated with the <code>grails.gorm.annotation.Entity</code> annotation.</p>
-</li>
-<li>
-<p>Each method that interacts with GORM should be annotated with GORM&#8217;s <code>grails.gorm.transactions.Transactional</code> to ensure a session is present. You can also add the <code>@Transactional</code> annotation to the class.</p>
-</li>
-<li>
-<p>By default Micronaut will scan for entities relative to your <code>Application</code> class. If you wish to customize this specify additional packages via the <a href="../api/io/micronaut/context/ApplicationContextBuilder.html">ApplicationContextBuilder</a> when starting your application.</p>
-</li>
-</ul>
-</div>
 </div>
 
 <h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the Mongo Driver</h1>
