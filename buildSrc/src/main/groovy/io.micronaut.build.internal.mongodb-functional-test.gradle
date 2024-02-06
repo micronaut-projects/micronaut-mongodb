@@ -16,7 +16,7 @@ micronaut {
     version libs.versions.micronaut.platform.get()
     testRuntime "junit5"
     testResources {
-        version = libs.versions.micronaut.testresources.get()
+        version = libs.versions.micronaut.test.resources.get()
         additionalModules.add(MONGODB)
     }
 }
