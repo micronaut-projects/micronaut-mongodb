@@ -1,0 +1,29 @@
+plugins {
+    id 'io.micronaut.build.internal.mongodb-module'
+}
+
+dependencies {
+    annotationProcessor mn.micronaut.inject.java
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+
+    api mn.micronaut.aop
+    api mn.micronaut.runtime
+    api projects.micronautMongoCore
+    api(libs.managed.mongo.coroutine) {
+        exclude group: 'org.mongodb', module: 'mongodb-driver-async'
+    }
+    api mnValidation.micronaut.validation
+
+    compileOnly mnMicrometer.micronaut.micrometer.core
+    compileOnly mn.micronaut.inject.java
+    compileOnly mn.micronaut.management
+
+    implementation mn.reactor
+
+
+    testImplementation mn.micronaut.function.web
+    testImplementation mn.micronaut.inject.groovy
+    testImplementation mn.micronaut.management
+    testImplementation mnTest.micronaut.test.spock
+    testImplementation libs.testcontainers
+}
