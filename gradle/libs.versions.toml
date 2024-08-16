@@ -4,7 +4,7 @@ micronaut-platform = "4.5.1"
 micronaut-docs = "2.0.0"
 micronaut-gradle-plugin = "4.4.2"
 
-groovy = "4.0.13"
+groovy = "4.0.18"
 spock = "2.3-groovy-4.0"
 
 managed-mongo = "4.11.3"
