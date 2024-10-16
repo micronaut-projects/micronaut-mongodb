@@ -1,10 +1,10 @@
 [versions]
 micronaut = "4.7.2"
-micronaut-platform = "4.5.1"
+micronaut-platform = "4.6.3"
 micronaut-docs = "2.0.0"
 micronaut-gradle-plugin = "4.4.2"
 
-groovy = "4.0.18"
+groovy = "4.0.22"
 spock = "2.3-groovy-4.0"
 
 managed-mongo = "4.11.4"
