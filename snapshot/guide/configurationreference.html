@@ -46,7 +46,7 @@
         <div class="docs-content">
             <div class="project">
                 <h1>Configuration Reference</h1>
-                <p><strong>Version:</strong>5.5.1-SNAPSHOT</p>
+                <p><strong>Version:</strong>6.0.0-SNAPSHOT</p>
                 <p></p>
             </div>
 <div class="sect2">
@@ -298,6 +298,11 @@
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.server-monitoring-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ServerMonitoringMode</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.server.add-server-listener</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerListener</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -385,6 +390,16 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.apply-settings</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SocketSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.connect-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.socket.read-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
@@ -692,6 +707,11 @@
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.server.server-monitoring-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.ServerMonitoringMode</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.server.add-server-listener</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.event.ServerListener</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -779,6 +799,16 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.socket.apply-settings</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.connection.SocketSettings</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.socket.connect-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.socket.read-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
