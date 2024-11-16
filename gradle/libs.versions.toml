@@ -8,7 +8,7 @@ groovy = "4.0.22"
 spock = "2.3-groovy-4.0"
 
 managed-mongo = "4.11.5"
-managed-mongo-reactive = "4.11.5"
+managed-mongo-reactive = "5.2.1"
 
 micronaut-logging = "1.5.0"
 micronaut-micrometer = "5.9.2"
