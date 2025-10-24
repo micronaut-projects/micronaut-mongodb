@@ -15,3 +15,8 @@ dependencies {
     api mnSerde.micronaut.serde.api
 
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
