@@ -26,7 +26,6 @@ import com.mongodb.event.CommandStartedEvent
 import com.mongodb.event.CommandSucceededEvent
 import com.mongodb.event.ConnectionPoolListener
 import com.mongodb.reactivestreams.client.MongoClient
-import groovy.test.NotYetImplemented
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
@@ -44,6 +43,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.AutoCleanup
 import spock.lang.Issue
+import spock.lang.PendingFeature
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -216,7 +216,7 @@ class MongoReactiveConfigurationSpec extends Specification {
     }
 
     @Unroll
-    @NotYetImplemented
+    @PendingFeature
     // FIXME: specifying URI overrides cluster settings
     void "test configure #property cluster setting"() {
         given:
