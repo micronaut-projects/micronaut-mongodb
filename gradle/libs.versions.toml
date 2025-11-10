@@ -7,8 +7,8 @@ micronaut-gradle-plugin = "4.6.1"
 groovy = "4.0.27"
 spock = "2.3-groovy-4.0"
 
-managed-mongo = "4.11.5"
-managed-mongo-reactive = "4.11.5"
+managed-mongo = "5.6.1"
+managed-mongo-reactive = "5.6.1"
 
 micronaut-logging = "1.7.1"
 micronaut-micrometer = "5.13.1"

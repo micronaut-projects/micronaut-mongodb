@@ -45,7 +45,7 @@ import spock.lang.Specification
 class MongoConfigurationSpec extends Specification {
 
     @Shared @AutoCleanup GenericContainer mongo =
-            new GenericContainer("mongo:4.0")
+            new GenericContainer("mongo:5.0")
                     .withExposedPorts(27017)
 
     def setupSpec() {
