@@ -73,7 +73,7 @@ class MongoHealthIndicatorSpec extends Specification {
 
     void "test mongo health indicator UP"() {
         given:
-        GenericContainer mongo = new GenericContainer("mongo:4.0")
+        GenericContainer mongo = new GenericContainer("mongo:5.0")
                 .withExposedPorts(27017)
         mongo.start()
 
