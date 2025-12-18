@@ -30,6 +30,6 @@ dependencies {
 
 micronautBuild {
     descriptor {
-        parentModuleId = "io.micronaut.mongo:micronaut-mongo-reactive"
+        parentModuleId = "io.micronaut.mongodb:micronaut-mongo-reactive"
     }
 }
