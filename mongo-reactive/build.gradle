@@ -28,3 +28,8 @@ dependencies {
     testImplementation(mnTestResources.testcontainers.core)
 }
 
+micronautBuild {
+    descriptor {
+        parentModuleId = "io.micronaut.mongo:micronaut-mongo-reactive"
+    }
+}

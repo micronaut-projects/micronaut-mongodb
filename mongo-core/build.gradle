@@ -15,3 +15,9 @@ dependencies {
     api mnSerde.micronaut.serde.api
 
 }
+
+micronautBuild {
+    descriptor {
+        parentModuleId = "io.micronaut.mongo:micronaut-mongo-core"
+    }
+}
