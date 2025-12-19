@@ -38,9 +38,7 @@ class MongoHealthIndicatorSpec extends Specification {
     void "test mongo health indicator disabled"() {
         when:
         ApplicationContext applicationContext = ApplicationContext.run(
-                PropertySource.mapOf(
-                        MONGODB_URI, "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
-                        "endpoints.health.mongodb.enabled", false)
+                PropertySource.of([MONGODB_URI: "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}", "endpoints.health.mongodb.enabled": false])
         )
         applicationContext.getBean(MongoHealthIndicator)
 

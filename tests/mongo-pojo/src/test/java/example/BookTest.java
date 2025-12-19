@@ -3,16 +3,27 @@ package example;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import jakarta.inject.Inject;
 import org.bson.codecs.configuration.CodecConfigurationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import io.micronaut.mongodb.testcontainers.MongoDb;
+
+import java.util.Map;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @MicronautTest
-class BookTest extends AbstractMongoSpec {
+class BookTest implements TestPropertyProvider {
+
+    @Override
+    public @NonNull Map<String, String> getProperties() {
+        return MongoDb.getProperties();
+    }
 
     @Inject
     MongoClient mongoClient;

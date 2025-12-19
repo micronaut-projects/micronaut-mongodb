@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '8.0.0-M12'
+    id 'io.micronaut.build.shared.settings' version '8.0.0-M13'
 }
 
 rootProject.name = 'mongodb-parent'
@@ -14,7 +14,7 @@ include 'mongo-bom'
 include 'mongo-core'
 include 'mongo-sync'
 include 'mongo-reactive'
-
+include 'test-suite-utils'
 include 'tests:mongo-serde'
 include 'tests:mongo-pojo'
 
@@ -24,7 +24,6 @@ micronautBuild {
     importMicronautCatalog()
     importMicronautCatalog("micronaut-micrometer")
     importMicronautCatalog("micronaut-serde")
-    importMicronautCatalog("micronaut-test-resources")
     importMicronautCatalog("micronaut-validation")
 }
 

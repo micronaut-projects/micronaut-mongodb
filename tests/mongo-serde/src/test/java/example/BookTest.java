@@ -3,15 +3,24 @@ package example;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import java.util.Map;
+import io.micronaut.mongodb.testcontainers.MongoDb;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @MicronautTest
-class BookTest extends AbstractMongoSpec {
+class BookTest implements TestPropertyProvider {
+
+    @Override
+    public @NonNull Map<String, String> getProperties() {
+        return MongoDb.getProperties();
+    }
 
     @Inject
     MongoClient mongoClient;
@@ -27,5 +36,4 @@ class BookTest extends AbstractMongoSpec {
         Assertions.assertNotNull(foundBook.getId());
         Assertions.assertEquals("The Stand", foundBook.getTitle());
     }
-
 }

@@ -8,5 +8,4 @@ dependencies {
 
     runtimeOnly mnSerde.micronaut.serde.jackson
     runtimeOnly mnLogging.logback.classic
-    runtimeOnly mn.snakeyaml
 }

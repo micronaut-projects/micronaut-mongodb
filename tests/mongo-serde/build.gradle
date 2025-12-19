@@ -19,5 +19,4 @@ dependencies {
     implementation mnSerde.micronaut.serde.bson
 
     runtimeOnly mnLogging.logback.classic
-    runtimeOnly mn.snakeyaml
 }

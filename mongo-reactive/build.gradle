@@ -25,6 +25,6 @@ dependencies {
     testImplementation mn.micronaut.inject.groovy
     testImplementation mn.micronaut.management
     testImplementation mnTest.micronaut.test.spock
-    testImplementation(mnTestResources.testcontainers.core)
+    testImplementation(platform(mnTest.boms.testcontainers))
+    testImplementation(libs.testcontainers)
 }
-
