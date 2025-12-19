@@ -23,8 +23,3 @@ dependencies {
     testImplementation projects.micronautMongoReactive
 }
 
-micronautBuild {
-    descriptor {
-        parentModuleId = "io.micronaut.mongodb:micronaut-mongo-sync"
-    }
-}

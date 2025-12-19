@@ -16,8 +16,4 @@ dependencies {
 
 }
 
-micronautBuild {
-    descriptor {
-        parentModuleId = "io.micronaut.mongodb:micronaut-mongo-core"
-    }
-}
+

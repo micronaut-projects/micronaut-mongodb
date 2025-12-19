@@ -28,9 +28,3 @@ dependencies {
     testImplementation(platform(mnTest.boms.testcontainers))
     testImplementation(libs.testcontainers)
 }
-
-micronautBuild {
-    descriptor {
-        parentModuleId = "io.micronaut.mongodb:micronaut-mongo-reactive"
-    }
-}
