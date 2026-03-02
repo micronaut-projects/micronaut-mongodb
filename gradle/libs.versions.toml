@@ -1,5 +1,5 @@
 [versions]
-micronaut = "5.0.0-M14"
+micronaut = "5.0.0-M15"
 micronaut-test = "5.0.0-M3"
 micronaut-platform = "4.10.5"
 micronaut-gradle-plugin = "4.6.2"
