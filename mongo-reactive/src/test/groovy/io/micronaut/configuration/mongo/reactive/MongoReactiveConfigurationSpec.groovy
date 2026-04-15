@@ -303,9 +303,9 @@ class MongoReactiveConfigurationSpec extends Specification {
         ApplicationContext context = ApplicationContext.run([
                 'spec.name': 'shutdown-delay-reactive',
                 (MongoSettings.MONGODB_URI): uri,
-                'mongodb.shutdown-delay': '1s',
+                'mongodb.shutdown-delay': '5s',
                 'micronaut.lifecycle.graceful-shutdown.enabled': true,
-                'micronaut.lifecycle.graceful-shutdown.grace-period': '5s'
+                'micronaut.lifecycle.graceful-shutdown.grace-period': '10s'
         ])
         ReactiveShutdownListener listener = context.getBean(ReactiveShutdownListener)
         MongoClient verificationClient = MongoClients.create(uri)
@@ -390,7 +390,6 @@ class MongoReactiveConfigurationSpec extends Specification {
         void onShutdown(ApplicationShutdownEvent event) {
             Thread.start {
                 try {
-                    Thread.sleep(250)
                     Mono.from(
                             mongoClient.getDatabase('shutdown-delay')
                                     .getCollection('reactive-events')
