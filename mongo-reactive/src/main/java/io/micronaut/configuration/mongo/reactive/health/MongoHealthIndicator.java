@@ -101,7 +101,7 @@ public class MongoHealthIndicator implements HealthIndicator {
     }
 
     private Publisher<Document> pingMongo(MongoClient mongoClient) {
-        return mongoClient.getDatabase("admin").runCommand(new BasicDBObject("buildinfo", "1"));
+        return mongoClient.getDatabase("admin").runCommand(new BasicDBObject("buildInfo", "1"));
     }
 
     private Map<String, String> getVersionDetails(Document document) {
