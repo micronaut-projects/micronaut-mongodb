@@ -22,12 +22,14 @@ import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.beans.BeanIntrospector;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.serde.SerdeRegistry;
 import io.micronaut.serde.annotation.Serdeable;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,14 +86,31 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
         } else {
             final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
             if (CollectionUtils.isNotEmpty(packageNames)) {
+                Collection<Class<?>> discriminatorEntities = findDiscriminatorEntities(packageNames);
+                if (CollectionUtils.isNotEmpty(discriminatorEntities)) {
+                    builder.register(discriminatorEntities.toArray(Class<?>[]::new));
+                }
                 builder.register(packageNames.toArray(new String[0]));
             }
-            codecRegistries.add(
-                fromProviders(
-                    builder.automatic(configuration.isAutomaticClassModels()).build()
-                )
-            );
+            codecRegistries.add(fromProviders(
+                builder.automatic(configuration.isAutomaticClassModels()).build()
+            ));
         }
         return fromRegistries(codecRegistries);
+    }
+
+    private Collection<Class<?>> findDiscriminatorEntities(Collection<String> packageNames) {
+        return BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
+            reference.isPresent()
+                && reference.isAnnotationPresent(BsonDiscriminator.class)
+                && isWithinConfiguredPackages(reference.getBeanType(), packageNames)
+        );
+    }
+
+    private boolean isWithinConfiguredPackages(Class<?> beanType, Collection<String> packageNames) {
+        String packageName = beanType.getPackageName();
+        return packageNames.stream().anyMatch(configuredPackage ->
+            packageName.equals(configuredPackage) || packageName.startsWith(configuredPackage + ".")
+        );
     }
 }
