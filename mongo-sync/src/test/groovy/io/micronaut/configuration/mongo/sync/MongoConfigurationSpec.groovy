@@ -18,6 +18,7 @@ package io.micronaut.configuration.mongo.sync
 import com.mongodb.MongoClientSettings
 import com.mongodb.ReadConcern
 import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import com.mongodb.event.CommandFailedEvent
 import com.mongodb.event.CommandListener
 import com.mongodb.event.CommandStartedEvent
@@ -28,7 +29,10 @@ import io.micronaut.configuration.mongo.LowercaseEnumCodec
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Requires
 import io.micronaut.core.io.socket.SocketUtils
+import io.micronaut.runtime.event.ApplicationShutdownEvent
+import io.micronaut.runtime.event.annotation.EventListener
 import jakarta.inject.Singleton
 import org.bson.Document
 import org.bson.types.ObjectId
@@ -37,6 +41,10 @@ import spock.lang.AutoCleanup
 import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
+
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /**
  * @author graemerocher
@@ -186,6 +194,33 @@ class MongoConfigurationSpec extends Specification {
         context.stop()
     }
 
+    void "test shutdown delay keeps blocking client available for deferred shutdown work"() {
+        given:
+        String uri = "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
+        ApplicationContext context = ApplicationContext.run([
+                'spec.name': 'shutdown-delay-sync',
+                (MongoSettings.MONGODB_URI): uri,
+                'mongodb.shutdown-delay': '1s',
+                'micronaut.lifecycle.graceful-shutdown.enabled': true,
+                'micronaut.lifecycle.graceful-shutdown.grace-period': '5s'
+        ])
+        BlockingShutdownListener listener = context.getBean(BlockingShutdownListener)
+        MongoClient verificationClient = MongoClients.create(uri)
+
+        when:
+        context.stop()
+
+        then:
+        listener.completed.await(5, TimeUnit.SECONDS)
+        listener.error == null
+        verificationClient.getDatabase('shutdown-delay').getCollection('sync-events')
+                .countDocuments(new Document('marker', 'sync')) == 1
+
+        cleanup:
+        verificationClient?.close()
+        context?.close()
+    }
+
     @Singleton
     static class FluffCommandListener implements CommandListener {
 
@@ -204,5 +239,34 @@ class MongoConfigurationSpec extends Specification {
 
     @Singleton
     static class FluffConnectionPoolListener implements ConnectionPoolListener {
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'shutdown-delay-sync')
+    static class BlockingShutdownListener {
+
+        final MongoClient mongoClient
+        final CountDownLatch completed = new CountDownLatch(1)
+        volatile Throwable error
+
+        BlockingShutdownListener(MongoClient mongoClient) {
+            this.mongoClient = mongoClient
+        }
+
+        @EventListener
+        void onShutdown(ApplicationShutdownEvent event) {
+            CompletableFuture.runAsync({
+                try {
+                    Thread.sleep(250)
+                    mongoClient.getDatabase('shutdown-delay')
+                            .getCollection('sync-events')
+                            .insertOne(new Document('marker', 'sync'))
+                } catch (Throwable e) {
+                    error = e
+                } finally {
+                    completed.countDown()
+                }
+            })
+        }
     }
 }
