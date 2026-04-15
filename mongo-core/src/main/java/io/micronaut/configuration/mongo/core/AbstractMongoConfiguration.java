@@ -321,7 +321,7 @@ public abstract class AbstractMongoConfiguration {
      */
     public void setShutdownDelay(Duration shutdownDelay) {
         if (shutdownDelay != null) {
-            this.shutdownDelay = shutdownDelay;
+            this.shutdownDelay = shutdownDelay.isNegative() ? Duration.ZERO : shutdownDelay;
         }
     }
 

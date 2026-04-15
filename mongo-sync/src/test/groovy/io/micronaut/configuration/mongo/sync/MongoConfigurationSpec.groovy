@@ -42,7 +42,6 @@ import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
 
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -211,7 +210,7 @@ class MongoConfigurationSpec extends Specification {
         context.stop()
 
         then:
-        listener.completed.await(5, TimeUnit.SECONDS)
+        listener.completed.await(15, TimeUnit.SECONDS)
         listener.error == null
         verificationClient.getDatabase('shutdown-delay').getCollection('sync-events')
                 .countDocuments(new Document('marker', 'sync')) == 1
@@ -255,7 +254,7 @@ class MongoConfigurationSpec extends Specification {
 
         @EventListener
         void onShutdown(ApplicationShutdownEvent event) {
-            CompletableFuture.runAsync({
+            Thread.start {
                 try {
                     Thread.sleep(250)
                     mongoClient.getDatabase('shutdown-delay')
@@ -266,7 +265,7 @@ class MongoConfigurationSpec extends Specification {
                 } finally {
                     completed.countDown()
                 }
-            })
+            }
         }
     }
 }

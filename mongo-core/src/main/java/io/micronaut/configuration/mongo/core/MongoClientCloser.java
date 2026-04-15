@@ -26,6 +26,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Tracks Mongo clients and delays bean destruction during Micronaut graceful shutdown.
@@ -69,17 +70,14 @@ public final class MongoClientCloser implements GracefulShutdownCapable {
     @Override
     public CompletionStage<?> shutdownGracefully() {
         Duration shutdownDelay = maxShutdownDelay();
-        if (shutdownDelay.isZero()) {
+        long shutdownDelayMillis = toMillisSaturated(shutdownDelay);
+        if (shutdownDelayMillis == 0) {
             return CompletableFuture.completedFuture(null);
         }
-        return CompletableFuture.runAsync(() -> {
-            try {
-                Thread.sleep(shutdownDelay.toMillis());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                LOG.warn("Interrupted while delaying Mongo client shutdown", e);
-            }
-        });
+        return CompletableFuture.runAsync(
+            () -> { },
+            CompletableFuture.delayedExecutor(shutdownDelayMillis, TimeUnit.MILLISECONDS)
+        );
     }
 
     private Duration maxShutdownDelay() {
@@ -87,6 +85,15 @@ public final class MongoClientCloser implements GracefulShutdownCapable {
             return shutdownDelays.values().stream()
                 .max(Duration::compareTo)
                 .orElse(Duration.ZERO);
+        }
+    }
+
+    private long toMillisSaturated(Duration shutdownDelay) {
+        try {
+            return shutdownDelay.toMillis();
+        } catch (ArithmeticException e) {
+            LOG.warn("Mongo shutdown delay {} exceeds the supported millisecond range; clamping to Long.MAX_VALUE", shutdownDelay);
+            return Long.MAX_VALUE;
         }
     }
 }

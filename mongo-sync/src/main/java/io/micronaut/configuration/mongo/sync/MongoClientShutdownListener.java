@@ -24,7 +24,7 @@ import io.micronaut.core.annotation.Internal;
 import jakarta.inject.Singleton;
 
 /**
- * Cleans up tracked blocking Mongo clients when beans are destroyed.
+ * Untracks blocking Mongo clients when beans are destroyed.
  *
  * @author graemerocher
  * @since 6.0.0

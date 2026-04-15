@@ -35,12 +35,12 @@ shutdown and set `mongodb.shutdown-delay`:
 [source,yaml]
 ----
 micronaut:
-    lifecycle:
-        graceful-shutdown:
-            enabled: true
-            grace-period: 5s
+  lifecycle:
+    graceful-shutdown:
+      enabled: true
+      grace-period: 5s
 mongodb:
-    shutdown-delay: 1s
+  shutdown-delay: 1s
 ----
 
 The graceful shutdown grace period must be greater than or equal to

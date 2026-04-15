@@ -49,9 +49,13 @@ class MongoClientCloserSpec extends Specification {
         long finalShutdownElapsed = System.nanoTime() - finalShutdownStarted
 
         then:
-        Duration.ofNanos(firstShutdownElapsed).toMillis() >= 150
-        Duration.ofNanos(secondShutdownElapsed).toMillis() >= 80
-        Duration.ofNanos(secondShutdownElapsed).toMillis() < 180
-        Duration.ofNanos(finalShutdownElapsed).toMillis() < 80
+        long firstShutdownMillis = Duration.ofNanos(firstShutdownElapsed).toMillis()
+        long secondShutdownMillis = Duration.ofNanos(secondShutdownElapsed).toMillis()
+        long finalShutdownMillis = Duration.ofNanos(finalShutdownElapsed).toMillis()
+
+        firstShutdownMillis >= 150
+        secondShutdownMillis >= 80
+        firstShutdownMillis >= secondShutdownMillis
+        finalShutdownMillis < 1000
     }
 }

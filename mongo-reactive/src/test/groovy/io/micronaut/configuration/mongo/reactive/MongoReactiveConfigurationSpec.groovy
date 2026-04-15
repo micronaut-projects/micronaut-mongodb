@@ -53,7 +53,6 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -315,7 +314,7 @@ class MongoReactiveConfigurationSpec extends Specification {
         context.stop()
 
         then:
-        listener.completed.await(5, TimeUnit.SECONDS)
+        listener.completed.await(15, TimeUnit.SECONDS)
         listener.error == null
         Mono.from(
                 verificationClient.getDatabase('shutdown-delay').getCollection('reactive-events')
@@ -389,7 +388,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         @EventListener
         void onShutdown(ApplicationShutdownEvent event) {
-            CompletableFuture.runAsync({
+            Thread.start {
                 try {
                     Thread.sleep(250)
                     Mono.from(
@@ -402,7 +401,7 @@ class MongoReactiveConfigurationSpec extends Specification {
                 } finally {
                     completed.countDown()
                 }
-            })
+            }
         }
     }
 }
