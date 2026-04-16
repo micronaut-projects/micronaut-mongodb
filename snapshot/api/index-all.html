@@ -82,6 +82,14 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html#clientSettings" class="member-name-link">clientSettings</a> - Variable in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">NamedMongoConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html#clientSettingsBuilderCustomizers(java.util.List)" class="member-name-link">clientSettingsBuilderCustomizers(List)</a> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/AbstractMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">AbstractMongoConfiguration</a></dt>
+<dd>
+<div class="block">Additional customizers to apply to the client settings builder.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html#clientSettingsBuilderCustomizers(java.util.List)" class="member-name-link">clientSettingsBuilderCustomizers(List)</a> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">DefaultMongoConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html#clientSettingsBuilderCustomizers(java.util.List)" class="member-name-link">clientSettingsBuilderCustomizers(List)</a> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">NamedMongoConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html#clusterSettings" class="member-name-link">clusterSettings</a> - Variable in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">DefaultMongoConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html#clusterSettings" class="member-name-link">clusterSettings</a> - Variable in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">NamedMongoConfiguration</a></dt>
@@ -130,6 +138,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/convert/StringToWriteConcernConverter.html#convert(java.lang.CharSequence,java.lang.Class,io.micronaut.core.convert.ConversionContext)" class="member-name-link">convert(CharSequence, Class, ConversionContext)</a> - Method in class io.micronaut.configuration.mongo.core.convert.<a href="io/micronaut/configuration/mongo/core/convert/StringToWriteConcernConverter.html" title="class in io.micronaut.configuration.mongo.core.convert">StringToWriteConcernConverter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html#customize(io.micronaut.configuration.mongo.core.AbstractMongoConfiguration,com.mongodb.MongoClientSettings.Builder)" class="member-name-link">customize(AbstractMongoConfiguration, MongoClientSettings.Builder)</a> - Method in interface io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html" title="interface in io.micronaut.configuration.mongo.core">MongoClientSettingsBuilderCustomizer</a></dt>
+<dd>
+<div class="block">Customize the builder for the given configuration.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:D">D</h2>
 <dl class="index">
@@ -316,6 +328,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/configuration/mongo/sync/DefaultMongoClientFactory.html#mongoClient(com.mongodb.MongoClientSettings)" class="member-name-link">mongoClient(MongoClientSettings)</a> - Method in class io.micronaut.configuration.mongo.sync.<a href="io/micronaut/configuration/mongo/sync/DefaultMongoClientFactory.html" title="class in io.micronaut.configuration.mongo.sync">DefaultMongoClientFactory</a></dt>
 <dd>
 <div class="block">Factory method to return a client.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.core">MongoClientSettingsBuilderCustomizer</a> - Interface in <a href="io/micronaut/configuration/mongo/core/package-summary.html">io.micronaut.configuration.mongo.core</a></dt>
+<dd>
+<div class="block">Allows arbitrary customization of the <code>MongoClientSettings.Builder</code>
+after Micronaut has applied the configuration-backed settings and before
+the final <code>MongoClientSettings</code> is built.</div>
 </dd>
 <dt><a href="io/micronaut/mongodb/testcontainers/MongoDb.html" class="type-name-link" title="class in io.micronaut.mongodb.testcontainers">MongoDb</a> - Class in <a href="io/micronaut/mongodb/testcontainers/package-summary.html">io.micronaut.mongodb.testcontainers</a></dt>
 <dd>&nbsp;</dd>

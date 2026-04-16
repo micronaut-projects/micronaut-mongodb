@@ -283,36 +283,72 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 
 
 <div class="paragraph">
-<p>The configuration options for the blocking client and the non-blocking client differ at the driver level.</p>
+<p>Micronaut binds MongoDB driver settings directly onto <code>MongoClientSettings.Builder</code> and the nested builder types it exposes, such as <code>cluster</code>, <code>connectionPool</code>, <code>socket</code>, <code>server</code>, and <code>ssl</code>.</p>
 </div>
 <div class="paragraph">
-<p>To configure the blocking client options you can use the <code>mongodb.options</code> setting which allows you to configure any property of the <code>MongoClientOptions.Builder</code> class. For example in <code>application.yml</code>:</p>
+<p>For example, in <code>application.yml</code>:</p>
 </div>
 <div class="listingblock">
-<div class="title">Configuring Blocking Driver Options</div>
+<div class="title">Configuring MongoDB Driver Settings</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
-    ...
-    options:
-        maxConnectionIdleTime: 10000
-        readConcern: majority</code></pre>
+    uri: mongodb://localhost:27017/app
+    readConcern: majority
+    connectionPool:
+        maxSize: 20</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>See the API for <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> for more information on the available configuration options.</p>
+<p>The same configuration model is used for both the blocking and reactive clients. Named clients use the same structure under <code>mongodb.servers.&lt;name&gt;</code>.</p>
 </div>
 <div class="paragraph">
-<p>For the Reactive driver, the <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultReactiveMongoConfiguration.html">DefaultReactiveMongoConfiguration</a> exposes options to configure the Reactive Streams driver. For example:</p>
+<p>See the API for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> and <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a> for more information on the available configuration options.</p>
+</div>
+<div class="sect3">
+<h4 id="_csfle_and_other_programmatic_settings">CSFLE and Other Programmatic Settings</h4>
+<div class="paragraph">
+<p>Some MongoDB features, including Client-Side Field Level Encryption (CSFLE), require programmatic customization that cannot be expressed as simple configuration properties. For those cases, define one or more <a href="../api/io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html">MongoClientSettingsBuilderCustomizer</a> beans.</p>
+</div>
+<div class="paragraph">
+<p>Micronaut applies these customizers after the configuration-backed settings have been bound and before the final <code>MongoClientSettings</code> instance is built. That lets you keep the common driver configuration in <code>application.yml</code> and add CSFLE-specific settings only where the MongoDB Java driver requires programmatic setup.</p>
+</div>
+<div class="paragraph">
+<p>Use the approach as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Configure the common driver settings such as <code>mongodb.uri</code>, <code>readConcern</code>, and pool options in configuration properties.</p>
+</li>
+<li>
+<p>Add a <code>MongoClientSettingsBuilderCustomizer</code> bean for the driver-level settings that are not exposed as simple properties, such as <code>AutoEncryptionSettings</code> and <code>uuidRepresentation</code>.</p>
+</li>
+<li>
+<p>Inspect <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a> inside the customizer when the CSFLE settings need to vary per named client.</p>
+</li>
+<li>
+<p>Populate the builder with the KMS providers, key vault namespace, schema map, encrypted fields map, and any extra auto-encryption options required by your deployment.</p>
+</li>
+</ol>
+</div>
+
+<div class="paragraph">
+<p>The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.</p>
+</div>
+<div class="paragraph">
+<p>The same customizer beans apply to both the blocking and reactive drivers because both clients are created from the same <code>AbstractMongoConfiguration.buildSettings()</code> workflow.</p>
+</div>
+<div class="paragraph">
+<p>For the Reactive driver, the same configuration properties apply. For example:</p>
 </div>
 <div class="listingblock">
 <div class="title">Configuring the Reactive Streams Driver</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
-    ...
+    uri: mongodb://localhost:27017/app
     cluster:
-        maxWaitQueueSize: 5
-    connectionPool:
-        maxSize: 20</code></pre>
+        maxWaitQueueSize: 5</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
