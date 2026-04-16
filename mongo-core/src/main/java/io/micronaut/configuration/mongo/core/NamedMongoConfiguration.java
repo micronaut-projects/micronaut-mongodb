@@ -118,6 +118,12 @@ public class NamedMongoConfiguration extends AbstractMongoConfiguration {
         super.connectionPoolListeners(connectionPoolListeners);
     }
 
+    @Override
+    @Inject
+    public void clientSettingsBuilderCustomizers(List<MongoClientSettingsBuilderCustomizer> clientSettingsBuilderCustomizers) {
+        super.clientSettingsBuilderCustomizers(clientSettingsBuilderCustomizers);
+    }
+
     /**
      * @return The name of the server
      */

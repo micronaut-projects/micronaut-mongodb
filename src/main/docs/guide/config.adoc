@@ -1,31 +1,50 @@
-The configuration options for the blocking client and the non-blocking client differ at the driver level.
+Micronaut binds MongoDB driver settings directly onto `MongoClientSettings.Builder` and the nested builder types it exposes, such as `cluster`, `connectionPool`, `socket`, `server`, and `ssl`.
 
-To configure the blocking client options you can use the `mongodb.options` setting which allows you to configure any property of the `MongoClientOptions.Builder` class. For example in `application.yml`:
+For example, in `application.yml`:
 
-.Configuring Blocking Driver Options
+.Configuring MongoDB Driver Settings
 [source,yaml]
 ----
 mongodb:
-    ...
-    options:
-        maxConnectionIdleTime: 10000
-        readConcern: majority
+    uri: mongodb://localhost:27017/app
+    readConcern: majority
+    connectionPool:
+        maxSize: 20
 ----
 
-See the API for api:configuration.mongo.reactive.DefaultMongoConfiguration[] for more information on the available configuration options.
+The same configuration model is used for both the blocking and reactive clients. Named clients use the same structure under `mongodb.servers.<name>`.
 
-For the Reactive driver, the api:configuration.mongo.reactive.DefaultReactiveMongoConfiguration[] exposes options to configure the Reactive Streams driver. For example:
+See the API for api:configuration.mongo.core.DefaultMongoConfiguration[] and api:configuration.mongo.core.NamedMongoConfiguration[] for more information on the available configuration options.
 
+==== CSFLE and Other Programmatic Settings
+
+Some MongoDB features, including Client-Side Field Level Encryption (CSFLE), require programmatic customization that cannot be expressed as simple configuration properties. For those cases, define one or more api:configuration.mongo.core.MongoClientSettingsBuilderCustomizer[] beans.
+
+Micronaut applies these customizers after the configuration-backed settings have been bound and before the final `MongoClientSettings` instance is built. That lets you keep the common driver configuration in `application.yml` and add CSFLE-specific settings only where the MongoDB Java driver requires programmatic setup.
+
+Use the approach as follows:
+
+1. Configure the common driver settings such as `mongodb.uri`, `readConcern`, and pool options in configuration properties.
+2. Add a `MongoClientSettingsBuilderCustomizer` bean for the driver-level settings that are not exposed as simple properties, such as `AutoEncryptionSettings` and `uuidRepresentation`.
+3. Inspect api:configuration.mongo.core.NamedMongoConfiguration[] inside the customizer when the CSFLE settings need to vary per named client.
+4. Populate the builder with the KMS providers, key vault namespace, schema map, encrypted fields map, and any extra auto-encryption options required by your deployment.
+
+.Customizing `MongoClientSettings.Builder` for CSFLE
+snippet::io.micronaut.mongodb.docs.AutoEncryptionCustomizer[tags="imports,clazz", project-base="docs-examples/csfle"]
+
+The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.
+
+The same customizer beans apply to both the blocking and reactive drivers because both clients are created from the same `AbstractMongoConfiguration.buildSettings()` workflow.
+
+For the Reactive driver, the same configuration properties apply. For example:
 
 .Configuring the Reactive Streams Driver
 [source,yaml]
 ----
 mongodb:
-    ...
+    uri: mongodb://localhost:27017/app
     cluster:
         maxWaitQueueSize: 5
-    connectionPool:
-        maxSize: 20
 ----
 
 ==== Multiple MongoDB Drivers
