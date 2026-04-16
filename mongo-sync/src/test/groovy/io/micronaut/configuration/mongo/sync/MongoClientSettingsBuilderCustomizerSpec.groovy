@@ -23,18 +23,21 @@ import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomize
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Requires
 import io.micronaut.inject.qualifiers.Qualifiers
 import jakarta.inject.Singleton
 import org.bson.UuidRepresentation
 import spock.lang.Specification
 
 class MongoClientSettingsBuilderCustomizerSpec extends Specification {
+    private static final String SPEC_NAME = 'mongo-client-settings-builder-customizer-sync'
 
     void "test configure picks up custom MongoClientSettings builder customizers for default client"() {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                (MongoSettings.MONGODB_URI): "mongodb://localhost"
+                (MongoSettings.MONGODB_URI): "mongodb://localhost",
+                'spec.name': SPEC_NAME
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
@@ -53,7 +56,8 @@ class MongoClientSettingsBuilderCustomizerSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run(
                 (MongoSettings.EMBEDDED): false,
-                'mongodb.servers.myServer.uri': "mongodb://localhost:27017"
+                'mongodb.servers.myServer.uri': "mongodb://localhost:27017",
+                'spec.name': SPEC_NAME
         )
 
         NamedMongoConfiguration configuration = context.getBean(NamedMongoConfiguration, Qualifiers.byName('my-server'))
@@ -66,6 +70,7 @@ class MongoClientSettingsBuilderCustomizerSpec extends Specification {
         context.stop()
     }
 
+    @Requires(property = 'spec.name', value = SPEC_NAME)
     @Singleton
     static class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {
 
