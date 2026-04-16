@@ -30,7 +30,7 @@ Use the approach as follows:
 4. Populate the builder with the KMS providers, key vault namespace, schema map, encrypted fields map, and any extra auto-encryption options required by your deployment.
 
 .Customizing `MongoClientSettings.Builder` for CSFLE
-snippet::io.micronaut.mongodb.docs.AutoEncryptionCustomizer[tags="imports,clazz", project-base="docs-examples/csfle"]
+snippet::io.micronaut.mongodb.docs.AutoEncryptionCustomizer[tags="imports,clazz", project-base="docs-examples/csfle-java"]
 
 The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.
 

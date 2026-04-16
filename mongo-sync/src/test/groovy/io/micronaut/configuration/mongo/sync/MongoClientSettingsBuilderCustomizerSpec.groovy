@@ -41,10 +41,11 @@ class MongoClientSettingsBuilderCustomizerSpec extends Specification {
         )
 
         DefaultMongoConfiguration configuration = context.getBean(DefaultMongoConfiguration)
+        MongoClientSettings builtSettings = configuration.buildSettings()
         MongoClientSettings settings = context.getBean(MongoClientSettings)
 
         expect:
-        configuration.buildSettings().autoEncryptionSettings.keyVaultNamespace == "encryption.__keyVault"
+        builtSettings.autoEncryptionSettings.keyVaultNamespace == "encryption.__keyVault"
         settings.autoEncryptionSettings.keyVaultNamespace == "encryption.__keyVault"
         settings.uuidRepresentation == UuidRepresentation.STANDARD
 
@@ -61,10 +62,11 @@ class MongoClientSettingsBuilderCustomizerSpec extends Specification {
         )
 
         NamedMongoConfiguration configuration = context.getBean(NamedMongoConfiguration, Qualifiers.byName('my-server'))
+        MongoClientSettings settings = configuration.buildSettings()
 
         expect:
-        configuration.buildSettings().autoEncryptionSettings.keyVaultNamespace == "encryption.my-server.__keyVault"
-        configuration.buildSettings().uuidRepresentation == UuidRepresentation.STANDARD
+        settings.autoEncryptionSettings.keyVaultNamespace == "encryption.my-server.__keyVault"
+        settings.uuidRepresentation == UuidRepresentation.STANDARD
 
         cleanup:
         context.stop()
