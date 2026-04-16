@@ -15,7 +15,6 @@
  */
 package io.micronaut.configuration.mongo.reactive.health;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.reactivestreams.client.MongoClient;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanRegistration;
@@ -101,7 +100,7 @@ public class MongoHealthIndicator implements HealthIndicator {
     }
 
     private Publisher<Document> pingMongo(MongoClient mongoClient) {
-        return mongoClient.getDatabase("admin").runCommand(new BasicDBObject("buildinfo", "1"));
+        return mongoClient.getDatabase("admin").runCommand(new Document("buildInfo", 1));
     }
 
     private Map<String, String> getVersionDetails(Document document) {

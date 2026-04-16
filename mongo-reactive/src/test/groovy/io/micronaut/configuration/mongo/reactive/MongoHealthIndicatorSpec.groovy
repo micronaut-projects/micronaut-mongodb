@@ -16,12 +16,19 @@
 package io.micronaut.configuration.mongo.reactive
 
 import com.mongodb.reactivestreams.client.MongoClient
+import com.mongodb.reactivestreams.client.MongoDatabase
+import io.micronaut.context.BeanContext
+import io.micronaut.context.BeanRegistration
 import io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.PropertySource
 import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.core.io.socket.SocketUtils
+import io.micronaut.inject.BeanIdentifier
+import io.micronaut.inject.BeanDefinition
+import io.micronaut.management.health.aggregator.HealthAggregator
 import io.micronaut.management.health.indicator.HealthResult
+import org.bson.Document
 import org.testcontainers.containers.GenericContainer
 import reactor.core.publisher.Flux
 import spock.lang.Specification
@@ -34,6 +41,36 @@ import static io.micronaut.health.HealthStatus.UP
 import static java.time.temporal.ChronoUnit.SECONDS
 
 class MongoHealthIndicatorSpec extends Specification {
+
+    void "test mongo health indicator uses buildInfo command"() {
+        given:
+        MongoClient mongoClient = Mock()
+        MongoDatabase mongoDatabase = Mock()
+        BeanRegistration<MongoClient> registration = Mock() {
+            getBean() >> mongoClient
+            getIdentifier() >> BeanIdentifier.of("Primary")
+            getBeanDefinition() >> Stub(BeanDefinition)
+        }
+        BeanContext beanContext = Stub() {
+            findBeanRegistration(_ as MongoClient) >> Optional.of(registration)
+        }
+        HealthAggregator<?> healthAggregator = Stub() {
+            aggregate(_, _) >> { String name, org.reactivestreams.Publisher<HealthResult> results -> results }
+        }
+        MongoHealthIndicator healthIndicator = new MongoHealthIndicator(beanContext, healthAggregator, mongoClient)
+
+        when:
+        HealthResult healthResult = Flux.from(healthIndicator.result).blockFirst()
+
+        then:
+        1 * mongoClient.getDatabase("admin") >> mongoDatabase
+        1 * mongoDatabase.runCommand({
+            it.containsKey("buildInfo") &&
+                    !it.containsKey("buildinfo")
+        }) >> Flux.just(new Document("version", "1.2.3"))
+        healthResult.status == UP
+        healthResult.details.version == "1.2.3"
+    }
 
     void "test mongo health indicator disabled"() {
         when:
