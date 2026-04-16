@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 class BsonDiscriminatorTest {
+    private static final String TEST_PACKAGE = "example";
 
     @Test
     void decodesCustomDiscriminatorWithoutPrimingSubtypeCodec() {
@@ -27,13 +28,12 @@ class BsonDiscriminatorTest {
                 new ApplicationConfiguration(),
                 context.getEnvironment()
             );
-            String configuredPackage = "example";
-            configuration.setPackageNames(List.of(configuredPackage));
+            configuration.setPackageNames(List.of(TEST_PACKAGE));
 
             Set<Class<?>> discriminatorEntities = BeanIntrospector.SHARED.findIntrospectedTypes(reference -> {
                     String packageName = reference.getBeanType().getPackageName();
                     return reference.isAnnotationPresent(BsonDiscriminator.class)
-                        && (packageName.equals(configuredPackage) || packageName.startsWith(configuredPackage + "."));
+                        && (packageName.equals(TEST_PACKAGE) || packageName.startsWith(TEST_PACKAGE + "."));
                 }).stream()
                 .collect(Collectors.toSet());
             Assertions.assertTrue(discriminatorEntities.contains(Animal.class));

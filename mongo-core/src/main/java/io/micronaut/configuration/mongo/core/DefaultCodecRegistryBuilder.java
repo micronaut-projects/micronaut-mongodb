@@ -104,18 +104,27 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
     }
 
     private Collection<Class<?>> findDiscriminatorEntities(Collection<String> packageNames) {
-        List<String> packageNamesKey = packageNames.stream()
+        List<String> packageNamesKey = normalizePackageNamesForCaching(packageNames);
+        Collection<Class<?>> cachedEntities = discriminatorEntitiesCache.get(packageNamesKey);
+        if (cachedEntities != null) {
+            return cachedEntities;
+        }
+        Collection<Class<?>> discoveredEntities = List.copyOf(BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
+            reference.isPresent()
+                && reference.isAnnotationPresent(BsonDiscriminator.class)
+                && isWithinConfiguredPackages(reference.getBeanType(), packageNamesKey)
+        ));
+        Collection<Class<?>> existingEntities = discriminatorEntitiesCache.putIfAbsent(packageNamesKey, discoveredEntities);
+        return existingEntities != null ? existingEntities : discoveredEntities;
+    }
+
+    private List<String> normalizePackageNamesForCaching(Collection<String> packageNames) {
+        // Normalize order/duplicates so logically equivalent package sets share a single cache key.
+        return packageNames.stream()
             .filter(Objects::nonNull)
             .distinct()
             .sorted()
             .toList();
-        return discriminatorEntitiesCache.computeIfAbsent(packageNamesKey, key ->
-            List.copyOf(BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
-                reference.isPresent()
-                    && reference.isAnnotationPresent(BsonDiscriminator.class)
-                    && isWithinConfiguredPackages(reference.getBeanType(), key)
-            ))
-        );
     }
 
     private boolean isWithinConfiguredPackages(Class<?> beanType, Collection<String> packageNames) {
