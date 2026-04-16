@@ -388,18 +388,16 @@ class MongoReactiveConfigurationSpec extends Specification {
 
         @EventListener
         void onShutdown(ApplicationShutdownEvent event) {
-            Thread.start {
-                try {
-                    Mono.from(
-                            mongoClient.getDatabase('shutdown-delay')
-                                    .getCollection('reactive-events')
-                                    .insertOne(new Document('marker', 'reactive'))
-                    ).block()
-                } catch (Throwable e) {
-                    error = e
-                } finally {
-                    completed.countDown()
-                }
+            try {
+                Mono.from(
+                        mongoClient.getDatabase('shutdown-delay')
+                                .getCollection('reactive-events')
+                                .insertOne(new Document('marker', 'reactive'))
+                ).block()
+            } catch (Throwable e) {
+                error = e
+            } finally {
+                completed.countDown()
             }
         }
     }

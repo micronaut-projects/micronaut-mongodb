@@ -254,16 +254,14 @@ class MongoConfigurationSpec extends Specification {
 
         @EventListener
         void onShutdown(ApplicationShutdownEvent event) {
-            Thread.start {
-                try {
-                    mongoClient.getDatabase('shutdown-delay')
-                            .getCollection('sync-events')
-                            .insertOne(new Document('marker', 'sync'))
-                } catch (Throwable e) {
-                    error = e
-                } finally {
-                    completed.countDown()
-                }
+            try {
+                mongoClient.getDatabase('shutdown-delay')
+                        .getCollection('sync-events')
+                        .insertOne(new Document('marker', 'sync'))
+            } catch (Throwable e) {
+                error = e
+            } finally {
+                completed.countDown()
             }
         }
     }
