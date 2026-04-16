@@ -33,8 +33,7 @@ import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
 import io.micronaut.inject.qualifiers.Qualifiers
-import io.micronaut.runtime.event.ApplicationShutdownEvent
-import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.runtime.graceful.GracefulShutdownCapable
 import jakarta.inject.Singleton
 import org.bson.BsonReader
 import org.bson.BsonWriter
@@ -53,6 +52,8 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletionStage
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -376,7 +377,7 @@ class MongoReactiveConfigurationSpec extends Specification {
 
     @Singleton
     @Requires(property = 'spec.name', value = 'shutdown-delay-reactive')
-    static class ReactiveShutdownListener {
+    static class ReactiveShutdownListener implements GracefulShutdownCapable {
 
         final MongoClient mongoClient
         final CountDownLatch completed = new CountDownLatch(1)
@@ -386,8 +387,8 @@ class MongoReactiveConfigurationSpec extends Specification {
             this.mongoClient = mongoClient
         }
 
-        @EventListener
-        void onShutdown(ApplicationShutdownEvent event) {
+        @Override
+        CompletionStage<?> shutdownGracefully() {
             try {
                 Mono.from(
                         mongoClient.getDatabase('shutdown-delay')
@@ -399,6 +400,7 @@ class MongoReactiveConfigurationSpec extends Specification {
             } finally {
                 completed.countDown()
             }
+            return CompletableFuture.completedFuture(null)
         }
     }
 }

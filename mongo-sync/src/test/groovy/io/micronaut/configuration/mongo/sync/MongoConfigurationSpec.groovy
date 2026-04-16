@@ -31,8 +31,7 @@ import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
 import io.micronaut.core.io.socket.SocketUtils
-import io.micronaut.runtime.event.ApplicationShutdownEvent
-import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.runtime.graceful.GracefulShutdownCapable
 import jakarta.inject.Singleton
 import org.bson.Document
 import org.bson.types.ObjectId
@@ -42,6 +41,8 @@ import spock.lang.Issue
 import spock.lang.Shared
 import spock.lang.Specification
 
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletionStage
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -242,7 +243,7 @@ class MongoConfigurationSpec extends Specification {
 
     @Singleton
     @Requires(property = 'spec.name', value = 'shutdown-delay-sync')
-    static class BlockingShutdownListener {
+    static class BlockingShutdownListener implements GracefulShutdownCapable {
 
         final MongoClient mongoClient
         final CountDownLatch completed = new CountDownLatch(1)
@@ -252,8 +253,8 @@ class MongoConfigurationSpec extends Specification {
             this.mongoClient = mongoClient
         }
 
-        @EventListener
-        void onShutdown(ApplicationShutdownEvent event) {
+        @Override
+        CompletionStage<?> shutdownGracefully() {
             try {
                 mongoClient.getDatabase('shutdown-delay')
                         .getCollection('sync-events')
@@ -263,6 +264,7 @@ class MongoConfigurationSpec extends Specification {
             } finally {
                 completed.countDown()
             }
+            return CompletableFuture.completedFuture(null)
         }
     }
 }
