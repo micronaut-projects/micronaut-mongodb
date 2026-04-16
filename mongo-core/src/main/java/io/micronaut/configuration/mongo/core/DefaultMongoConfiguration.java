@@ -115,6 +115,12 @@ public class DefaultMongoConfiguration extends AbstractMongoConfiguration {
         super.connectionPoolListeners(connectionPoolListeners);
     }
 
+    @Override
+    @Inject
+    public void clientSettingsBuilderCustomizers(List<MongoClientSettingsBuilderCustomizer> clientSettingsBuilderCustomizers) {
+        super.clientSettingsBuilderCustomizers(clientSettingsBuilderCustomizers);
+    }
+
     /**
      * Sets the server MongoDB server address.
      *

@@ -51,6 +51,7 @@ public abstract class AbstractMongoConfiguration {
     private List<CodecRegistry> codecRegistries = Collections.emptyList();
     private List<CommandListener> commandListeners = Collections.emptyList();
     private List<ConnectionPoolListener> connectionPoolListeners = Collections.emptyList();
+    private List<MongoClientSettingsBuilderCustomizer> clientSettingsBuilderCustomizers = Collections.emptyList();
     private Collection<String> packageNames;
     private boolean automaticClassModels = true;
     private CodecRegistryBuilder codecRegistryBuilder;
@@ -105,6 +106,17 @@ public abstract class AbstractMongoConfiguration {
     public void connectionPoolListeners(List<ConnectionPoolListener> connectionPoolListeners) {
         if (connectionPoolListeners != null) {
             this.connectionPoolListeners = connectionPoolListeners;
+        }
+    }
+
+    /**
+     * Additional customizers to apply to the client settings builder.
+     *
+     * @param clientSettingsBuilderCustomizers The customizers
+     */
+    public void clientSettingsBuilderCustomizers(List<MongoClientSettingsBuilderCustomizer> clientSettingsBuilderCustomizers) {
+        if (clientSettingsBuilderCustomizers != null) {
+            this.clientSettingsBuilderCustomizers = clientSettingsBuilderCustomizers;
         }
     }
 
@@ -271,6 +283,7 @@ public abstract class AbstractMongoConfiguration {
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
         clientSettings.codecRegistry(codecRegistryBuilder.build(this));
         clientSettings.commandListenerList(commandListeners);
+        clientSettingsBuilderCustomizers.forEach(customizer -> customizer.customize(this, clientSettings));
         return clientSettings.build();
     }
 
