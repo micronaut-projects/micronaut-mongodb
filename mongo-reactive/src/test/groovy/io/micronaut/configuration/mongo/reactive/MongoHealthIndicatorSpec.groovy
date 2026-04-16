@@ -25,6 +25,7 @@ import io.micronaut.context.env.PropertySource
 import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.inject.BeanIdentifier
+import io.micronaut.inject.BeanDefinition
 import io.micronaut.management.health.aggregator.HealthAggregator
 import io.micronaut.management.health.indicator.HealthResult
 import org.bson.Document
@@ -48,6 +49,7 @@ class MongoHealthIndicatorSpec extends Specification {
         BeanRegistration<MongoClient> registration = Mock() {
             getBean() >> mongoClient
             getIdentifier() >> BeanIdentifier.of("Primary")
+            getBeanDefinition() >> Stub(BeanDefinition)
         }
         BeanContext beanContext = Stub() {
             findBeanRegistration(_ as MongoClient) >> Optional.of(registration)
@@ -64,7 +66,6 @@ class MongoHealthIndicatorSpec extends Specification {
         1 * mongoClient.getDatabase("admin") >> mongoDatabase
         1 * mongoDatabase.runCommand({
             it.containsKey("buildInfo") &&
-                    (it.get("buildInfo") == "1" || it.get("buildInfo") == 1) &&
                     !it.containsKey("buildinfo")
         }) >> Flux.just(new Document("version", "1.2.3"))
         healthResult.status == UP
