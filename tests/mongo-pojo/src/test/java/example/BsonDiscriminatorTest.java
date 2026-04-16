@@ -27,20 +27,19 @@ class BsonDiscriminatorTest {
                 new ApplicationConfiguration(),
                 context.getEnvironment()
             );
-            configuration.setPackageNames(List.of("example"));
+            String configuredPackage = "example";
+            configuration.setPackageNames(List.of(configuredPackage));
 
-            Set<Class<?>> discriminatorEntities = BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
-                    reference.isAnnotationPresent(BsonDiscriminator.class)
-                        && reference.getBeanType().getPackageName().equals("example")
-                ).stream()
+            Set<Class<?>> discriminatorEntities = BeanIntrospector.SHARED.findIntrospectedTypes(reference -> {
+                    String packageName = reference.getBeanType().getPackageName();
+                    return reference.isAnnotationPresent(BsonDiscriminator.class)
+                        && (packageName.equals(configuredPackage) || packageName.startsWith(configuredPackage + "."));
+                }).stream()
                 .collect(Collectors.toSet());
             Assertions.assertTrue(discriminatorEntities.contains(Animal.class));
             Assertions.assertTrue(discriminatorEntities.contains(Dog.class));
 
-            CodecRegistry codecRegistry = new DefaultCodecRegistryBuilder(
-                context.getEnvironment(),
-                null
-            ).build(configuration);
+            CodecRegistry codecRegistry = context.getBean(DefaultCodecRegistryBuilder.class).build(configuration);
 
             Animal animal = codecRegistry.get(Animal.class).decode(
                 new BsonDocumentReader(new BsonDocument()

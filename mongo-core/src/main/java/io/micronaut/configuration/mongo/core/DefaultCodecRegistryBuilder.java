@@ -34,6 +34,9 @@ import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,6 +57,7 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
 
     private final Environment environment;
     private final BeanProvider<SerdeRegistry> serdeRegistry;
+    private final Map<List<String>, Collection<Class<?>>> discriminatorEntitiesCache = new ConcurrentHashMap<>();
 
     public DefaultCodecRegistryBuilder(Environment environment, BeanProvider<SerdeRegistry> serdeRegistry) {
         this.environment = environment;
@@ -100,10 +104,17 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
     }
 
     private Collection<Class<?>> findDiscriminatorEntities(Collection<String> packageNames) {
-        return BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
-            reference.isPresent()
-                && reference.isAnnotationPresent(BsonDiscriminator.class)
-                && isWithinConfiguredPackages(reference.getBeanType(), packageNames)
+        List<String> packageNamesKey = packageNames.stream()
+            .filter(Objects::nonNull)
+            .distinct()
+            .sorted()
+            .toList();
+        return discriminatorEntitiesCache.computeIfAbsent(packageNamesKey, key ->
+            List.copyOf(BeanIntrospector.SHARED.findIntrospectedTypes(reference ->
+                reference.isPresent()
+                    && reference.isAnnotationPresent(BsonDiscriminator.class)
+                    && isWithinConfiguredPackages(reference.getBeanType(), key)
+            ))
         );
     }
 
