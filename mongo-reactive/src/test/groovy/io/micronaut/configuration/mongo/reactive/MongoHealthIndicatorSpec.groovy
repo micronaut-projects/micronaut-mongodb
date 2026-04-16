@@ -45,8 +45,12 @@ class MongoHealthIndicatorSpec extends Specification {
         given:
         MongoClient mongoClient = Mock()
         MongoDatabase mongoDatabase = Mock()
+        BeanRegistration<MongoClient> registration = Mock() {
+            getBean() >> mongoClient
+            getIdentifier() >> BeanIdentifier.of("Primary")
+        }
         BeanContext beanContext = Stub() {
-            findBeanRegistration(_ as MongoClient) >> Optional.of(new BeanRegistration<>(BeanIdentifier.of("Primary"), null, mongoClient))
+            findBeanRegistration(_ as MongoClient) >> Optional.of(registration)
         }
         HealthAggregator<?> healthAggregator = Stub() {
             aggregate(_, _) >> { String name, org.reactivestreams.Publisher<HealthResult> results -> results }
@@ -59,7 +63,9 @@ class MongoHealthIndicatorSpec extends Specification {
         then:
         1 * mongoClient.getDatabase("admin") >> mongoDatabase
         1 * mongoDatabase.runCommand({
-            it.get("buildInfo") == "1" && !it.containsField("buildinfo")
+            it.containsKey("buildInfo") &&
+                    (it.get("buildInfo") == "1" || it.get("buildInfo") == 1) &&
+                    !it.containsKey("buildinfo")
         }) >> Flux.just(new Document("version", "1.2.3"))
         healthResult.status == UP
         healthResult.details.version == "1.2.3"
