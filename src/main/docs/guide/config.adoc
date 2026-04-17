@@ -28,6 +28,20 @@ mongodb:
         maxSize: 20
 ----
 
+==== POJO Discriminators
+
+When using MongoDB POJO codecs together with `@BsonDiscriminator`, configure `mongodb.package-names` so Micronaut can register the matching types with the MongoDB `PojoCodecProvider`.
+
+To avoid classpath or JAR scanning, discriminator registration only considers classes that have Micronaut bean introspections. Annotate the root type and subtypes with `@Introspected`, or otherwise provide bean introspection metadata for those classes.
+
+.Configuring packages for discriminator-based POJOs
+[configuration]
+----
+mongodb:
+  package-names:
+    - example.animals
+----
+
 ==== Multiple MongoDB Drivers
 
 You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in `application.yml`:
