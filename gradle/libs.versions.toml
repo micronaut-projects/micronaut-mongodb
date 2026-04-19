@@ -9,7 +9,7 @@ managed-mongo-reactive = "5.6.5"
 
 micronaut-micrometer = "5.13.2"
 micronaut-serde = "3.0.0-M6"
-micronaut-validation = "5.0.0-M1"
+micronaut-validation = "5.0.0-M2"
 
 [libraries]
 # Core
