@@ -26,14 +26,18 @@ import com.mongodb.event.CommandStartedEvent
 import com.mongodb.event.CommandSucceededEvent
 import com.mongodb.event.ConnectionPoolListener
 import com.mongodb.reactivestreams.client.MongoClient
+import com.mongodb.reactivestreams.client.MongoClients
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Requires
 import io.micronaut.inject.qualifiers.Qualifiers
+import io.micronaut.runtime.graceful.GracefulShutdownCapable
 import jakarta.inject.Singleton
 import org.bson.BsonReader
 import org.bson.BsonWriter
+import org.bson.Document
 import org.bson.codecs.Codec
 import org.bson.codecs.DecoderContext
 import org.bson.codecs.EncoderContext
@@ -47,6 +51,11 @@ import spock.lang.PendingFeature
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletionStage
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 class MongoReactiveConfigurationSpec extends Specification {
 
@@ -289,6 +298,35 @@ class MongoReactiveConfigurationSpec extends Specification {
         "maxSize" | 10
     }
 
+    void "test shutdown delay keeps reactive client available for deferred shutdown work"() {
+        given:
+        String uri = "mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}"
+        ApplicationContext context = ApplicationContext.run([
+                'spec.name': 'shutdown-delay-reactive',
+                (MongoSettings.MONGODB_URI): uri,
+                'mongodb.shutdown-delay': '5s',
+                'micronaut.lifecycle.graceful-shutdown.enabled': true,
+                'micronaut.lifecycle.graceful-shutdown.grace-period': '10s'
+        ])
+        ReactiveShutdownListener listener = context.getBean(ReactiveShutdownListener)
+        MongoClient verificationClient = MongoClients.create(uri)
+
+        when:
+        context.stop()
+
+        then:
+        listener.completed.await(15, TimeUnit.SECONDS)
+        listener.error == null
+        Mono.from(
+                verificationClient.getDatabase('shutdown-delay').getCollection('reactive-events')
+                        .countDocuments(new Document('marker', 'reactive'))
+        ).block() == 1
+
+        cleanup:
+        verificationClient?.close()
+        context?.close()
+    }
+
     static class Book {
         String title
     }
@@ -335,5 +373,34 @@ class MongoReactiveConfigurationSpec extends Specification {
 
     @Singleton
     static class FluffConnectionPoolListener implements ConnectionPoolListener {
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'shutdown-delay-reactive')
+    static class ReactiveShutdownListener implements GracefulShutdownCapable {
+
+        final MongoClient mongoClient
+        final CountDownLatch completed = new CountDownLatch(1)
+        volatile Throwable error
+
+        ReactiveShutdownListener(MongoClient mongoClient) {
+            this.mongoClient = mongoClient
+        }
+
+        @Override
+        CompletionStage<?> shutdownGracefully() {
+            try {
+                Mono.from(
+                        mongoClient.getDatabase('shutdown-delay')
+                                .getCollection('reactive-events')
+                                .insertOne(new Document('marker', 'reactive'))
+                ).block()
+            } catch (Throwable e) {
+                error = e
+            } finally {
+                completed.countDown()
+            }
+            return CompletableFuture.completedFuture(null)
+        }
     }
 }

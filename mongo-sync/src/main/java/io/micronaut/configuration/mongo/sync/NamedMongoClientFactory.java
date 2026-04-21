@@ -17,6 +17,7 @@ package io.micronaut.configuration.mongo.sync;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import io.micronaut.configuration.mongo.core.MongoClientCloser;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
@@ -33,6 +34,15 @@ import io.micronaut.runtime.context.scope.Refreshable;
 @Factory
 public class NamedMongoClientFactory {
 
+    private final MongoClientCloser mongoClientCloser;
+
+    /**
+     * @param mongoClientCloser Tracks configured shutdown delays
+     */
+    public NamedMongoClientFactory(MongoClientCloser mongoClientCloser) {
+        this.mongoClientCloser = mongoClientCloser;
+    }
+
     /**
      * Factory name to create a client.
      * @param configuration configuration pulled in
@@ -42,6 +52,9 @@ public class NamedMongoClientFactory {
     @EachBean(NamedMongoConfiguration.class)
     @Refreshable(MongoSettings.PREFIX)
     MongoClient mongoClient(NamedMongoConfiguration configuration) {
-        return MongoClients.create(configuration.buildSettings());
+        return mongoClientCloser.track(
+            MongoClients.create(configuration.buildSettings()),
+            configuration.getShutdownDelay()
+        );
     }
 }

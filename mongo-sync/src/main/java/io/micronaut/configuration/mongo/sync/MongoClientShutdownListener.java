@@ -15,51 +15,36 @@
  */
 package io.micronaut.configuration.mongo.sync;
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoClientCloser;
-import io.micronaut.context.annotation.Bean;
-import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
-
+import io.micronaut.context.event.BeanDestroyedEvent;
+import io.micronaut.context.event.BeanDestroyedEventListener;
+import io.micronaut.core.annotation.Internal;
 import jakarta.inject.Singleton;
 
 /**
- * Builds the primary MongoClient.
+ * Untracks blocking Mongo clients when beans are destroyed.
  *
  * @author graemerocher
- * @since 1.0
+ * @since 6.0.0
  */
+@Internal
 @Requires(classes = MongoClient.class)
-@Requires(beans = DefaultMongoConfiguration.class)
-@Factory
-public class DefaultMongoClientFactory {
+@Singleton
+final class MongoClientShutdownListener implements BeanDestroyedEventListener<MongoClient> {
 
     private final MongoClientCloser mongoClientCloser;
 
     /**
      * @param mongoClientCloser Tracks configured shutdown delays
      */
-    public DefaultMongoClientFactory(MongoClientCloser mongoClientCloser) {
+    MongoClientShutdownListener(MongoClientCloser mongoClientCloser) {
         this.mongoClientCloser = mongoClientCloser;
     }
 
-    /**
-     * Factory method to return a client.
-     * @param mongoConfiguration configuration pulled in
-     * @param settings settings pulled in
-     * @return mongoClient
-     */
-    @Bean(preDestroy = "close")
-    @Primary
-    @Singleton
-    protected MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration, MongoClientSettings settings) {
-        return mongoClientCloser.track(
-            MongoClients.create(settings),
-            mongoConfiguration.getShutdownDelay()
-        );
+    @Override
+    public void onDestroyed(BeanDestroyedEvent<MongoClient> event) {
+        mongoClientCloser.untrack(event.getBean());
     }
 }

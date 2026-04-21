@@ -31,6 +31,8 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +58,7 @@ public abstract class AbstractMongoConfiguration {
     private boolean automaticClassModels = true;
     private CodecRegistryBuilder codecRegistryBuilder;
     private boolean useSerde;
+    private Duration shutdownDelay = Duration.ZERO;
 
     /**
      * Constructor.
@@ -315,6 +318,24 @@ public abstract class AbstractMongoConfiguration {
      */
     public boolean isUseSerde() {
         return useSerde;
+    }
+
+    /**
+     * @return The delay to wait before closing the Mongo client during shutdown.
+     */
+    public Duration getShutdownDelay() {
+        return shutdownDelay;
+    }
+
+    /**
+     * Sets the delay to wait before closing the Mongo client during shutdown.
+     *
+     * @param shutdownDelay The shutdown delay
+     */
+    public void setShutdownDelay(Duration shutdownDelay) {
+        if (shutdownDelay != null) {
+            this.shutdownDelay = shutdownDelay.isNegative() ? Duration.ZERO : shutdownDelay;
+        }
     }
 
     /**

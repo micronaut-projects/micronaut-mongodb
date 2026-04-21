@@ -18,6 +18,7 @@ package io.micronaut.configuration.mongo.reactive;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
+import io.micronaut.configuration.mongo.core.MongoClientCloser;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
@@ -35,6 +36,14 @@ import io.micronaut.runtime.context.scope.Refreshable;
 @Factory
 public class DefaultReactiveMongoClientFactory {
 
+    private final MongoClientCloser mongoClientCloser;
+
+    /**
+     * @param mongoClientCloser Tracks configured shutdown delays
+     */
+    public DefaultReactiveMongoClientFactory(MongoClientCloser mongoClientCloser) {
+        this.mongoClientCloser = mongoClientCloser;
+    }
 
     /**
      * Factory Method for creating a client.
@@ -45,6 +54,9 @@ public class DefaultReactiveMongoClientFactory {
     @Refreshable(MongoSettings.PREFIX)
     @Primary
     MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
-        return MongoClients.create(mongoConfiguration.buildSettings());
+        return mongoClientCloser.track(
+            MongoClients.create(mongoConfiguration.buildSettings()),
+            mongoConfiguration.getShutdownDelay()
+        );
     }
 }

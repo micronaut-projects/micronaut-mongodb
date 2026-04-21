@@ -45,6 +45,10 @@ public interface MongoSettings {
      */
     String MONGODB_SERVERS = PREFIX + ".servers";
     /**
+     * The MongoDB shutdown delay setting.
+     */
+    String SHUTDOWN_DELAY = PREFIX + ".shutdown-delay";
+    /**
      * The default URI.
      */
     String DEFAULT_URI = "mongodb://localhost";

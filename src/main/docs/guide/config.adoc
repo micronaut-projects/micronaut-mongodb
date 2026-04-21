@@ -61,6 +61,24 @@ mongodb:
     - example.animals
 ----
 
+To keep MongoDB clients available briefly for deferred shutdown work triggered by
+api:runtime.event.ApplicationShutdownEvent[] listeners, enable Micronaut graceful
+shutdown and set `mongodb.shutdown-delay`:
+
+[source,yaml]
+----
+micronaut:
+  lifecycle:
+    graceful-shutdown:
+      enabled: true
+      grace-period: 5s
+mongodb:
+  shutdown-delay: 1s
+----
+
+The graceful shutdown grace period must be greater than or equal to
+`mongodb.shutdown-delay`.
+
 ==== Multiple MongoDB Drivers
 
 You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in `application.yml`:
