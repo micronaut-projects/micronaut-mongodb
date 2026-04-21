@@ -352,6 +352,65 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 </div>
 </div>
 <div class="sect3">
+<h4 id="_pojo_discriminators">POJO Discriminators</h4>
+<div class="paragraph">
+<p>When using MongoDB POJO codecs together with <code>@BsonDiscriminator</code>, configure <code>mongodb.package-names</code> so Micronaut can register the matching types with the MongoDB <code>PojoCodecProvider</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid classpath or JAR scanning, discriminator registration only considers classes that have Micronaut bean introspections. Annotate the root type and subtypes with <code>@Introspected</code>, or otherwise provide bean introspection metadata for those classes.</p>
+</div>
+<div class="openblock">
+<div class="title">Configuring packages for discriminator-based POJOs</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.package-names[0]=example.animals</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+  package-names:
+    - example.animals</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+  package-names=[
+    "example.animals"
+  ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  packageNames = ["example.animals"]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    package-names = ["example.animals"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "package-names": ["example.animals"]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
 <h4 id="_multiple_mongodb_drivers">Multiple MongoDB Drivers</h4>
 <div class="paragraph">
 <p>You can create multiple MongoDB connections using the <code>mongodb.servers</code> setting. For example in <code>application.yml</code>:</p>
