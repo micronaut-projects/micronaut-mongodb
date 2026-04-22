@@ -1,7 +1,7 @@
 [versions]
 micronaut = "5.0.0-M24"
 micronaut-test = "5.0.0-M3"
-micronaut-platform = "4.10.12"
+micronaut-platform = "5.0.0-M2"
 micronaut-gradle-plugin = "4.6.2"
 
 managed-mongo = "5.6.5"
