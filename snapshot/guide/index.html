@@ -409,6 +409,26 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>To keep MongoDB clients available briefly for deferred shutdown work triggered by
+<a href="../api/io/micronaut/runtime/event/ApplicationShutdownEvent.html">ApplicationShutdownEvent</a> listeners, enable Micronaut graceful
+shutdown and set <code>mongodb.shutdown-delay</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  lifecycle:
+    graceful-shutdown:
+      enabled: true
+      grace-period: 5s
+mongodb:
+  shutdown-delay: 1s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The graceful shutdown grace period must be greater than or equal to
+<code>mongodb.shutdown-delay</code>.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_multiple_mongodb_drivers">Multiple MongoDB Drivers</h4>

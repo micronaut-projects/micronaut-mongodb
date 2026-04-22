@@ -94,6 +94,12 @@
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.shutdown-delay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the delay to wait before closing the Mongo client during shutdown.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.host</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">com.mongodb.ServerAddress</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sets the server MongoDB server address.</p></td>
@@ -1780,6 +1786,12 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.use-serde</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Activates Micronaut Serialization instead of MongoDB POJO.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mongodb.servers.*.shutdown-delay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the delay to wait before closing the Mongo client during shutdown.</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>

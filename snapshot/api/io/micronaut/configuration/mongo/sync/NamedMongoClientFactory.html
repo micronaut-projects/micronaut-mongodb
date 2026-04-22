@@ -57,7 +57,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E()" tabindex="0">NamedMongoClientFactory()</a></li>
+<li><a href="#%3Cinit%3E(io.micronaut.configuration.mongo.core.MongoClientCloser)" tabindex="0">NamedMongoClientFactory(MongoClientCloser)</a></li>
 </ol>
 </li>
 </ol>
@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">NamedMongoClientFactory</a>()</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.configuration.mongo.core.MongoClientCloser)" class="member-name-link">NamedMongoClientFactory</a><wbr>(<a href="../core/MongoClientCloser.html" title="class in io.micronaut.configuration.mongo.core">MongoClientCloser</a>&nbsp;mongoClientCloser)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -119,10 +119,14 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;()">
+<section class="detail" id="&lt;init&gt;(io.micronaut.configuration.mongo.core.MongoClientCloser)">
 <h3>NamedMongoClientFactory</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">NamedMongoClientFactory</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">NamedMongoClientFactory</span><wbr><span class="parameters">(<a href="../core/MongoClientCloser.html" title="class in io.micronaut.configuration.mongo.core">MongoClientCloser</a>&nbsp;mongoClientCloser)</span></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mongoClientCloser</code> - Tracks configured shutdown delays</dd>
+</dl>
 </div>
 </section>
 </li>
