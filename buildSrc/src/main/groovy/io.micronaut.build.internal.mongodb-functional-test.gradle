@@ -7,6 +7,10 @@ repositories {
     mavenCentral()
 }
 
+configurations.configureEach {
+    resolutionStrategy.preferProjectModules()
+}
+
 application {
     mainClass = "example.Application"
 }
