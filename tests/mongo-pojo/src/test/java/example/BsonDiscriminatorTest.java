@@ -43,7 +43,7 @@ class BsonDiscriminatorTest {
 
             Animal animal = codecRegistry.get(Animal.class).decode(
                 new BsonDocumentReader(new BsonDocument()
-                    .append("type", new BsonString("Dog"))
+                    .append("type", new BsonString("dog"))
                     .append("name", new BsonString("Fido"))
                     .append("favoriteToy", new BsonString("Ball"))),
                 DecoderContext.builder().build()
