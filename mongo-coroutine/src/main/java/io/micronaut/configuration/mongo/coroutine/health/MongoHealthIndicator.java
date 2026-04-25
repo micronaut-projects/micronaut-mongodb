@@ -105,7 +105,7 @@ public class MongoHealthIndicator implements HealthIndicator {
     }
 
     private Publisher<Document> pingMongo(MongoClient mongoClient) {
-        return Mono.fromCallable(() -> {
+        return Mono.<Document>fromCallable(() -> {
             com.mongodb.kotlin.client.coroutine.MongoDatabase database = mongoClient.getDatabase("admin");
             return CoroutineSupport.await(
                 continuation -> database.runCommandDocument(new Document("buildInfo", 1), database.getReadPreference(), continuation)
