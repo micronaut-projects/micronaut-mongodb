@@ -23,6 +23,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
+import jakarta.inject.Singleton;
 
 /**
  * Factory for named {@link MongoClient} instances.
@@ -51,6 +52,7 @@ public class NamedCoroutineMongoClientFactory {
      */
     @Bean(preDestroy = "close")
     @EachBean(NamedMongoConfiguration.class)
+    @Singleton
     MongoClient mongoClient(NamedMongoConfiguration configuration) {
         MongoClient mongoClient = new MongoClient(MongoClients.create(configuration.buildSettings()));
         mongoClient.appendMetadata(DefaultCoroutineMongoClientFactory.DRIVER_INFORMATION);

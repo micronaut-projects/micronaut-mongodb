@@ -95,6 +95,14 @@ class MongoHealthIndicatorSpec extends Specification {
                 (MONGODB_URI): "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}",
                 'mongodb.cluster.serverSelectionTimeout': '1s'
         )
+        try {
+            CoroutineSupport.await { continuation ->
+                MongoClient mongoClient = applicationContext.getBean(MongoClient)
+                def database = mongoClient.getDatabase("admin")
+                database.runCommandDocument(new Document("buildInfo", 1), database.getReadPreference(), continuation)
+            }
+        } catch (ignored) {
+        }
         MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
 
         then:
@@ -115,6 +123,14 @@ class MongoHealthIndicatorSpec extends Specification {
         ApplicationContext applicationContext = ApplicationContext.run(
                 (MONGODB_URI): "mongodb://${mongo.host}:${mongo.getMappedPort(27017)}"
         )
+        try {
+            CoroutineSupport.await { continuation ->
+                MongoClient mongoClient = applicationContext.getBean(MongoClient)
+                def database = mongoClient.getDatabase("admin")
+                database.runCommandDocument(new Document("buildInfo", 1), database.getReadPreference(), continuation)
+            }
+        } catch (ignored) {
+        }
         MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
         HealthResult healthResult = Flux.from(healthIndicator.result).blockFirst()
 

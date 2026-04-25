@@ -2,6 +2,10 @@ plugins {
     id 'io.micronaut.build.internal.mongodb-module'
 }
 
+micronautBuild {
+    binaryCompatibility.enabledAfter("6.0.0")
+}
+
 dependencies {
     annotationProcessor mn.micronaut.inject.java
     annotationProcessor(mnValidation.micronaut.validation.processor)

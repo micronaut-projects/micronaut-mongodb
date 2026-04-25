@@ -24,6 +24,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
+import jakarta.inject.Singleton;
 import kotlin.KotlinVersion;
 
 /**
@@ -59,6 +60,7 @@ public class DefaultCoroutineMongoClientFactory {
      */
     @Bean(preDestroy = "close")
     @Primary
+    @Singleton
     MongoClient mongoClient(DefaultMongoConfiguration configuration) {
         MongoClient mongoClient = new MongoClient(MongoClients.create(configuration.buildSettings()));
         mongoClient.appendMetadata(DRIVER_INFORMATION);
