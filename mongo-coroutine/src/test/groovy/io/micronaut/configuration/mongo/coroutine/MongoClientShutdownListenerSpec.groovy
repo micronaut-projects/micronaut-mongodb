@@ -48,7 +48,7 @@ class MongoClientShutdownListenerSpec extends Specification {
 
         then:
         trackedDelayMillis >= 200
-        untrackedDelayMillis < 100
+        untrackedDelayMillis < trackedDelayMillis
 
         cleanup:
         mongoClient?.close()

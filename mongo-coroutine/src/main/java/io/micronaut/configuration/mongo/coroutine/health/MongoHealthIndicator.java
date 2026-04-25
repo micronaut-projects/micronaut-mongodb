@@ -31,6 +31,7 @@ import org.bson.Document;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -109,7 +110,7 @@ public class MongoHealthIndicator implements HealthIndicator {
             return CoroutineSupport.await(
                 continuation -> database.runCommandDocument(new Document("buildInfo", 1), database.getReadPreference(), continuation)
             );
-        });
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
     private Map<String, String> getVersionDetails(Document document) {
