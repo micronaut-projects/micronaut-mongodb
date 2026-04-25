@@ -29,3 +29,9 @@ To use the blocking driver, add a dependency to your application to the `microna
 dependency:micronaut-mongo-sync[groupId="io.micronaut.mongodb"]
 
 Then the blocking https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html[MongoClient] will be available for injection.
+
+To use the Kotlin coroutine driver, add a dependency to your application to the `micronaut-mongo-coroutine` module.
+
+dependency:micronaut-mongo-coroutine[groupId="io.micronaut.mongodb"]
+
+Then the https://mongodb.github.io/mongo-java-driver/5.6/apidocs/driver-kotlin-coroutine/com/mongodb/kotlin/client/coroutine/MongoClient.html[Kotlin coroutine `MongoClient`] will be available for injection.

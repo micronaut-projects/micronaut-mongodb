@@ -12,7 +12,7 @@ mongodb:
         maxSize: 20
 ----
 
-The same configuration model is used for both the blocking and reactive clients. Named clients use the same structure under `mongodb.servers.<name>`.
+The same configuration model is used for the blocking, reactive streams, and Kotlin coroutine clients. Named clients use the same structure under `mongodb.servers.<name>`.
 
 See the API for api:configuration.mongo.core.DefaultMongoConfiguration[] and api:configuration.mongo.core.NamedMongoConfiguration[] for more information on the available configuration options.
 
@@ -34,7 +34,7 @@ snippet::io.micronaut.mongodb.docs.AutoEncryptionCustomizer[tags="imports,clazz"
 
 The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.
 
-The same customizer beans apply to both the blocking and reactive drivers because both clients are created from the same `AbstractMongoConfiguration.buildSettings()` workflow.
+The same customizer beans apply to the blocking, reactive streams, and coroutine drivers because all clients are created from the same `AbstractMongoConfiguration.buildSettings()` workflow.
 
 For the Reactive driver, the same configuration properties apply. For example:
 
@@ -104,6 +104,6 @@ import jakarta.inject.*;
 
 ==== MongoDB Health Checks
 
-When the `mongo-reactive` module is activated a api:configuration.mongo.reactive.health.MongoHealthIndicator[] is activated resulting in the `/health` endpoint and api:health.CurrentHealthStatus[] interface resolving the health of the MongoDB connection.
+When the `mongo-reactive` or `mongo-coroutine` module is activated, the corresponding api:configuration.mongo.reactive.health.MongoHealthIndicator[] or api:configuration.mongo.coroutine.health.MongoHealthIndicator[] is activated, resulting in the `/health` endpoint and api:health.CurrentHealthStatus[] interface resolving the health of the MongoDB connection.
 
 See the section on the https://docs.micronaut.io/latest/guide/index.html#healthEndpoint[Health Endpoint] for more information.
