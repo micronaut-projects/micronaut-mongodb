@@ -7,7 +7,7 @@ micronaut-gradle-plugin = "4.6.2"
 managed-mongo = "5.6.5"
 managed-mongo-reactive = "5.6.5"
 
-micronaut-micrometer = "5.13.2"
+micronaut-micrometer = "6.0.0-M2"
 micronaut-serde = "3.0.0-M7"
 micronaut-validation = "5.0.0-M2"
 
