@@ -54,6 +54,9 @@ loadScripts(document, 'script');</script>
 <li><a href="io/micronaut/configuration/mongo/core/package-tree.html">io.micronaut.configuration.mongo.core</a>, </li>
 <li><a href="io/micronaut/configuration/mongo/core/convert/package-tree.html">io.micronaut.configuration.mongo.core.convert</a>, </li>
 <li><a href="io/micronaut/configuration/mongo/core/serde/package-tree.html">io.micronaut.configuration.mongo.core.serde</a>, </li>
+<li><a href="io/micronaut/configuration/mongo/coroutine/package-tree.html">io.micronaut.configuration.mongo.coroutine</a>, </li>
+<li><a href="io/micronaut/configuration/mongo/coroutine/condition/package-tree.html">io.micronaut.configuration.mongo.coroutine.condition</a>, </li>
+<li><a href="io/micronaut/configuration/mongo/coroutine/health/package-tree.html">io.micronaut.configuration.mongo.coroutine.health</a>, </li>
 <li><a href="io/micronaut/configuration/mongo/reactive/package-tree.html">io.micronaut.configuration.mongo.reactive</a>, </li>
 <li><a href="io/micronaut/configuration/mongo/reactive/condition/package-tree.html">io.micronaut.configuration.mongo.reactive.condition</a>, </li>
 <li><a href="io/micronaut/configuration/mongo/reactive/health/package-tree.html">io.micronaut.configuration.mongo.reactive.health</a>, </li>
@@ -69,6 +72,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.module.info.AbstractMicronautModuleInfo (implements io.micronaut.module.info.MicronautModuleInfo)
 <ul>
 <li class="circle">io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoCoreModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoCoreModuleInfo</a></li>
+<li class="circle">io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoCoroutineModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoCoroutineModuleInfo</a></li>
 <li class="circle">io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoReactiveModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoReactiveModuleInfo</a></li>
 <li class="circle">io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoSyncModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoSyncModuleInfo</a></li>
 </ul>
@@ -79,14 +83,18 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core">NamedMongoConfiguration</a></li>
 </ul>
 </li>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.health.<a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine.health">CoroutineMongoHealthIndicator</a> (implements io.micronaut.management.health.indicator.HealthIndicator)</li>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">CoroutineSupport</a></li>
 <li class="circle">io.micronaut.configuration.mongo.core.serde.<a href="io/micronaut/configuration/mongo/core/serde/DataCodecRegistry.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core.serde">DataCodecRegistry</a> (implements org.bson.codecs.configuration.CodecRegistry)</li>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core">DefaultCodecRegistryBuilder</a> (implements io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" title="interface in io.micronaut.configuration.mongo.core">CodecRegistryBuilder</a>)</li>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/DefaultCoroutineMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">DefaultCoroutineMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.sync.<a href="io/micronaut/configuration/mongo/sync/DefaultMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.sync">DefaultMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultMongoClientSettingsFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core">DefaultMongoClientSettingsFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.reactive.<a href="io/micronaut/configuration/mongo/reactive/DefaultReactiveMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.reactive">DefaultReactiveMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoClientCloser.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core">MongoClientCloser</a> (implements io.micronaut.runtime.graceful.GracefulShutdownCapable)</li>
 <li class="circle">io.micronaut.mongodb.testcontainers.<a href="io/micronaut/mongodb/testcontainers/MongoDb.html" class="type-name-link" title="class in io.micronaut.mongodb.testcontainers">MongoDb</a></li>
 <li class="circle">io.micronaut.configuration.mongo.reactive.health.<a href="io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.reactive.health">MongoHealthIndicator</a> (implements io.micronaut.management.health.indicator.HealthIndicator)</li>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/NamedCoroutineMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">NamedCoroutineMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.sync.<a href="io/micronaut/configuration/mongo/sync/NamedMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.sync">NamedMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.reactive.<a href="io/micronaut/configuration/mongo/reactive/NamedReactiveMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.reactive">NamedReactiveMongoClientFactory</a></li>
 <li class="circle">io.micronaut.configuration.mongo.core.convert.<a href="io/micronaut/configuration/mongo/core/convert/StringToReadConcernConverter.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.core.convert">StringToReadConcernConverter</a> (implements io.micronaut.core.convert.TypeConverter&lt;S,<wbr>T&gt;)</li>
@@ -101,6 +109,7 @@ loadScripts(document, 'script');</script>
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/CodecRegistryBuilder.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.core">CodecRegistryBuilder</a></li>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.SuspendOperation.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.coroutine">CoroutineSupport.SuspendOperation</a>&lt;T&gt;</li>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.core">MongoClientSettingsBuilderCustomizer</a></li>
 <li class="circle">io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoSettings.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.core">MongoSettings</a></li>
 </ul>
@@ -108,6 +117,7 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Annotation Interface Hierarchy">Annotation Interface Hierarchy</h2>
 <ul>
+<li class="circle">io.micronaut.configuration.mongo.coroutine.condition.<a href="io/micronaut/configuration/mongo/coroutine/condition/RequiresMongo.html" class="type-name-link" title="annotation interface in io.micronaut.configuration.mongo.coroutine.condition">RequiresMongo</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
 <li class="circle">io.micronaut.configuration.mongo.reactive.condition.<a href="io/micronaut/configuration/mongo/reactive/condition/RequiresMongo.html" class="type-name-link" title="annotation interface in io.micronaut.configuration.mongo.reactive.condition">RequiresMongo</a> (implements java.lang.annotation.<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>)</li>
 </ul>
 </section>

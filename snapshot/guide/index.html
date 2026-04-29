@@ -127,7 +127,7 @@
 <p>This project includes integration between Micronaut and MongoDB.</p>
 </div>
 <div class="paragraph">
-<p>Note that this project provides only low-level access to the MongoDB client drivers (both synchronous and reactive). If you are looking for a more complete experience including support for data access repositories see the documentation for <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo">Micronaut Data MongoDB</a> as well as these useful guides:</p>
+<p>Note that this project provides only low-level access to the MongoDB client drivers (synchronous, reactive streams, and Kotlin coroutine). If you are looking for a more complete experience including support for data access repositories see the documentation for <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo">Micronaut Data MongoDB</a> as well as these useful guides:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -272,6 +272,29 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <div class="paragraph">
 <p>Then the blocking <a href="https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html">MongoClient</a> will be available for injection.</p>
 </div>
+<div class="paragraph">
+<p>To use the Kotlin coroutine driver, add a dependency to your application to the <code>micronaut-mongo-coroutine</code> module.</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.mongodb:micronaut-mongo-coroutine")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.mongodb&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-mongo-coroutine&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then the <a href="https://mongodb.github.io/mongo-java-driver/5.6/apidocs/driver-kotlin-coroutine/com/mongodb/kotlin/client/coroutine/MongoClient.html">Kotlin coroutine <code>MongoClient</code></a> will be available for injection.</p>
+</div>
 
 <h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the Mongo Driver</h1>
 
@@ -299,7 +322,7 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 </div>
 </div>
 <div class="paragraph">
-<p>The same configuration model is used for both the blocking and reactive clients. Named clients use the same structure under <code>mongodb.servers.&lt;name&gt;</code>.</p>
+<p>The same configuration model is used for the blocking, reactive streams, and Kotlin coroutine clients. Named clients use the same structure under <code>mongodb.servers.&lt;name&gt;</code>.</p>
 </div>
 <div class="paragraph">
 <p>See the API for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> and <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a> for more information on the available configuration options.</p>
@@ -336,7 +359,7 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <p>The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.</p>
 </div>
 <div class="paragraph">
-<p>The same customizer beans apply to both the blocking and reactive drivers because both clients are created from the same <code>AbstractMongoConfiguration.buildSettings()</code> workflow.</p>
+<p>The same customizer beans apply to the blocking, reactive streams, and coroutine drivers because all clients are created from the same <code>AbstractMongoConfiguration.buildSettings()</code> workflow.</p>
 </div>
 <div class="paragraph">
 <p>For the Reactive driver, the same configuration properties apply. For example:</p>
@@ -459,7 +482,7 @@ import jakarta.inject.*;
 <div class="sect3">
 <h4 id="_mongodb_health_checks">MongoDB Health Checks</h4>
 <div class="paragraph">
-<p>When the <code>mongo-reactive</code> module is activated a <a href="../api/io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html">MongoHealthIndicator</a> is activated resulting in the <code>/health</code> endpoint and <a href="../api/io/micronaut/health/CurrentHealthStatus.html">CurrentHealthStatus</a> interface resolving the health of the MongoDB connection.</p>
+<p>When the <code>mongo-reactive</code> or <code>mongo-coroutine</code> module is activated, the corresponding <a href="../api/io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html">MongoHealthIndicator</a> or <a href="../api/io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html">CoroutineMongoHealthIndicator</a> is activated, resulting in the <code>/health</code> endpoint and <a href="../api/io/micronaut/health/CurrentHealthStatus.html">CurrentHealthStatus</a> interface resolving the health of the MongoDB connection.</p>
 </div>
 <div class="paragraph">
 <p>See the section on the <a href="https://docs.micronaut.io/latest/guide/index.html#healthEndpoint">Health Endpoint</a> for more information.</p>

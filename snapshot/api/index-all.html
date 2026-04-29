@@ -64,6 +64,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds the default codec registry.</div>
 </dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.html#await(io.micronaut.configuration.mongo.coroutine.CoroutineSupport.SuspendOperation)" class="member-name-link">await(CoroutineSupport.SuspendOperation)</a> - Static method in class io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.html" title="class in io.micronaut.configuration.mongo.coroutine">CoroutineSupport</a></dt>
+<dd>
+<div class="block">Execute a suspend operation and wait for the result.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:B">B</h2>
 <dl class="index">
@@ -138,6 +142,20 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/convert/StringToWriteConcernConverter.html#convert(java.lang.CharSequence,java.lang.Class,io.micronaut.core.convert.ConversionContext)" class="member-name-link">convert(CharSequence, Class, ConversionContext)</a> - Method in class io.micronaut.configuration.mongo.core.convert.<a href="io/micronaut/configuration/mongo/core/convert/StringToWriteConcernConverter.html" title="class in io.micronaut.configuration.mongo.core.convert">StringToWriteConcernConverter</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine.health">CoroutineMongoHealthIndicator</a> - Class in <a href="io/micronaut/configuration/mongo/coroutine/health/package-summary.html">io.micronaut.configuration.mongo.coroutine.health</a></dt>
+<dd>
+<div class="block">A <code>HealthIndicator</code> for MongoDB coroutine clients.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html#%3Cinit%3E(io.micronaut.context.BeanContext,io.micronaut.management.health.aggregator.HealthAggregator,com.mongodb.kotlin.client.coroutine.MongoClient...)" class="member-name-link">CoroutineMongoHealthIndicator(BeanContext, HealthAggregator, MongoClient...)</a> - Constructor for class io.micronaut.configuration.mongo.coroutine.health.<a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html" title="class in io.micronaut.configuration.mongo.coroutine.health">CoroutineMongoHealthIndicator</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">CoroutineSupport</a> - Class in <a href="io/micronaut/configuration/mongo/coroutine/package-summary.html">io.micronaut.configuration.mongo.coroutine</a></dt>
+<dd>
+<div class="block">Bridges the coroutine Mongo driver suspend API to Java callers.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.SuspendOperation.html" class="type-name-link" title="interface in io.micronaut.configuration.mongo.coroutine">CoroutineSupport.SuspendOperation&lt;T&gt;</a> - Interface in <a href="io/micronaut/configuration/mongo/coroutine/package-summary.html">io.micronaut.configuration.mongo.coroutine</a></dt>
+<dd>
+<div class="block">A suspendable Mongo coroutine operation.</div>
+</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html#customize(io.micronaut.configuration.mongo.core.AbstractMongoConfiguration,com.mongodb.MongoClientSettings.Builder)" class="member-name-link">customize(AbstractMongoConfiguration, MongoClientSettings.Builder)</a> - Method in interface io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html" title="interface in io.micronaut.configuration.mongo.core">MongoClientSettingsBuilderCustomizer</a></dt>
 <dd>
 <div class="block">Customize the builder for the given configuration.</div>
@@ -162,6 +180,12 @@ loadScripts(document, 'script');</script>
 <div class="block">Default builder.</div>
 </dd>
 <dt><a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.context.BeanProvider)" class="member-name-link">DefaultCodecRegistryBuilder(Environment, BeanProvider)</a> - Constructor for class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/DefaultCodecRegistryBuilder.html" title="class in io.micronaut.configuration.mongo.core">DefaultCodecRegistryBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/DefaultCoroutineMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">DefaultCoroutineMongoClientFactory</a> - Class in <a href="io/micronaut/configuration/mongo/coroutine/package-summary.html">io.micronaut.configuration.mongo.coroutine</a></dt>
+<dd>
+<div class="block">Factory for the default <code>MongoClient</code>.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/DefaultCoroutineMongoClientFactory.html#%3Cinit%3E(io.micronaut.configuration.mongo.core.MongoClientCloser)" class="member-name-link">DefaultCoroutineMongoClientFactory(MongoClientCloser)</a> - Constructor for class io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/DefaultCoroutineMongoClientFactory.html" title="class in io.micronaut.configuration.mongo.coroutine">DefaultCoroutineMongoClientFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/sync/DefaultMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.sync">DefaultMongoClientFactory</a> - Class in <a href="io/micronaut/configuration/mongo/sync/package-summary.html">io.micronaut.configuration.mongo.sync</a></dt>
 <dd>
@@ -253,6 +277,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/mongodb/testcontainers/MongoDb.html#getProperties()" class="member-name-link">getProperties()</a> - Static method in class io.micronaut.mongodb.testcontainers.<a href="io/micronaut/mongodb/testcontainers/MongoDb.html" title="class in io.micronaut.mongodb.testcontainers">MongoDb</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html#getResult()" class="member-name-link">getResult()</a> - Method in class io.micronaut.configuration.mongo.coroutine.health.<a href="io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html" title="class in io.micronaut.configuration.mongo.coroutine.health">CoroutineMongoHealthIndicator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html#getResult()" class="member-name-link">getResult()</a> - Method in class io.micronaut.configuration.mongo.reactive.health.<a href="io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html" title="class in io.micronaut.configuration.mongo.reactive.health">MongoHealthIndicator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html#getServerName()" class="member-name-link">getServerName()</a> - Method in class io.micronaut.configuration.mongo.core.<a href="io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html" title="class in io.micronaut.configuration.mongo.core">NamedMongoConfiguration</a></dt>
@@ -282,6 +308,8 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
+<dt><a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.SuspendOperation.html#invoke(kotlin.coroutines.Continuation)" class="member-name-link">invoke(Continuation)</a> - Method in interface io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/CoroutineSupport.SuspendOperation.html" title="interface in io.micronaut.configuration.mongo.coroutine">CoroutineSupport.SuspendOperation</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/package-summary.html">io.micronaut.configuration.mongo.core</a> - package io.micronaut.configuration.mongo.core</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/core/convert/package-summary.html">io.micronaut.configuration.mongo.core.convert</a> - package io.micronaut.configuration.mongo.core.convert</dt>
@@ -290,6 +318,18 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/configuration/mongo/core/serde/package-summary.html">io.micronaut.configuration.mongo.core.serde</a> - package io.micronaut.configuration.mongo.core.serde</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/package-summary.html">io.micronaut.configuration.mongo.coroutine</a> - package io.micronaut.configuration.mongo.coroutine</dt>
+<dd>
+<div class="block">Configuration group for Mongo coroutine support.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/condition/package-summary.html">io.micronaut.configuration.mongo.coroutine.condition</a> - package io.micronaut.configuration.mongo.coroutine.condition</dt>
+<dd>
+<div class="block">Condition for Mongo coroutine support.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/health/package-summary.html">io.micronaut.configuration.mongo.coroutine.health</a> - package io.micronaut.configuration.mongo.coroutine.health</dt>
+<dd>
+<div class="block">MongoDB coroutine health indicators.</div>
+</dd>
 <dt><a href="io/micronaut/configuration/mongo/reactive/package-summary.html">io.micronaut.configuration.mongo.reactive</a> - package io.micronaut.configuration.mongo.reactive</dt>
 <dd>
 <div class="block">Configuration group for Mongo Reactive Streams.</div>
@@ -318,6 +358,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/mongodb/info/MicronautMongoCoreModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoCoreModuleInfo</a> - Class in <a href="io/micronaut/mongodb/info/package-summary.html">io.micronaut.mongodb.info</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/mongodb/info/MicronautMongoCoreModuleInfo.html#%3Cinit%3E()" class="member-name-link">MicronautMongoCoreModuleInfo()</a> - Constructor for class io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoCoreModuleInfo.html" title="class in io.micronaut.mongodb.info">MicronautMongoCoreModuleInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/mongodb/info/MicronautMongoCoroutineModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoCoroutineModuleInfo</a> - Class in <a href="io/micronaut/mongodb/info/package-summary.html">io.micronaut.mongodb.info</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/mongodb/info/MicronautMongoCoroutineModuleInfo.html#%3Cinit%3E()" class="member-name-link">MicronautMongoCoroutineModuleInfo()</a> - Constructor for class io.micronaut.mongodb.info.<a href="io/micronaut/mongodb/info/MicronautMongoCoroutineModuleInfo.html" title="class in io.micronaut.mongodb.info">MicronautMongoCoroutineModuleInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/mongodb/info/MicronautMongoReactiveModuleInfo.html" class="type-name-link" title="class in io.micronaut.mongodb.info">MicronautMongoReactiveModuleInfo</a> - Class in <a href="io/micronaut/mongodb/info/package-summary.html">io.micronaut.mongodb.info</a></dt>
 <dd>&nbsp;</dd>
@@ -372,6 +416,12 @@ the final <code>MongoClientSettings</code> is built.</div>
 </dl>
 <h2 class="title" id="I:N">N</h2>
 <dl class="index">
+<dt><a href="io/micronaut/configuration/mongo/coroutine/NamedCoroutineMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.coroutine">NamedCoroutineMongoClientFactory</a> - Class in <a href="io/micronaut/configuration/mongo/coroutine/package-summary.html">io.micronaut.configuration.mongo.coroutine</a></dt>
+<dd>
+<div class="block">Factory for named <code>MongoClient</code> instances.</div>
+</dd>
+<dt><a href="io/micronaut/configuration/mongo/coroutine/NamedCoroutineMongoClientFactory.html#%3Cinit%3E(io.micronaut.configuration.mongo.core.MongoClientCloser)" class="member-name-link">NamedCoroutineMongoClientFactory(MongoClientCloser)</a> - Constructor for class io.micronaut.configuration.mongo.coroutine.<a href="io/micronaut/configuration/mongo/coroutine/NamedCoroutineMongoClientFactory.html" title="class in io.micronaut.configuration.mongo.coroutine">NamedCoroutineMongoClientFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/configuration/mongo/sync/NamedMongoClientFactory.html" class="type-name-link" title="class in io.micronaut.configuration.mongo.sync">NamedMongoClientFactory</a> - Class in <a href="io/micronaut/configuration/mongo/sync/package-summary.html">io.micronaut.configuration.mongo.sync</a></dt>
 <dd>
 <div class="block">Factory for named <code>MongoClient</code> instances.</div>
@@ -414,6 +464,10 @@ the final <code>MongoClientSettings</code> is built.</div>
 </dl>
 <h2 class="title" id="I:R">R</h2>
 <dl class="index">
+<dt><a href="io/micronaut/configuration/mongo/coroutine/condition/RequiresMongo.html" class="type-name-link" title="annotation interface in io.micronaut.configuration.mongo.coroutine.condition">RequiresMongo</a> - Annotation Interface in <a href="io/micronaut/configuration/mongo/coroutine/condition/package-summary.html">io.micronaut.configuration.mongo.coroutine.condition</a></dt>
+<dd>
+<div class="block">A custom requirement for MongoDB coroutine support.</div>
+</dd>
 <dt><a href="io/micronaut/configuration/mongo/reactive/condition/RequiresMongo.html" class="type-name-link" title="annotation interface in io.micronaut.configuration.mongo.reactive.condition">RequiresMongo</a> - Annotation Interface in <a href="io/micronaut/configuration/mongo/reactive/condition/package-summary.html">io.micronaut.configuration.mongo.reactive.condition</a></dt>
 <dd>
 <div class="block">A custom requirement for MongoDB.</div>
