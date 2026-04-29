@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2026 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static io.micronaut.configuration.mongo.coroutine.health.MongoHealthIndicator.HEALTH_INDICATOR_NAME;
+import static io.micronaut.configuration.mongo.coroutine.health.CoroutineMongoHealthIndicator.HEALTH_INDICATOR_NAME;
 
 /**
  * A {@link HealthIndicator} for MongoDB coroutine clients.
@@ -54,8 +54,8 @@ import static io.micronaut.configuration.mongo.coroutine.health.MongoHealthIndic
 @Requires(beans = MongoClient.class)
 @Requires(beans = HealthEndpoint.class)
 @Requires(property = HealthEndpoint.PREFIX + "." + HEALTH_INDICATOR_NAME + ".enabled", notEquals = StringUtils.FALSE)
-public class MongoHealthIndicator implements HealthIndicator {
-    static final String HEALTH_INDICATOR_NAME = "mongodb";
+public class CoroutineMongoHealthIndicator implements HealthIndicator {
+    static final String HEALTH_INDICATOR_NAME = "mongodb-coroutine";
 
     private final BeanContext beanContext;
     private final HealthAggregator<?> healthAggregator;
@@ -66,7 +66,7 @@ public class MongoHealthIndicator implements HealthIndicator {
      * @param healthAggregator healthAggregator
      * @param mongoClients The mongo clients
      */
-    public MongoHealthIndicator(BeanContext beanContext, HealthAggregator<?> healthAggregator, MongoClient... mongoClients) {
+    public CoroutineMongoHealthIndicator(BeanContext beanContext, HealthAggregator<?> healthAggregator, MongoClient... mongoClients) {
         this.beanContext = beanContext;
         this.healthAggregator = healthAggregator;
         this.mongoClients = mongoClients;

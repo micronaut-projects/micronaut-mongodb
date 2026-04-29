@@ -104,6 +104,6 @@ import jakarta.inject.*;
 
 ==== MongoDB Health Checks
 
-When the `mongo-reactive` or `mongo-coroutine` module is activated, the corresponding api:configuration.mongo.reactive.health.MongoHealthIndicator[] or api:configuration.mongo.coroutine.health.MongoHealthIndicator[] is activated, resulting in the `/health` endpoint and api:health.CurrentHealthStatus[] interface resolving the health of the MongoDB connection.
+When the `mongo-reactive` or `mongo-coroutine` module is activated, the corresponding api:configuration.mongo.reactive.health.MongoHealthIndicator[] or api:configuration.mongo.coroutine.health.CoroutineMongoHealthIndicator[] is activated, resulting in the `/health` endpoint and api:health.CurrentHealthStatus[] interface resolving the health of the MongoDB connection.
 
 See the section on the https://docs.micronaut.io/latest/guide/index.html#healthEndpoint[Health Endpoint] for more information.

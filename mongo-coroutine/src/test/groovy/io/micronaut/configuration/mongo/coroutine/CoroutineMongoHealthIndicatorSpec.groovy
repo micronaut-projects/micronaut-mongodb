@@ -19,7 +19,7 @@ import com.mongodb.ReadPreference
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.reactivestreams.client.MongoClient as ReactiveMongoClient
 import com.mongodb.reactivestreams.client.MongoDatabase as ReactiveMongoDatabase
-import io.micronaut.configuration.mongo.coroutine.health.MongoHealthIndicator
+import io.micronaut.configuration.mongo.coroutine.health.CoroutineMongoHealthIndicator
 import io.micronaut.context.BeanContext
 import io.micronaut.context.BeanRegistration
 import io.micronaut.context.ApplicationContext
@@ -42,7 +42,7 @@ import static io.micronaut.configuration.mongo.core.MongoSettings.MONGODB_URI
 import static io.micronaut.health.HealthStatus.DOWN
 import static io.micronaut.health.HealthStatus.UP
 
-class MongoHealthIndicatorSpec extends Specification {
+class CoroutineMongoHealthIndicatorSpec extends Specification {
 
     void "test mongo health indicator uses buildInfo command"() {
         given:
@@ -58,9 +58,9 @@ class MongoHealthIndicatorSpec extends Specification {
             findBeanRegistration(_ as MongoClient) >> Optional.of(registration)
         }
         HealthAggregator<?> healthAggregator = Stub() {
-            aggregate(_, _) >> { String name, org.reactivestreams.Publisher<HealthResult> results -> results }
+            aggregate("mongodb-coroutine", _) >> { String name, org.reactivestreams.Publisher<HealthResult> results -> results }
         }
-        MongoHealthIndicator healthIndicator = new MongoHealthIndicator(beanContext, healthAggregator, mongoClient)
+        CoroutineMongoHealthIndicator healthIndicator = new CoroutineMongoHealthIndicator(beanContext, healthAggregator, mongoClient)
 
         when:
         HealthResult healthResult = Flux.from(healthIndicator.result).blockFirst()
@@ -78,9 +78,9 @@ class MongoHealthIndicatorSpec extends Specification {
     void "test mongo health indicator disabled"() {
         when:
         ApplicationContext applicationContext = ApplicationContext.run(
-                PropertySource.of([MONGODB_URI: "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}", "endpoints.health.mongodb.enabled": false])
+                PropertySource.of([MONGODB_URI: "mongodb://localhost:${SocketUtils.findAvailableTcpPort()}", "endpoints.health.mongodb-coroutine.enabled": false])
         )
-        applicationContext.getBean(MongoHealthIndicator)
+        applicationContext.getBean(CoroutineMongoHealthIndicator)
 
         then:
         thrown(NoSuchBeanException)
@@ -103,7 +103,7 @@ class MongoHealthIndicatorSpec extends Specification {
             }
         } catch (ignored) {
         }
-        MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
+        CoroutineMongoHealthIndicator healthIndicator = applicationContext.getBean(CoroutineMongoHealthIndicator)
 
         then:
         Flux.from(healthIndicator.result).blockFirst().status == DOWN
@@ -131,7 +131,7 @@ class MongoHealthIndicatorSpec extends Specification {
             }
         } catch (ignored) {
         }
-        MongoHealthIndicator healthIndicator = applicationContext.getBean(MongoHealthIndicator)
+        CoroutineMongoHealthIndicator healthIndicator = applicationContext.getBean(CoroutineMongoHealthIndicator)
         HealthResult healthResult = Flux.from(healthIndicator.result).blockFirst()
 
         then:
