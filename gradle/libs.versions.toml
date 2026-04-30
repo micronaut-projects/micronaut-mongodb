@@ -4,8 +4,8 @@ micronaut-test = "5.0.0-M7"
 micronaut-platform = "5.0.0-M2"
 micronaut-gradle-plugin = "5.0.0-M1"
 
-managed-mongo = "5.6.5"
-managed-mongo-reactive = "5.6.5"
+managed-mongo = "5.7.0"
+managed-mongo-reactive = "5.7.0"
 
 micronaut-micrometer = "6.0.0-M2"
 micronaut-serde = "3.0.0-M8"
