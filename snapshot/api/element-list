@@ -8,5 +8,4 @@ io.micronaut.configuration.mongo.reactive
 io.micronaut.configuration.mongo.reactive.condition
 io.micronaut.configuration.mongo.reactive.health
 io.micronaut.configuration.mongo.sync
-io.micronaut.mongodb.info
 io.micronaut.mongodb.testcontainers
