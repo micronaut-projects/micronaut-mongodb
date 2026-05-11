@@ -8,7 +8,7 @@ managed-mongo = "5.7.0"
 managed-mongo-reactive = "5.7.0"
 
 micronaut-micrometer = "6.0.0-RC1"
-micronaut-serde = "3.0.0-RC2"
+micronaut-serde = "3.0.0-RC3"
 micronaut-validation = "5.0.0-RC2"
 
 [libraries]
