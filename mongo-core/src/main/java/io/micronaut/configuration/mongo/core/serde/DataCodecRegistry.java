@@ -16,7 +16,6 @@
 package io.micronaut.configuration.mongo.core.serde;
 
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanIntrospector;
 import io.micronaut.serde.SerdeRegistry;
@@ -24,6 +23,7 @@ import io.micronaut.serde.annotation.Serdeable;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecConfigurationException;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -61,12 +61,12 @@ public final class DataCodecRegistry implements CodecRegistry {
     }
 
     @Override
-    public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
+    public <T> @Nullable Codec<T> get(Class<T> clazz, CodecRegistry registry) {
         Codec<T> codec = codecs.get(clazz);
         if (codec != null) {
             return codec;
         }
-        if (clazz.isEnum() || entities != null && !entities.contains(clazz)) {
+        if (clazz.isEnum() || (entities != null && !entities.contains(clazz))) {
             return null;
         }
         Optional<BeanIntrospection<T>> introspection = BeanIntrospector.SHARED.findIntrospection(clazz);
