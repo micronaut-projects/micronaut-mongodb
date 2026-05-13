@@ -286,11 +286,11 @@ public abstract class AbstractMongoConfiguration {
         });
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
-        CodecRegistryBuilder codecRegistryBuilder = this.codecRegistryBuilder;
-        if (codecRegistryBuilder == null) {
+        CodecRegistryBuilder configuredCodecRegistryBuilder = this.codecRegistryBuilder;
+        if (configuredCodecRegistryBuilder == null) {
             throw new IllegalStateException("CodecRegistryBuilder is not configured");
         }
-        clientSettings.codecRegistry(codecRegistryBuilder.build(this));
+        clientSettings.codecRegistry(configuredCodecRegistryBuilder.build(this));
         clientSettings.commandListenerList(commandListeners);
         clientSettingsBuilderCustomizers.forEach(customizer -> customizer.customize(this, clientSettings));
         return clientSettings.build();
