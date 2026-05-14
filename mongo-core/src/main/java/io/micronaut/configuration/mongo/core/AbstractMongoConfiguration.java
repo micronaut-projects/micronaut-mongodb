@@ -29,6 +29,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.runtime.ApplicationConfiguration;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
+import org.jspecify.annotations.Nullable;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -46,7 +47,7 @@ import java.util.Optional;
  */
 public abstract class AbstractMongoConfiguration {
 
-    private String uri;
+    private @Nullable String uri;
 
     private final ApplicationConfiguration applicationConfiguration;
     private List<Codec<?>> codecList = Collections.emptyList();
@@ -54,9 +55,9 @@ public abstract class AbstractMongoConfiguration {
     private List<CommandListener> commandListeners = Collections.emptyList();
     private List<ConnectionPoolListener> connectionPoolListeners = Collections.emptyList();
     private List<MongoClientSettingsBuilderCustomizer> clientSettingsBuilderCustomizers = Collections.emptyList();
-    private Collection<String> packageNames;
+    private Collection<String> packageNames = Collections.emptyList();
     private boolean automaticClassModels = true;
-    private CodecRegistryBuilder codecRegistryBuilder;
+    private @Nullable CodecRegistryBuilder codecRegistryBuilder;
     private boolean useSerde;
     private Duration shutdownDelay = Duration.ZERO;
 
@@ -170,6 +171,7 @@ public abstract class AbstractMongoConfiguration {
      * @return The MongoDB URI
      */
     @NotBlank
+    @SuppressWarnings("NullAway")
     public String getUri() {
         return uri;
     }
@@ -284,7 +286,11 @@ public abstract class AbstractMongoConfiguration {
         });
         clientSettings.applyToSocketSettings(builder -> builder.applySettings(socketSettings.build()));
         clientSettings.applyToSslSettings(builder -> builder.applySettings(sslSettings.build()));
-        clientSettings.codecRegistry(codecRegistryBuilder.build(this));
+        CodecRegistryBuilder configuredCodecRegistryBuilder = this.codecRegistryBuilder;
+        if (configuredCodecRegistryBuilder == null) {
+            throw new IllegalStateException("CodecRegistryBuilder is not configured");
+        }
+        clientSettings.codecRegistry(configuredCodecRegistryBuilder.build(this));
         clientSettings.commandListenerList(commandListeners);
         clientSettingsBuilderCustomizers.forEach(customizer -> customizer.customize(this, clientSettings));
         return clientSettings.build();

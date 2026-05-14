@@ -33,7 +33,11 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static io.micronaut.configuration.mongo.reactive.health.MongoHealthIndicator.HEALTH_INDICATOR_NAME;
