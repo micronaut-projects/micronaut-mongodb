@@ -23,7 +23,9 @@
             document.body.className = classes.join(" ");
         }
     </script>
-
+    <style type="text/css">
+        .lang-java { display: block }; .lang-python { display: block }; .lang-kotlin { display: block }; .lang-groovy { display: block }; 
+    </style>
 </head>
 
 <body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
@@ -109,7 +111,7 @@
         <h1>Micronaut MongoDB</h1>
         <p></p>
         <p>Integration between Micronaut and MongoDB</p>
-        <p><strong>Version:</strong> 6.0.0 </p>
+        <p><strong>Version:</strong> 6.0.1 </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -125,7 +127,7 @@
 <p>This project includes integration between Micronaut and MongoDB.</p>
 </div>
 <div class="paragraph">
-<p>Note that this project provides only low-level access to the MongoDB client drivers (both synchronous and reactive). If you are looking for a more complete experience including support for data access repositories see the documentation for <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo">Micronaut Data MongoDB</a> as well as these useful guides:</p>
+<p>Note that this project provides only low-level access to the MongoDB client drivers (synchronous, reactive streams, and Kotlin coroutine). If you are looking for a more complete experience including support for data access repositories see the documentation for <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#mongo">Micronaut Data MongoDB</a> as well as these useful guides:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -270,6 +272,29 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 <div class="paragraph">
 <p>Then the blocking <a href="https://mongodb.github.io/mongo-java-driver/4.0/apidocs/com/mongodb/client/MongoClient.html">MongoClient</a> will be available for injection.</p>
 </div>
+<div class="paragraph">
+<p>To use the Kotlin coroutine driver, add a dependency to your application to the <code>micronaut-mongo-coroutine</code> module.</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.mongodb:micronaut-mongo-coroutine")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.mongodb&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-mongo-coroutine&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then the <a href="https://mongodb.github.io/mongo-java-driver/5.6/apidocs/driver-kotlin-coroutine/com/mongodb/kotlin/client/coroutine/MongoClient.html">Kotlin coroutine <code>MongoClient</code></a> will be available for injection.</p>
+</div>
 
 <h1 id="config"><a class="anchor" href="#config"></a>5 Configuring the Mongo Driver</h1>
 
@@ -281,36 +306,151 @@ The <code>mongodb.uri</code> follows the <a href="https://docs.mongodb.com/manua
 
 
 <div class="paragraph">
-<p>The configuration options for the blocking client and the non-blocking client differ at the driver level.</p>
+<p>Micronaut binds MongoDB driver settings directly onto <code>MongoClientSettings.Builder</code> and the nested builder types it exposes, such as <code>cluster</code>, <code>connectionPool</code>, <code>socket</code>, <code>server</code>, and <code>ssl</code>.</p>
 </div>
 <div class="paragraph">
-<p>To configure the blocking client options you can use the <code>mongodb.options</code> setting which allows you to configure any property of the <code>MongoClientOptions.Builder</code> class. For example in <code>application.yml</code>:</p>
+<p>For example, in <code>application.yml</code>:</p>
 </div>
 <div class="listingblock">
-<div class="title">Configuring Blocking Driver Options</div>
+<div class="title">Configuring MongoDB Driver Settings</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
-    ...
-    options:
-        maxConnectionIdleTime: 10000
-        readConcern: majority</code></pre>
+    uri: mongodb://localhost:27017/app
+    readConcern: majority
+    connectionPool:
+        maxSize: 20</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>See the API for <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> for more information on the available configuration options.</p>
+<p>The same configuration model is used for the blocking, reactive streams, and Kotlin coroutine clients. Named clients use the same structure under <code>mongodb.servers.&lt;name&gt;</code>.</p>
 </div>
 <div class="paragraph">
-<p>For the Reactive driver, the <a href="../api/io/micronaut/configuration/mongo/reactive/DefaultReactiveMongoConfiguration.html">DefaultReactiveMongoConfiguration</a> exposes options to configure the Reactive Streams driver. For example:</p>
+<p>See the API for <a href="../api/io/micronaut/configuration/mongo/core/DefaultMongoConfiguration.html">DefaultMongoConfiguration</a> and <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a> for more information on the available configuration options.</p>
+</div>
+<div class="sect3">
+<h4 id="_csfle_and_other_programmatic_settings">CSFLE and Other Programmatic Settings</h4>
+<div class="paragraph">
+<p>Some MongoDB features, including Client-Side Field Level Encryption (CSFLE), require programmatic customization that cannot be expressed as simple configuration properties. For those cases, define one or more <a href="../api/io/micronaut/configuration/mongo/core/MongoClientSettingsBuilderCustomizer.html">MongoClientSettingsBuilderCustomizer</a> beans.</p>
+</div>
+<div class="paragraph">
+<p>Micronaut applies these customizers after the configuration-backed settings have been bound and before the final <code>MongoClientSettings</code> instance is built. That lets you keep the common driver configuration in <code>application.yml</code> and add CSFLE-specific settings only where the MongoDB Java driver requires programmatic setup.</p>
+</div>
+<div class="paragraph">
+<p>Use the approach as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Configure the common driver settings such as <code>mongodb.uri</code>, <code>readConcern</code>, and pool options in configuration properties.</p>
+</li>
+<li>
+<p>Add a <code>MongoClientSettingsBuilderCustomizer</code> bean for the driver-level settings that are not exposed as simple properties, such as <code>AutoEncryptionSettings</code> and <code>uuidRepresentation</code>.</p>
+</li>
+<li>
+<p>Inspect <a href="../api/io/micronaut/configuration/mongo/core/NamedMongoConfiguration.html">NamedMongoConfiguration</a> inside the customizer when the CSFLE settings need to vary per named client.</p>
+</li>
+<li>
+<p>Populate the builder with the KMS providers, key vault namespace, schema map, encrypted fields map, and any extra auto-encryption options required by your deployment.</p>
+</li>
+</ol>
+</div>
+
+<div class="paragraph">
+<p>The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.</p>
+</div>
+<div class="paragraph">
+<p>The same customizer beans apply to the blocking, reactive streams, and coroutine drivers because all clients are created from the same <code>AbstractMongoConfiguration.buildSettings()</code> workflow.</p>
+</div>
+<div class="paragraph">
+<p>For the Reactive driver, the same configuration properties apply. For example:</p>
 </div>
 <div class="listingblock">
 <div class="title">Configuring the Reactive Streams Driver</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
-    ...
+    uri: mongodb://localhost:27017/app
     cluster:
-        maxWaitQueueSize: 5
-    connectionPool:
-        maxSize: 20</code></pre>
+        maxWaitQueueSize: 5</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pojo_discriminators">POJO Discriminators</h4>
+<div class="paragraph">
+<p>When using MongoDB POJO codecs together with <code>@BsonDiscriminator</code>, configure <code>mongodb.package-names</code> so Micronaut can register the matching types with the MongoDB <code>PojoCodecProvider</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid classpath or JAR scanning, discriminator registration only considers classes that have Micronaut bean introspections. Annotate the root type and subtypes with <code>@Introspected</code>, or otherwise provide bean introspection metadata for those classes.</p>
+</div>
+<div class="openblock">
+<div class="title">Configuring packages for discriminator-based POJOs</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.package-names[0]=example.animals</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
+  package-names:
+    - example.animals</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+  package-names=[
+    "example.animals"
+  ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  packageNames = ["example.animals"]
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    package-names = ["example.animals"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "package-names": ["example.animals"]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To keep MongoDB clients available briefly for deferred shutdown work triggered by
+<a href="../api/io/micronaut/runtime/event/ApplicationShutdownEvent.html">ApplicationShutdownEvent</a> listeners, enable Micronaut graceful
+shutdown and set <code>mongodb.shutdown-delay</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  lifecycle:
+    graceful-shutdown:
+      enabled: true
+      grace-period: 5s
+mongodb:
+  shutdown-delay: 1s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The graceful shutdown grace period must be greater than or equal to
+<code>mongodb.shutdown-delay</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -342,7 +482,7 @@ import jakarta.inject.*;
 <div class="sect3">
 <h4 id="_mongodb_health_checks">MongoDB Health Checks</h4>
 <div class="paragraph">
-<p>When the <code>mongo-reactive</code> module is activated a <a href="../api/io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html">MongoHealthIndicator</a> is activated resulting in the <code>/health</code> endpoint and <a href="../api/io/micronaut/health/CurrentHealthStatus.html">CurrentHealthStatus</a> interface resolving the health of the MongoDB connection.</p>
+<p>When the <code>mongo-reactive</code> or <code>mongo-coroutine</code> module is activated, the corresponding <a href="../api/io/micronaut/configuration/mongo/reactive/health/MongoHealthIndicator.html">MongoHealthIndicator</a> or <a href="../api/io/micronaut/configuration/mongo/coroutine/health/CoroutineMongoHealthIndicator.html">CoroutineMongoHealthIndicator</a> is activated, resulting in the <code>/health</code> endpoint and <a href="../api/io/micronaut/health/CurrentHealthStatus.html">CurrentHealthStatus</a> interface resolving the health of the MongoDB connection.</p>
 </div>
 <div class="paragraph">
 <p>See the section on the <a href="https://docs.micronaut.io/latest/guide/index.html#healthEndpoint">Health Endpoint</a> for more information.</p>
