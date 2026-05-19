@@ -1,13 +1,13 @@
 [versions]
 micronaut = "5.0.0"
-micronaut-test = "5.0.0-RC1"
+micronaut-test = "5.0.0"
 micronaut-platform = "5.0.0-RC1"
 micronaut-gradle-plugin = "5.0.0-M1"
 
 managed-mongo = "5.7.0"
 managed-mongo-reactive = "5.7.0"
 
-micronaut-micrometer = "6.0.0-RC1"
+micronaut-micrometer = "6.0.0"
 micronaut-serde = "3.0.0"
 micronaut-validation = "5.0.0"
 
