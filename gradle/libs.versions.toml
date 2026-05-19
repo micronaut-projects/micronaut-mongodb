@@ -2,7 +2,7 @@
 micronaut = "5.0.0"
 micronaut-test = "5.0.0"
 micronaut-platform = "5.0.0-RC1"
-micronaut-gradle-plugin = "5.0.0-M1"
+micronaut-gradle-plugin = "5.0.0"
 
 managed-mongo = "5.7.0"
 managed-mongo-reactive = "5.7.0"
