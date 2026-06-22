@@ -1,8 +1,8 @@
 [versions]
-micronaut = "5.1.1"
+micronaut = "5.1.2"
 micronaut-test = "5.0.0"
 micronaut-platform = "5.0.2"
-micronaut-gradle-plugin = "5.0.0"
+micronaut-gradle-plugin = "5.0.1"
 
 managed-mongo = "5.8.0"
 managed-mongo-reactive = "5.8.0"
