@@ -24,7 +24,9 @@ import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
 import jakarta.inject.Singleton
 import org.bson.UuidRepresentation
 // end::imports[]
+import io.micronaut.context.annotation.Requires
 
+@Requires(property = 'spec.name', value = 'AutoEncryptionCustomizerTest')
 // tag::clazz[]
 @Singleton
 class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {

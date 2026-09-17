@@ -1,0 +1,10 @@
+plugins {
+    id 'io.micronaut.build.internal.mongodb-docs-example'
+    id 'groovy'
+}
+
+dependencies {
+    testCompileOnly mn.micronaut.inject.groovy
+
+    testImplementation mnTest.micronaut.test.spock
+}
