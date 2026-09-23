@@ -27,7 +27,9 @@ import org.bson.UuidRepresentation;
 import java.util.Collections;
 import java.util.Map;
 // end::imports[]
+import io.micronaut.context.annotation.Requires;
 
+@Requires(property = "spec.name", value = "AutoEncryptionCustomizerTest")
 // tag::clazz[]
 @Singleton
 public class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {

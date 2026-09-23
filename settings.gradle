@@ -18,6 +18,10 @@ include 'mongo-coroutine'
 include 'test-suite-utils'
 include 'tests:mongo-serde'
 include 'tests:mongo-pojo'
+include 'docs-examples:csfle-java'
+include 'docs-examples:csfle-groovy'
+include 'docs-examples:csfle-kotlin'
+include 'docs-examples:csfle-python'
 
 enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 micronautBuild {

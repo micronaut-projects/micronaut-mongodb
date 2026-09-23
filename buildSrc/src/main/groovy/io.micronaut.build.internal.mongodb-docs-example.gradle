@@ -1,0 +1,26 @@
+/*
+ * Convention for the documentation example projects (docs-examples/csfle-*): the snippet:: sources of the
+ * user guide, compiled and tested in every language (Java, Groovy, Kotlin, Python).
+ */
+plugins {
+    id 'java-library'
+    id 'io.micronaut.build.internal.mongodb-base'
+}
+
+dependencies {
+    testImplementation platform(mn.micronaut.core.bom)
+    testImplementation platform(mnTest.micronaut.test.bom)
+
+    testImplementation projects.micronautMongoReactive
+    testImplementation mn.reactor
+
+    // io.micronaut.mongodb.testcontainers.MongoDb starts the MongoDB test container
+    testImplementation project(":test-suite-utils")
+
+    testRuntimeOnly mnLogging.logback.classic
+    testRuntimeOnly mnTest.junit.platform.launcher
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
