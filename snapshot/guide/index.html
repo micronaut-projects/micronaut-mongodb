@@ -381,7 +381,134 @@ runtime = [
 </li>
 </ol>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title">Customizing <code>MongoClientSettings.Builder</code> for CSFLE</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.mongodb.AutoEncryptionSettings;
+import com.mongodb.MongoClientSettings;
+import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
+import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer;
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
+import jakarta.inject.Singleton;
+import org.bson.UuidRepresentation;
 
+import java.util.Collections;
+import java.util.Map;
+
+@Singleton
+public class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {
+
+    @Override
+    public void customize(AbstractMongoConfiguration configuration, MongoClientSettings.Builder clientSettings) {
+        String keyVaultNamespace = "encryption.__keyVault";
+        if (configuration instanceof NamedMongoConfiguration namedMongoConfiguration) {
+            keyVaultNamespace = "encryption." + namedMongoConfiguration.getServerName() + ".__keyVault";
+        }
+
+        Map&lt;String, Map&lt;String, Object&gt;&gt; kmsProviders =
+            Collections.singletonMap("local", Collections.singletonMap("key", new byte[96]));
+
+        clientSettings
+            .autoEncryptionSettings(AutoEncryptionSettings.builder()
+                .keyVaultNamespace(keyVaultNamespace)
+                .kmsProviders(kmsProviders)
+                .build())
+            .uuidRepresentation(UuidRepresentation.STANDARD);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Customizing <code>MongoClientSettings.Builder</code> for CSFLE</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from com.mongodb import AutoEncryptionSettings, MongoClientSettings
+from jakarta.inject import Singleton
+from micronaut.configuration.mongo.core import (
+    AbstractMongoConfiguration,
+    MongoClientSettingsBuilderCustomizer,
+    NamedMongoConfiguration,
+)
+from org.bson import UuidRepresentation
+
+@Singleton
+class AutoEncryptionCustomizer(MongoClientSettingsBuilderCustomizer):
+
+    def customize(self, configuration: AbstractMongoConfiguration, client_settings: MongoClientSettings.Builder) -&gt; None:
+        key_vault_namespace = "encryption.__keyVault"
+        if isinstance(configuration, NamedMongoConfiguration):
+            key_vault_namespace = f"encryption.{configuration.getServerName()}.__keyVault"
+
+        kms_providers = {"local": {"key": bytes(96)}}
+
+        (client_settings
+            .autoEncryptionSettings(AutoEncryptionSettings.builder()
+                .keyVaultNamespace(key_vault_namespace)
+                .kmsProviders(kms_providers)
+                .build())
+            .uuidRepresentation(UuidRepresentation.STANDARD))</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Customizing <code>MongoClientSettings.Builder</code> for CSFLE</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import com.mongodb.AutoEncryptionSettings
+import com.mongodb.MongoClientSettings
+import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration
+import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
+import jakarta.inject.Singleton
+import org.bson.UuidRepresentation
+
+@Singleton
+class AutoEncryptionCustomizer : MongoClientSettingsBuilderCustomizer {
+
+    override fun customize(configuration: AbstractMongoConfiguration, clientSettings: MongoClientSettings.Builder) {
+        val keyVaultNamespace = if (configuration is NamedMongoConfiguration) {
+            "encryption.${configuration.serverName}.__keyVault"
+        } else {
+            "encryption.__keyVault"
+        }
+
+        clientSettings
+            .autoEncryptionSettings(AutoEncryptionSettings.builder()
+                .keyVaultNamespace(keyVaultNamespace)
+                .kmsProviders(mapOf("local" to mapOf("key" to ByteArray(96))))
+                .build())
+            .uuidRepresentation(UuidRepresentation.STANDARD)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title">Customizing <code>MongoClientSettings.Builder</code> for CSFLE</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import com.mongodb.AutoEncryptionSettings
+import com.mongodb.MongoClientSettings
+import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration
+import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration
+import jakarta.inject.Singleton
+import org.bson.UuidRepresentation
+
+@Singleton
+class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {
+
+    @Override
+    void customize(AbstractMongoConfiguration configuration, MongoClientSettings.Builder clientSettings) {
+        String keyVaultNamespace = configuration instanceof NamedMongoConfiguration
+            ? "encryption.${configuration.serverName}.__keyVault"
+            : 'encryption.__keyVault'
+
+        clientSettings
+            .autoEncryptionSettings(AutoEncryptionSettings.builder()
+                .keyVaultNamespace(keyVaultNamespace)
+                .kmsProviders([local: [key: new byte[96]]] as Map&lt;String, Map&lt;String, Object&gt;&gt;)
+                .build())
+            .uuidRepresentation(UuidRepresentation.STANDARD)
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>The example uses the local KMS provider for brevity. Replace that placeholder with the provider configuration that matches your environment.</p>
 </div>
@@ -494,12 +621,81 @@ mongodb:
 <div class="paragraph">
 <p>With the above configuration in place you can inject a <code>MongoClient</code> using the name <code>another</code>:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.mongodb.reactivestreams.client.*;
-import jakarta.inject.*;
-...
-@Inject @Named("another") MongoClient mongoClient;</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.mongodb.reactivestreams.client.MongoClient;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
+import org.reactivestreams.Publisher;
+
+@Singleton
+public class NamedClientService {
+
+    @Inject
+    @Named("another")
+    MongoClient mongoClient;
+
+    public Publisher&lt;String&gt; databaseNames() {
+        return mongoClient.listDatabaseNames();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from typing import Annotated
+
+from com.mongodb.reactivestreams.client import MongoClient
+from jakarta.inject import Inject, Named, Singleton
+from org.reactivestreams import Publisher
+
+@Singleton
+class NamedClientService:
+    mongo_client: Annotated[MongoClient, Inject, Named("another")]
+
+    def database_names(self) -&gt; Publisher[str]:
+        return self.mongo_client.listDatabaseNames()</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import com.mongodb.reactivestreams.client.MongoClient
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Singleton
+import org.reactivestreams.Publisher
+
+@Singleton
+class NamedClientService {
+
+    @Inject
+    @field:Named("another")
+    lateinit var mongoClient: MongoClient
+
+    fun databaseNames(): Publisher&lt;String&gt; = mongoClient.listDatabaseNames()
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import com.mongodb.reactivestreams.client.MongoClient
+import jakarta.inject.Inject
+import jakarta.inject.Named
+import jakarta.inject.Singleton
+import org.reactivestreams.Publisher
+
+@Singleton
+class NamedClientService {
+
+    @Inject
+    @Named("another")
+    MongoClient mongoClient
+
+    Publisher&lt;String&gt; databaseNames() {
+        return mongoClient.listDatabaseNames()
+    }
+}</code></pre>
 </div>
 </div>
 </div>
