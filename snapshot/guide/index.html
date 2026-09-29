@@ -111,7 +111,7 @@
         <h1>Micronaut MongoDB</h1>
         <p></p>
         <p>Integration between Micronaut and MongoDB</p>
-        <p><strong>Version:</strong> 6.2.0-SNAPSHOT </p>
+        <p><strong>Version:</strong> 6.2.0 </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -236,11 +236,50 @@ runtime = [
 <div class="paragraph">
 <p>Then configure the URI of the MongoDB server in <code>application.yml</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configuring a MongoDB server</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.uri=mongodb://username:password@localhost:27017/databaseName</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
     uri: mongodb://username:password@localhost:27017/databaseName</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://username:password@localhost:27017/databaseName"}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  uri = "mongodb://username:password@localhost:27017/databaseName"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    uri = "mongodb://username:password@localhost:27017/databaseName"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "uri": "mongodb://username:password@localhost:27017/databaseName"
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -338,14 +377,67 @@ runtime = [
 <div class="paragraph">
 <p>For example, in <code>application.yml</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configuring MongoDB Driver Settings</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.uri=mongodb://localhost:27017/app
+mongodb.readConcern=majority
+mongodb.connectionPool.maxSize=20</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
     uri: mongodb://localhost:27017/app
     readConcern: majority
     connectionPool:
         maxSize: 20</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://localhost:27017/app", readConcern = "majority", connectionPool = {maxSize = 20}}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  uri = "mongodb://localhost:27017/app"
+  readConcern = "majority"
+  connectionPool {
+    maxSize = 20
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    uri = "mongodb://localhost:27017/app"
+    readConcern = "majority"
+    connectionPool {
+      maxSize = 20
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "uri": "mongodb://localhost:27017/app",
+    "readConcern": "majority",
+    "connectionPool": {
+      "maxSize": 20
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -518,13 +610,62 @@ class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {
 <div class="paragraph">
 <p>For the Reactive driver, the same configuration properties apply. For example:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configuring the Reactive Streams Driver</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.uri=mongodb://localhost:27017/app
+mongodb.cluster.maxWaitQueueSize=5</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
     uri: mongodb://localhost:27017/app
     cluster:
         maxWaitQueueSize: 5</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://localhost:27017/app", cluster = {maxWaitQueueSize = 5}}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  uri = "mongodb://localhost:27017/app"
+  cluster {
+    maxWaitQueueSize = 5
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    uri = "mongodb://localhost:27017/app"
+    cluster {
+      maxWaitQueueSize = 5
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "uri": "mongodb://localhost:27017/app",
+    "cluster": {
+      "maxWaitQueueSize": 5
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -588,7 +729,16 @@ class AutoEncryptionCustomizer implements MongoClientSettingsBuilderCustomizer {
 <a href="../api/io/micronaut/runtime/event/ApplicationShutdownEvent.html">ApplicationShutdownEvent</a> listeners, enable Micronaut graceful
 shutdown and set <code>mongodb.shutdown-delay</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.lifecycle.graceful-shutdown.enabled=true
+micronaut.lifecycle.graceful-shutdown.grace-period=5s
+mongodb.shutdown-delay=1s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   lifecycle:
@@ -597,6 +747,63 @@ shutdown and set <code>mongodb.shutdown-delay</code>:</p>
       grace-period: 5s
 mongodb:
   shutdown-delay: 1s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {lifecycle = {graceful-shutdown = {enabled = true, grace-period = "5s"}}}
+mongodb = {shutdown-delay = "1s"}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  lifecycle {
+    gracefulShutdown {
+      enabled = true
+      gracePeriod = "5s"
+    }
+  }
+}
+mongodb {
+  shutdownDelay = "1s"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    lifecycle {
+      graceful-shutdown {
+        enabled = true
+        grace-period = "5s"
+      }
+    }
+  }
+  mongodb {
+    shutdown-delay = "1s"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "lifecycle": {
+      "graceful-shutdown": {
+        "enabled": true,
+        "grace-period": "5s"
+      }
+    }
+  },
+  "mongodb": {
+    "shutdown-delay": "1s"
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -609,13 +816,64 @@ mongodb:
 <div class="paragraph">
 <p>You can create multiple MongoDB connections using the <code>mongodb.servers</code> setting. For example in <code>application.yml</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configuring Multiple MongoDB Drivers</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">mongodb.servers.another.uri=mongodb://localhost:27018</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">mongodb:
     servers:
         another:
             uri: mongodb://localhost:27018</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {servers = {another = {uri = "mongodb://localhost:27018"}}}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">mongodb {
+  servers {
+    another {
+      uri = "mongodb://localhost:27018"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  mongodb {
+    servers {
+      another {
+        uri = "mongodb://localhost:27018"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "mongodb": {
+    "servers": {
+      "another": {
+        "uri": "mongodb://localhost:27018"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
