@@ -3,7 +3,7 @@ Micronaut binds MongoDB driver settings directly onto `MongoClientSettings.Build
 For example, in `application.yml`:
 
 .Configuring MongoDB Driver Settings
-[source,yaml]
+[configuration]
 ----
 mongodb:
     uri: mongodb://localhost:27017/app
@@ -39,7 +39,7 @@ The same customizer beans apply to the blocking, reactive streams, and coroutine
 For the Reactive driver, the same configuration properties apply. For example:
 
 .Configuring the Reactive Streams Driver
-[source,yaml]
+[configuration]
 ----
 mongodb:
     uri: mongodb://localhost:27017/app
@@ -65,7 +65,7 @@ To keep MongoDB clients available briefly for deferred shutdown work triggered b
 api:runtime.event.ApplicationShutdownEvent[] listeners, enable Micronaut graceful
 shutdown and set `mongodb.shutdown-delay`:
 
-[source,yaml]
+[configuration]
 ----
 micronaut:
   lifecycle:
@@ -84,7 +84,7 @@ The graceful shutdown grace period must be greater than or equal to
 You can create multiple MongoDB connections using the `mongodb.servers` setting. For example in `application.yml`:
 
 .Configuring Multiple MongoDB Drivers
-[source,yaml]
+[configuration]
 ----
 mongodb:
     servers:
