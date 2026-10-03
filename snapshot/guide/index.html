@@ -252,7 +252,8 @@ runtime = [
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://username:password@localhost:27017/databaseName"}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+uri = "mongodb://username:password@localhost:27017/databaseName"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -398,7 +399,12 @@ mongodb.connectionPool.maxSize=20</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://localhost:27017/app", readConcern = "majority", connectionPool = {maxSize = 20}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+uri = "mongodb://localhost:27017/app"
+readConcern = "majority"
+
+[mongodb.connectionPool]
+maxSize = 20</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -629,7 +635,11 @@ mongodb.cluster.maxWaitQueueSize=5</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {uri = "mongodb://localhost:27017/app", cluster = {maxWaitQueueSize = 5}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+uri = "mongodb://localhost:27017/app"
+
+[mongodb.cluster]
+maxWaitQueueSize = 5</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -694,7 +704,8 @@ mongodb.cluster.maxWaitQueueSize=5</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {package-names = ["example.animals"]}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb]
+package-names = ["example.animals"]</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -751,8 +762,12 @@ mongodb:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {lifecycle = {graceful-shutdown = {enabled = true, grace-period = "5s"}}}
-mongodb = {shutdown-delay = "1s"}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut.lifecycle.graceful-shutdown]
+enabled = true
+grace-period = "5s"
+
+[mongodb]
+shutdown-delay = "1s"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -834,7 +849,8 @@ mongodb {
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">mongodb = {servers = {another = {uri = "mongodb://localhost:27018"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[mongodb.servers.another]
+uri = "mongodb://localhost:27018"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
