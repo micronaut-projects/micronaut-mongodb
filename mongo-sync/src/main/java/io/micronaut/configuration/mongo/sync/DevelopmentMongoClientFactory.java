@@ -1,0 +1,120 @@
+/*
+ * Copyright 2017-2026 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.micronaut.configuration.mongo.sync;
+
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
+import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer;
+import io.micronaut.configuration.mongo.core.MongoSettings;
+import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
+import io.micronaut.configuration.mongo.core.dev.DevelopmentMongoSettings;
+import io.micronaut.context.BeanDependencyResolver;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.EachBean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.Retain;
+import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.core.annotation.Internal;
+import io.micronaut.inject.qualifiers.Qualifiers;
+import jakarta.inject.Singleton;
+
+import java.util.List;
+
+/**
+ * Creates the {@link MongoClient} beans in development mode, in place of {@link DefaultMongoClientFactory} and
+ * {@link NamedMongoClientFactory}, whose client methods require development mode to be inactive. The driver client, its connection pools and its monitors, is a
+ * {@link RetainedSyncMongoClient}, which development mode retains across a restart until a change under
+ * {@code mongodb} releases it. The client bean of each generation runs the operations on it with the codecs of that
+ * generation. A client that command listeners, connection pool listeners or settings customizers apply to is not
+ * retained, but created by each generation, as outside development mode. No shutdown delay applies in development
+ * mode.
+ *
+ * @author graemerocher
+ * @since 6.3.0
+ */
+@Factory
+@Internal
+@Requires(condition = DevelopmentMode.Active.class)
+final class DevelopmentMongoClientFactory {
+
+    /**
+     * @param configuration The default configuration, whose values the client copies
+     * @return The retained client
+     */
+    @Singleton
+    @Requires(beans = DefaultMongoConfiguration.class)
+    @Retain(invalidatedBy = MongoSettings.PREFIX)
+    @Bean(preDestroy = "close")
+    RetainedSyncMongoClient retainedMongoClient(DefaultMongoConfiguration configuration) {
+        return new RetainedSyncMongoClient(MongoClients.create(DevelopmentMongoSettings.retainedSettings(configuration)));
+    }
+
+    /**
+     * @param configuration A named configuration, whose values the client copies
+     * @return The retained client
+     */
+    @Singleton
+    @EachBean(NamedMongoConfiguration.class)
+    @Retain(invalidatedBy = MongoSettings.PREFIX)
+    @Bean(preDestroy = "close")
+    RetainedSyncMongoClient namedRetainedMongoClient(NamedMongoConfiguration configuration) {
+        return new RetainedSyncMongoClient(MongoClients.create(DevelopmentMongoSettings.retainedSettings(configuration)));
+    }
+
+    /**
+     * @param configuration The default configuration
+     * @param settings The settings, whose codec registry the generation applies
+     * @param customizers The settings customizers
+     * @param dependencies Resolves the retained client, as a dependency of this one
+     * @return The client of the generation
+     */
+    @Bean(preDestroy = "close")
+    @Primary
+    @Singleton
+    @Requires(beans = DefaultMongoConfiguration.class)
+    DevelopmentMongoClient mongoClient(DefaultMongoConfiguration configuration,
+                                       MongoClientSettings settings,
+                                       List<MongoClientSettingsBuilderCustomizer> customizers,
+                                       BeanDependencyResolver dependencies) {
+        if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
+            return DevelopmentMongoClient.over(dependencies.getBean(RetainedSyncMongoClient.class).client(), settings.getCodecRegistry());
+        }
+        return DevelopmentMongoClient.owning(MongoClients.create(settings));
+    }
+
+    /**
+     * @param configuration A named configuration
+     * @param customizers The settings customizers
+     * @param dependencies Resolves the retained client, as a dependency of this one
+     * @return The client of the generation
+     */
+    @Bean(preDestroy = "close")
+    @Singleton
+    @EachBean(NamedMongoConfiguration.class)
+    DevelopmentMongoClient namedMongoClient(NamedMongoConfiguration configuration,
+                                            List<MongoClientSettingsBuilderCustomizer> customizers,
+                                            BeanDependencyResolver dependencies) {
+        if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
+            RetainedSyncMongoClient retained = dependencies.getBean(RetainedSyncMongoClient.class, Qualifiers.byName(configuration.getServerName()));
+            return DevelopmentMongoClient.over(retained.client(), DevelopmentMongoSettings.codecRegistry(configuration));
+        }
+        return DevelopmentMongoClient.owning(MongoClients.create(configuration.buildSettings()));
+    }
+}
