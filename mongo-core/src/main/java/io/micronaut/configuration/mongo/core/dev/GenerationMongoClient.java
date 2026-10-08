@@ -28,4 +28,10 @@ import io.micronaut.core.annotation.Internal;
  */
 @Internal
 public interface GenerationMongoClient {
+
+    /**
+     * @param className The name of a class
+     * @return Whether the client asked its codec registry for a codec of the class
+     */
+    boolean isCodecRequested(String className);
 }

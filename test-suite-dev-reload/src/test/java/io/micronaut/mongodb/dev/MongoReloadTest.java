@@ -159,6 +159,45 @@ class MongoReloadTest {
         }
         """;
 
+    private static final String NOTE = """
+        package example;
+
+        import jakarta.inject.Singleton;
+
+        @Singleton
+        public class Note {
+            private String text;
+
+            public String getText() {
+                return text;
+            }
+
+            public void setText(String text) {
+                this.text = text;
+            }
+        }
+        """;
+
+    private static final String SETTINGS = """
+        package example;
+
+        import com.mongodb.MongoClientSettings;
+        import io.micronaut.configuration.mongo.core.DefaultMongoClientSettingsFactory;
+        import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
+        import io.micronaut.context.annotation.Factory;
+        import io.micronaut.context.annotation.Replaces;
+        import jakarta.inject.Singleton;
+
+        @Factory
+        public class SettingsFactory {
+            @Singleton
+            @Replaces(bean = MongoClientSettings.class, factory = DefaultMongoClientSettingsFactory.class)
+            MongoClientSettings settings(DefaultMongoConfiguration configuration) {
+                return MongoClientSettings.builder(configuration.buildSettings()).applicationName("custom").build();
+            }
+        }
+        """;
+
     @TempDir
     Path project;
 
@@ -259,17 +298,25 @@ class MongoReloadTest {
         try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
             MongoDb.getProperties().forEach(harness::property);
             harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.Note", NOTE);
             harness.source("example.BookRepository", firstRepository(collection, "", ""));
             harness.start();
             drop(harness.context(), collection);
             invoke(repository(harness.context()), "save", "one");
             List<RetainedMongoClient> retained = retained(harness.context());
             Object client = harness.context().getBean(MongoClient.class);
-            Object repository = repository(harness.context());
+            harness.context().getBean(MongoClient.class).getCodecRegistry().get(type(harness.context(), "example.Note"));
 
             // a bean changed in place: the context recreates it, the clients stay
             changedInPlace(harness, "example.BookRepository");
             assertSame(client, harness.context().getBean(MongoClient.class));
+
+            // a bean class a codec was built for, changed in place: the client beans build their codecs again
+            changedInPlace(harness, "example.Note");
+            assertNotSame(client, harness.context().getBean(MongoClient.class), "the codec of a bean class is cached by the client");
+            assertTrue(retained(harness.context()).containsAll(retained));
+            client = harness.context().getBean(MongoClient.class);
+            Object repository = repository(harness.context());
 
             // a document class changed in place: the client beans build their codecs again, on the same driver clients
             changedInPlace(harness, "example.Book");
@@ -304,6 +351,33 @@ class MongoReloadTest {
             retained = null;
             invoke(repository(harness.context()), "save", "two");
             assertEquals(List.of("one by null", "two by second"), invoke(repository(harness.context()), "reactiveTitles"));
+            ReloadTck.assertRetiredGenerationsCollected(harness);
+        }
+    }
+
+    @Test
+    void aSyncClientCreatedWithSettingsOfTheApplicationIsCreatedByEachGeneration() throws Exception {
+        String collection = "books-settings";
+        try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            MongoDb.getProperties().forEach(harness::property);
+            harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.SettingsFactory", SETTINGS);
+            harness.source("example.BookRepository", firstRepository(collection, "", ""));
+            harness.start();
+            drop(harness.context(), collection);
+            invoke(repository(harness.context()), "save", "one");
+            List<RetainedMongoClient> retained = retained(harness.context());
+            assertEquals(1, retained.size(), "the reactive client only, which the settings bean does not apply to");
+            assertTrue(retained.get(0).getClass().getName().contains("Reactive"));
+
+            harness.source("example.Book", BOOK_SECOND);
+            harness.source("example.BookRepository", secondRepository(collection, "", ""));
+            harness.reload();
+            assertEquals(2, harness.generation());
+            ReloadTck.assertRetained(harness, retained.get(0));
+            retained = null;
+            invoke(repository(harness.context()), "save", "two");
+            assertEquals(List.of("one by null", "two by second"), invoke(repository(harness.context()), "titles"));
             ReloadTck.assertRetiredGenerationsCollected(harness);
         }
     }
@@ -386,7 +460,7 @@ class MongoReloadTest {
      */
     private static void changedInPlace(ReloadHarness harness, String className) {
         ApplicationContext context = harness.context();
-        context.publishEvent(new ClassChangeEvent(MongoReloadTest.class, harness.generation(), Set.of(), context.getClassLoader(),
+        context.publishEvent(new ClassChangeEvent(MongoReloadTest.class, Set.of(), context.getClassLoader(),
             List.of(new ClassChange(className, ClassChange.Kind.MODIFIED)), ReloadStrategy.RELOAD));
     }
 

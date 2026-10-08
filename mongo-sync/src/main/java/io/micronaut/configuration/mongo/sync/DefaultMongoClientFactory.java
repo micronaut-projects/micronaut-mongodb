@@ -24,7 +24,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.context.env.DevelopmentInactive;
 
 import jakarta.inject.Singleton;
 
@@ -55,7 +55,7 @@ public class DefaultMongoClientFactory {
      * @return mongoClient
      */
     @Bean(preDestroy = "close")
-    @Requires(condition = DevelopmentMode.Inactive.class)
+    @DevelopmentInactive
     @Primary
     @Singleton
     protected MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration, MongoClientSettings settings) {

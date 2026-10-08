@@ -23,8 +23,7 @@ import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.context.env.DevelopmentInactive;
 import io.micronaut.runtime.context.scope.Refreshable;
 
 /**
@@ -51,7 +50,7 @@ public class NamedMongoClientFactory {
      * @return mongoClient
      */
     @Bean(preDestroy = "close")
-    @Requires(condition = DevelopmentMode.Inactive.class)
+    @DevelopmentInactive
     @EachBean(NamedMongoConfiguration.class)
     @Refreshable(MongoSettings.PREFIX)
     MongoClient mongoClient(NamedMongoConfiguration configuration) {

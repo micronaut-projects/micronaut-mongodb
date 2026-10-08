@@ -27,8 +27,7 @@ import io.micronaut.context.BeanRegistration;
 import io.micronaut.context.Qualifier;
 import io.micronaut.context.WatchableBeanContext;
 import io.micronaut.context.annotation.Context;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.context.env.DevelopmentActive;
 import io.micronaut.context.reload.ClassChange;
 import io.micronaut.context.reload.ClassChangeEvent;
 import io.micronaut.context.reload.ReloadStrategy;
@@ -79,7 +78,7 @@ import java.util.stream.Stream;
  */
 @Internal
 @Context
-@Requires(condition = DevelopmentMode.Active.class)
+@DevelopmentActive
 final class DevelopmentMongoReloader {
 
     private static final Logger LOG = LoggerFactory.getLogger(DevelopmentMongoReloader.class);
@@ -121,6 +120,9 @@ final class DevelopmentMongoReloader {
             return;
         }
         if (!change.retiredLoaders().isEmpty()) {
+            // the default codec registry builder of a configuration caches the discriminator classes of its packages,
+            // which may be of the retired loader: such a configuration is recreated, with what was built from it
+            recreateDiscriminatorCaches();
             recreate(List.of(MongoClientSettings.class, GenerationMongoClient.class), "a reload retired a classloader");
             return;
         }
@@ -133,9 +135,10 @@ final class DevelopmentMongoReloader {
     }
 
     /**
-     * Whether a codec of a registry may have been built from the class: a codec type, or a class that is not a bean,
-     * such as a document class a POJO or a Micronaut Serialization codec encodes. A bean that changes is recreated by
-     * the context, with the beans that received it.
+     * Whether a codec of a registry may have been built from the class: a codec type, a class a client of the
+     * generation asked a codec for, a bean class included, or a class that is not a bean, such as a document class a
+     * POJO or a Micronaut Serialization codec may encode. A bean that changes is otherwise recreated by the context,
+     * with the beans that received it.
      */
     private boolean mayBeEncoded(String className, ClassLoader loader) {
         Class<?> type;
@@ -150,7 +153,39 @@ final class DevelopmentMongoReloader {
                 return true;
             }
         }
-        return !isBean(className);
+        return isCodecRequested(className) || !isBean(className);
+    }
+
+    private boolean isCodecRequested(String className) {
+        for (BeanRegistration<GenerationMongoClient> registration : beanContext.getActiveBeanRegistrations(GenerationMongoClient.class)) {
+            if (registration.bean().isCodecRequested(className)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Recreates the configurations whose default codec registry builder may cache discriminator classes: those with
+     * packages and without Micronaut Serialization. The retained clients, built from them, are recreated too.
+     */
+    private void recreateDiscriminatorCaches() {
+        if (!(beanContext instanceof WatchableBeanContext context)) {
+            return;
+        }
+        List<Object> configurations = new ArrayList<>();
+        for (BeanRegistration<AbstractMongoConfiguration> registration : beanContext.getActiveBeanRegistrations(AbstractMongoConfiguration.class)) {
+            AbstractMongoConfiguration configuration = registration.bean();
+            if (!configuration.isUseSerde() && !configuration.getPackageNames().isEmpty()) {
+                add(configurations, configuration);
+            }
+        }
+        if (!configurations.isEmpty()) {
+            LOG.debug("Recreating the MongoDB configurations with packages: a reload retired a classloader");
+        }
+        for (Object configuration : configurations) {
+            context.recreate(configuration);
+        }
     }
 
     /**

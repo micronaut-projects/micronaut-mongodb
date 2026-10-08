@@ -30,6 +30,7 @@ import com.mongodb.reactivestreams.client.ListDatabasesPublisher;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoCluster;
 import com.mongodb.reactivestreams.client.MongoDatabase;
+import io.micronaut.configuration.mongo.core.dev.GenerationCodecRegistry;
 import io.micronaut.configuration.mongo.core.dev.GenerationMongoClient;
 import io.micronaut.core.annotation.Internal;
 import org.bson.Document;
@@ -55,11 +56,13 @@ final class DevelopmentReactiveMongoClient implements MongoClient, GenerationMon
     private final MongoClient client;
     private final MongoCluster cluster;
     private final boolean owned;
+    private final GenerationCodecRegistry codecs;
 
-    private DevelopmentReactiveMongoClient(MongoClient client, MongoCluster cluster, boolean owned) {
+    private DevelopmentReactiveMongoClient(MongoClient client, MongoCluster cluster, boolean owned, GenerationCodecRegistry codecs) {
         this.client = client;
         this.cluster = cluster;
         this.owned = owned;
+        this.codecs = codecs;
     }
 
     /**
@@ -67,16 +70,22 @@ final class DevelopmentReactiveMongoClient implements MongoClient, GenerationMon
      * @param codecRegistry The codec registry of the generation
      * @return A client that runs the operations on the retained one with the codecs of the generation
      */
-    static DevelopmentReactiveMongoClient over(MongoClient retained, CodecRegistry codecRegistry) {
-        return new DevelopmentReactiveMongoClient(retained, retained.withCodecRegistry(codecRegistry), false);
+    static DevelopmentReactiveMongoClient over(MongoClient retained, GenerationCodecRegistry codecRegistry) {
+        return new DevelopmentReactiveMongoClient(retained, retained.withCodecRegistry(codecRegistry), false, codecRegistry);
     }
 
     /**
      * @param client A client of the generation
+     * @param codecRegistry The codec registry the client was created with
      * @return A client that runs the operations on it and closes it
      */
-    static DevelopmentReactiveMongoClient owning(MongoClient client) {
-        return new DevelopmentReactiveMongoClient(client, client, true);
+    static DevelopmentReactiveMongoClient owning(MongoClient client, GenerationCodecRegistry codecRegistry) {
+        return new DevelopmentReactiveMongoClient(client, client, true, codecRegistry);
+    }
+
+    @Override
+    public boolean isCodecRequested(String className) {
+        return codecs.isRequested(className);
     }
 
     @Override

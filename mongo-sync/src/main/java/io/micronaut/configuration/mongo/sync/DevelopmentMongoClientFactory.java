@@ -18,11 +18,14 @@ package io.micronaut.configuration.mongo.sync;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import io.micronaut.configuration.mongo.core.DefaultMongoClientSettingsFactory;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer;
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.configuration.mongo.core.dev.DevelopmentMongoSettings;
+import io.micronaut.configuration.mongo.core.dev.GenerationCodecRegistry;
+import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
@@ -30,8 +33,9 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.annotation.Retain;
-import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.context.env.DevelopmentActive;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import jakarta.inject.Singleton;
 
@@ -51,7 +55,7 @@ import java.util.List;
  */
 @Factory
 @Internal
-@Requires(condition = DevelopmentMode.Active.class)
+@DevelopmentActive
 final class DevelopmentMongoClientFactory {
 
     /**
@@ -82,6 +86,7 @@ final class DevelopmentMongoClientFactory {
      * @param configuration The default configuration
      * @param settings The settings, whose codec registry the generation applies
      * @param customizers The settings customizers
+     * @param beanContext The context, which tells whether the settings are those the configuration builds
      * @param dependencies Resolves the retained client, as a dependency of this one
      * @return The client of the generation
      */
@@ -92,11 +97,13 @@ final class DevelopmentMongoClientFactory {
     DevelopmentMongoClient mongoClient(DefaultMongoConfiguration configuration,
                                        MongoClientSettings settings,
                                        List<MongoClientSettingsBuilderCustomizer> customizers,
+                                       BeanContext beanContext,
                                        BeanDependencyResolver dependencies) {
-        if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
-            return DevelopmentMongoClient.over(dependencies.getBean(RetainedSyncMongoClient.class).client(), settings.getCodecRegistry());
+        GenerationCodecRegistry codecRegistry = new GenerationCodecRegistry(settings.getCodecRegistry());
+        if (DevelopmentMongoSettings.isRetainable(configuration, customizers, isConfigured(beanContext))) {
+            return DevelopmentMongoClient.over(dependencies.getBean(RetainedSyncMongoClient.class).client(), codecRegistry);
         }
-        return DevelopmentMongoClient.owning(MongoClients.create(settings));
+        return DevelopmentMongoClient.owning(MongoClients.create(DevelopmentMongoSettings.ownedSettings(settings, codecRegistry)), codecRegistry);
     }
 
     /**
@@ -115,6 +122,19 @@ final class DevelopmentMongoClientFactory {
             RetainedSyncMongoClient retained = dependencies.getBean(RetainedSyncMongoClient.class, Qualifiers.byName(configuration.getServerName()));
             return DevelopmentMongoClient.over(retained.client(), DevelopmentMongoSettings.codecRegistry(configuration));
         }
-        return DevelopmentMongoClient.owning(MongoClients.create(configuration.buildSettings()));
+        MongoClientSettings settings = configuration.buildSettings();
+        GenerationCodecRegistry codecRegistry = new GenerationCodecRegistry(settings.getCodecRegistry());
+        return DevelopmentMongoClient.owning(MongoClients.create(DevelopmentMongoSettings.ownedSettings(settings, codecRegistry)), codecRegistry);
+    }
+
+    /**
+     * Whether the {@link MongoClientSettings} bean is the one {@link DefaultMongoClientSettingsFactory} builds from the
+     * configuration, which the retained client copies, rather than one of the application.
+     */
+    private static boolean isConfigured(BeanContext beanContext) {
+        return beanContext.findBeanDefinition(MongoClientSettings.class)
+            .flatMap(BeanDefinition::getDeclaringType)
+            .filter(DefaultMongoClientSettingsFactory.class::equals)
+            .isPresent();
     }
 }

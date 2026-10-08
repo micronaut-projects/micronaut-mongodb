@@ -20,7 +20,6 @@ import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.core.annotation.Internal;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,13 +56,33 @@ public final class DevelopmentMongoSettings {
      * @return Whether the client can be retained
      */
     public static boolean isRetainable(AbstractMongoConfiguration configuration, List<MongoClientSettingsBuilderCustomizer> customizers) {
+        return isRetainable(configuration, customizers, true);
+    }
+
+    /**
+     * Whether a client of the configuration can be retained across a restart: its settings are those the configuration
+     * builds, and no command listener, connection pool listener or settings customizer applies to it.
+     *
+     * @param configuration The configuration
+     * @param customizers The settings customizers, which the configuration received too
+     * @param configured Whether the client is created with the settings the configuration builds, rather than with a
+     * {@code MongoClientSettings} bean of the application, which a retained client would not follow
+     * @return Whether the client can be retained
+     */
+    public static boolean isRetainable(AbstractMongoConfiguration configuration,
+                                       List<MongoClientSettingsBuilderCustomizer> customizers,
+                                       boolean configured) {
+        String server = configuration instanceof NamedMongoConfiguration named ? named.getServerName() : "default";
+        if (!configured) {
+            LOG.info("The MongoDB client [{}] is created again on each development restart, rather than retained: the application declares the MongoClientSettings it is created with", server);
+            return false;
+        }
         if (configuration.getCommandListeners().isEmpty()
             && configuration.getConnectionPoolListeners().isEmpty()
             && customizers.isEmpty()) {
             return true;
         }
-        LOG.info("The MongoDB client [{}] is created again on each development restart, rather than retained: command listeners, connection pool listeners or settings customizers apply to it, which the driver would keep",
-            configuration instanceof NamedMongoConfiguration named ? named.getServerName() : "default");
+        LOG.info("The MongoDB client [{}] is created again on each development restart, rather than retained: command listeners, connection pool listeners or settings customizers apply to it, which the driver would keep", server);
         return false;
     }
 
@@ -85,7 +104,18 @@ public final class DevelopmentMongoSettings {
      * @param configuration The configuration
      * @return The registry, built anew
      */
-    public static CodecRegistry codecRegistry(AbstractMongoConfiguration configuration) {
-        return configuration.buildSettings().getCodecRegistry();
+    public static GenerationCodecRegistry codecRegistry(AbstractMongoConfiguration configuration) {
+        return new GenerationCodecRegistry(configuration.buildSettings().getCodecRegistry());
+    }
+
+    /**
+     * The settings of a client a generation creates and owns, with its codec registry recorded.
+     *
+     * @param settings The settings
+     * @param codecRegistry The registry of the generation, over the one of the settings
+     * @return The settings with that registry
+     */
+    public static MongoClientSettings ownedSettings(MongoClientSettings settings, GenerationCodecRegistry codecRegistry) {
+        return MongoClientSettings.builder(settings).codecRegistry(codecRegistry).build();
     }
 }

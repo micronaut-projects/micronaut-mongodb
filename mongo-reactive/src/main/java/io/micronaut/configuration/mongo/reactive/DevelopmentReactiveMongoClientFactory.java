@@ -15,6 +15,7 @@
  */
 package io.micronaut.configuration.mongo.reactive;
 
+import com.mongodb.MongoClientSettings;
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
@@ -22,6 +23,7 @@ import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomize
 import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.configuration.mongo.core.dev.DevelopmentMongoSettings;
+import io.micronaut.configuration.mongo.core.dev.GenerationCodecRegistry;
 import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
@@ -29,7 +31,7 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.annotation.Retain;
-import io.micronaut.context.env.DevelopmentMode;
+import io.micronaut.context.env.DevelopmentActive;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import jakarta.inject.Singleton;
@@ -50,7 +52,7 @@ import java.util.List;
  */
 @Factory
 @Internal
-@Requires(condition = DevelopmentMode.Active.class)
+@DevelopmentActive
 final class DevelopmentReactiveMongoClientFactory {
 
     /**
@@ -93,7 +95,9 @@ final class DevelopmentReactiveMongoClientFactory {
         if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
             return DevelopmentReactiveMongoClient.over(dependencies.getBean(RetainedReactiveMongoClient.class).client(), DevelopmentMongoSettings.codecRegistry(configuration));
         }
-        return DevelopmentReactiveMongoClient.owning(MongoClients.create(configuration.buildSettings()));
+        MongoClientSettings settings = configuration.buildSettings();
+        GenerationCodecRegistry codecRegistry = new GenerationCodecRegistry(settings.getCodecRegistry());
+        return DevelopmentReactiveMongoClient.owning(MongoClients.create(DevelopmentMongoSettings.ownedSettings(settings, codecRegistry)), codecRegistry);
     }
 
     /**
@@ -112,6 +116,8 @@ final class DevelopmentReactiveMongoClientFactory {
             RetainedReactiveMongoClient retained = dependencies.getBean(RetainedReactiveMongoClient.class, Qualifiers.byName(configuration.getServerName()));
             return DevelopmentReactiveMongoClient.over(retained.client(), DevelopmentMongoSettings.codecRegistry(configuration));
         }
-        return DevelopmentReactiveMongoClient.owning(MongoClients.create(configuration.buildSettings()));
+        MongoClientSettings settings = configuration.buildSettings();
+        GenerationCodecRegistry codecRegistry = new GenerationCodecRegistry(settings.getCodecRegistry());
+        return DevelopmentReactiveMongoClient.owning(MongoClients.create(DevelopmentMongoSettings.ownedSettings(settings, codecRegistry)), codecRegistry);
     }
 }
