@@ -17,6 +17,8 @@ package io.micronaut.configuration.mongo.core.dev;
 
 import io.micronaut.core.annotation.Internal;
 import org.bson.codecs.Codec;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 
 import java.lang.reflect.Type;
@@ -28,7 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * The codec registry of a generation in development mode. It delegates to the registry the configuration builds, and
  * records the names of the classes a codec was asked for, so that the reloader recreates the client beans when one of
  * those classes changes in place, a bean class included, since the driver caches a codec by class. It keeps names
- * only, never a class.
+ * only, never a class. A lookup made on this registry itself goes through a registry of the driver that resolves the
+ * nested codecs through this one, so that the classes of the properties are recorded too.
  *
  * @author graemerocher
  * @since 6.3.0
@@ -38,12 +41,14 @@ public final class GenerationCodecRegistry implements CodecRegistry {
 
     private final CodecRegistry delegate;
     private final Set<String> requested = ConcurrentHashMap.newKeySet();
+    private final CodecRegistry lookup;
 
     /**
      * @param delegate The registry built by the configuration
      */
     public GenerationCodecRegistry(CodecRegistry delegate) {
         this.delegate = delegate;
+        this.lookup = CodecRegistries.fromProviders(new Recorder());
     }
 
     /**
@@ -56,14 +61,12 @@ public final class GenerationCodecRegistry implements CodecRegistry {
 
     @Override
     public <T> Codec<T> get(Class<T> clazz) {
-        requested.add(clazz.getName());
-        return delegate.get(clazz);
+        return lookup.get(clazz);
     }
 
     @Override
     public <T> Codec<T> get(Class<T> clazz, List<Type> typeArguments) {
-        requested.add(clazz.getName());
-        return delegate.get(clazz, typeArguments);
+        return lookup.get(clazz, typeArguments);
     }
 
     @Override
@@ -76,5 +79,20 @@ public final class GenerationCodecRegistry implements CodecRegistry {
     public <T> Codec<T> get(Class<T> clazz, List<Type> typeArguments, CodecRegistry registry) {
         requested.add(clazz.getName());
         return delegate.get(clazz, typeArguments, registry);
+    }
+
+    /**
+     * Provides the codecs of this registry to the lookup registry, which passes itself for the nested codecs.
+     */
+    private final class Recorder implements CodecProvider {
+        @Override
+        public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
+            return GenerationCodecRegistry.this.get(clazz, registry);
+        }
+
+        @Override
+        public <T> Codec<T> get(Class<T> clazz, List<Type> typeArguments, CodecRegistry registry) {
+            return GenerationCodecRegistry.this.get(clazz, typeArguments, registry);
+        }
     }
 }

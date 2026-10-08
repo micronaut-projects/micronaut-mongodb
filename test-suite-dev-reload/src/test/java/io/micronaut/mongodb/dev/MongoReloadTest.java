@@ -198,6 +198,29 @@ class MongoReloadTest {
         }
         """;
 
+    private static final String CLIENT_FACTORY = """
+        package example;
+
+        import com.mongodb.MongoClientSettings;
+        import com.mongodb.client.MongoClient;
+        import com.mongodb.client.MongoClients;
+        import io.micronaut.configuration.mongo.sync.DefaultMongoClientFactory;
+        import io.micronaut.context.annotation.Bean;
+        import io.micronaut.context.annotation.Factory;
+        import io.micronaut.context.annotation.Replaces;
+        import jakarta.inject.Singleton;
+
+        @Factory
+        public class ClientFactory {
+            @Singleton
+            @Bean(preDestroy = "close")
+            @Replaces(bean = MongoClient.class, factory = DefaultMongoClientFactory.class)
+            MongoClient client(MongoClientSettings settings) {
+                return MongoClients.create(settings);
+            }
+        }
+        """;
+
     @TempDir
     Path project;
 
@@ -379,6 +402,23 @@ class MongoReloadTest {
             invoke(repository(harness.context()), "save", "two");
             assertEquals(List.of("one by null", "two by second"), invoke(repository(harness.context()), "titles"));
             ReloadTck.assertRetiredGenerationsCollected(harness);
+        }
+    }
+
+    @Test
+    void aReplacementOfTheClientOfTheFactoryReplacesTheDevelopmentClient() throws Exception {
+        String collection = "books-replaced";
+        try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            MongoDb.getProperties().forEach(harness::property);
+            harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.ClientFactory", CLIENT_FACTORY);
+            harness.source("example.BookRepository", firstRepository(collection, "", ""));
+            harness.start();
+            drop(harness.context(), collection);
+            invoke(repository(harness.context()), "save", "one");
+            assertEquals(1, harness.context().getBeansOfType(MongoClient.class).size());
+            assertTrue(harness.context().getBean(MongoClient.class) instanceof MongoClientImpl, "the client of the application");
+            assertEquals(List.of("one"), invoke(repository(harness.context()), "titles"));
         }
     }
 

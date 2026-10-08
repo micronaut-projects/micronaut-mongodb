@@ -28,7 +28,6 @@ import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.annotation.Retain;
 import io.micronaut.context.env.DevelopmentActive;
@@ -39,8 +38,9 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 /**
- * Creates the reactive {@link MongoClient} beans in development mode, in place of {@link DefaultReactiveMongoClientFactory} and
- * {@link NamedReactiveMongoClientFactory}, whose client methods require development mode to be inactive. The driver client, its connection pools and its monitors, is a
+ * Creates the reactive driver clients development mode retains, and the {@link MongoClient} beans of each generation
+ * for the development methods of {@link DefaultReactiveMongoClientFactory} and
+ * {@link NamedReactiveMongoClientFactory}, which declare them so that a replacement of the client of a factory replaces it in development mode too. The driver client, its connection pools and its monitors, is a
  * {@link RetainedReactiveMongoClient}, which development mode retains across a restart until a change under
  * {@code mongodb} releases it. The client bean of each generation runs the operations on it with the codecs of that
  * generation. A client that command listeners, connection pool listeners or settings customizers apply to is not
@@ -83,13 +83,9 @@ final class DevelopmentReactiveMongoClientFactory {
      * @param configuration The default configuration
      * @param customizers The settings customizers
      * @param dependencies Resolves the retained client, as a dependency of this one
-     * @return The client of the generation
+     * @return The client of the generation, for the factory that declares it
      */
-    @Bean(preDestroy = "close")
-    @Primary
-    @Singleton
-    @Requires(beans = DefaultMongoConfiguration.class)
-    DevelopmentReactiveMongoClient mongoClient(DefaultMongoConfiguration configuration,
+    static DevelopmentReactiveMongoClient mongoClient(DefaultMongoConfiguration configuration,
                                                List<MongoClientSettingsBuilderCustomizer> customizers,
                                                BeanDependencyResolver dependencies) {
         if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
@@ -104,12 +100,9 @@ final class DevelopmentReactiveMongoClientFactory {
      * @param configuration A named configuration
      * @param customizers The settings customizers
      * @param dependencies Resolves the retained client, as a dependency of this one
-     * @return The client of the generation
+     * @return The client of the generation, for the factory that declares it
      */
-    @Bean(preDestroy = "close")
-    @Singleton
-    @EachBean(NamedMongoConfiguration.class)
-    DevelopmentReactiveMongoClient namedMongoClient(NamedMongoConfiguration configuration,
+    static DevelopmentReactiveMongoClient namedMongoClient(NamedMongoConfiguration configuration,
                                                     List<MongoClientSettingsBuilderCustomizer> customizers,
                                                     BeanDependencyResolver dependencies) {
         if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {

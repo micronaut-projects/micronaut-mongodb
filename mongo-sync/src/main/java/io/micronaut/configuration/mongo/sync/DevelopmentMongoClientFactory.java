@@ -30,7 +30,6 @@ import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.annotation.Retain;
 import io.micronaut.context.env.DevelopmentActive;
@@ -42,8 +41,9 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 /**
- * Creates the {@link MongoClient} beans in development mode, in place of {@link DefaultMongoClientFactory} and
- * {@link NamedMongoClientFactory}, whose client methods require development mode to be inactive. The driver client, its connection pools and its monitors, is a
+ * Creates the driver clients development mode retains, and the {@link MongoClient} beans of each generation for
+ * the development methods of {@link DefaultMongoClientFactory} and
+ * {@link NamedMongoClientFactory}, which declare them so that a replacement of the client of a factory replaces it in development mode too. The driver client, its connection pools and its monitors, is a
  * {@link RetainedSyncMongoClient}, which development mode retains across a restart until a change under
  * {@code mongodb} releases it. The client bean of each generation runs the operations on it with the codecs of that
  * generation. A client that command listeners, connection pool listeners or settings customizers apply to is not
@@ -88,13 +88,9 @@ final class DevelopmentMongoClientFactory {
      * @param customizers The settings customizers
      * @param beanContext The context, which tells whether the settings are those the configuration builds
      * @param dependencies Resolves the retained client, as a dependency of this one
-     * @return The client of the generation
+     * @return The client of the generation, for the factory that declares it
      */
-    @Bean(preDestroy = "close")
-    @Primary
-    @Singleton
-    @Requires(beans = DefaultMongoConfiguration.class)
-    DevelopmentMongoClient mongoClient(DefaultMongoConfiguration configuration,
+    static DevelopmentMongoClient mongoClient(DefaultMongoConfiguration configuration,
                                        MongoClientSettings settings,
                                        List<MongoClientSettingsBuilderCustomizer> customizers,
                                        BeanContext beanContext,
@@ -110,12 +106,9 @@ final class DevelopmentMongoClientFactory {
      * @param configuration A named configuration
      * @param customizers The settings customizers
      * @param dependencies Resolves the retained client, as a dependency of this one
-     * @return The client of the generation
+     * @return The client of the generation, for the factory that declares it
      */
-    @Bean(preDestroy = "close")
-    @Singleton
-    @EachBean(NamedMongoConfiguration.class)
-    DevelopmentMongoClient namedMongoClient(NamedMongoConfiguration configuration,
+    static DevelopmentMongoClient namedMongoClient(NamedMongoConfiguration configuration,
                                             List<MongoClientSettingsBuilderCustomizer> customizers,
                                             BeanDependencyResolver dependencies) {
         if (DevelopmentMongoSettings.isRetainable(configuration, customizers)) {
