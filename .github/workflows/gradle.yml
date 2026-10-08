@@ -53,9 +53,11 @@ jobs:
           value=$(sed -n 's/^java-ci-test-shards=//p' gradle.properties 2>/dev/null | tail -n 1)
           # TEMPORARY: the experiment branch push runs like a pull request
           if { [ "$GITHUB_EVENT_NAME" != "pull_request" ] && [ "$GITHUB_REF_NAME" != "java-ci-test-shards-experiment" ]; } || [ -z "$value" ]; then
-            echo "sharded=false" >> "$GITHUB_OUTPUT"
-            echo "shards=[]" >> "$GITHUB_OUTPUT"
-            echo "exclusions=" >> "$GITHUB_OUTPUT"
+            {
+              echo "sharded=false"
+              echo "shards=[]"
+              echo "exclusions="
+            } >> "$GITHUB_OUTPUT"
             echo "All the tests run in the build job"
             exit 0
           fi
@@ -65,9 +67,11 @@ jobs:
           fi
           shards=$(jq -cn --arg value "$value" '$value | split(",") | map(gsub("^ +| +$"; "")) | map(select(length > 0))')
           exclusions=$(echo "$value" | tr ',' ' ' | xargs -n1 | sed 's/^/-x /' | paste -sd' ' -)
-          echo "sharded=true" >> "$GITHUB_OUTPUT"
-          echo "shards=$shards" >> "$GITHUB_OUTPUT"
-          echo "exclusions=$exclusions" >> "$GITHUB_OUTPUT"
+          {
+            echo "sharded=true"
+            echo "shards=$shards"
+            echo "exclusions=$exclusions"
+          } >> "$GITHUB_OUTPUT"
           echo "Test shards: $shards"
   build:
     name: "build"
@@ -141,19 +145,29 @@ jobs:
           # -x for each test task of the shards, which run in the test-shards jobs
           SHARD_EXCLUSIONS: ${{ needs.detect.outputs.exclusions }}
         run: |
-          ./gradlew check jacocoReport --no-daemon --continue $SHARD_EXCLUSIONS
+          read -ra exclusions <<< "$SHARD_EXCLUSIONS"
+          ./gradlew check jacocoReport --no-daemon --continue "${exclusions[@]}"
 
+      # For the sonar job, which analyses the coverage data of the build with the one of the shards
+      - name: "🏷 Mark coverage data"
+        if: needs.detect.outputs.sharded == 'true'
+        # Always uploaded with the coverage data: the artifact exists even when the tests produced none, and
+        # the paths of the coverage data stay relative to the repository root
+        run: echo "${{ github.job }}" > .coverage-data
       - name: "📤 Upload coverage data"
-        # For the sonar job, which analyses it with the coverage data of the shards
         if: needs.detect.outputs.sharded == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: coverage-build
-          # The marker file keeps the paths of the files relative to the repository root
           path: |
-            .github/workflows/gradle.yml
+            .coverage-data
             **/build/jacoco/*.exec
-          retention-days: 1
+          include-hidden-files: true
+          if-no-files-found: error
+          # A failed job can be re-run up to 30 days after the run: the sonar job then needs the coverage data
+          # of the jobs that are not re-run
+          retention-days: 30
+          overwrite: true
 
       - name: "🔎 Run static analysis"
         id: sonar
@@ -265,7 +279,8 @@ jobs:
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           SHARD_TASKS: ${{ matrix.tasks }}
         run: |
-          ./gradlew $SHARD_TASKS --no-daemon --continue
+          read -ra tasks <<< "$SHARD_TASKS"
+          ./gradlew "${tasks[@]}" --no-daemon --continue
 
       - name: "📊 Publish Test Report"
         if: always()
@@ -275,15 +290,23 @@ jobs:
           report_paths: '**/build/test-results/test/TEST-*.xml'
           check_retries: 'true'
 
+      - name: "🏷 Mark coverage data"
+        # Always uploaded with the coverage data: the artifact exists even when the tests produced none, and
+        # the paths of the coverage data stay relative to the repository root
+        run: echo "${{ github.job }}" > .coverage-data
       - name: "📤 Upload coverage data"
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: coverage-shard-${{ strategy.job-index }}
-          # The marker file keeps the paths of the files relative to the repository root
           path: |
-            .github/workflows/gradle.yml
+            .coverage-data
             **/build/jacoco/*.exec
-          retention-days: 1
+          include-hidden-files: true
+          if-no-files-found: error
+          # A failed job can be re-run up to 30 days after the run: the sonar job then needs the coverage data
+          # of the jobs that are not re-run
+          retention-days: 30
+          overwrite: true
 
       - name: "❓ Optional cleanup step"
         run: |
@@ -330,7 +353,26 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           pattern: coverage-*
-          merge-multiple: true
+          # One directory per artifact, to check that none is missing
+          path: ${{ runner.temp }}/coverage
+
+      - name: "🧩 Merge coverage data"
+        # The analysis needs the coverage data of the build and of every shard, or Sonar would report a lower
+        # coverage
+        env:
+          SHARDS: ${{ needs.detect.outputs.shards }}
+        run: |
+          expected="coverage-build"
+          for index in $(seq 0 $(( $(jq length <<< "$SHARDS") - 1 ))); do
+            expected="$expected coverage-shard-$index"
+          done
+          for name in $expected; do
+            if [ ! -f "$RUNNER_TEMP/coverage/$name/.coverage-data" ]; then
+              echo "::error::The coverage data $name is missing"
+              exit 1
+            fi
+            cp -R "$RUNNER_TEMP/coverage/$name/." .
+          done
 
       - name: "🔎 Run static analysis"
         id: sonar
@@ -347,16 +389,20 @@ jobs:
   # Native and Python tests start only when the build, the test shards and their tests passed and the Sonar
   # quality gate did not fail, so a red or cancelled build never takes runners for their matrices.
   native:
-    needs: [build, test-shards, sonar]
+    needs: [detect, build, test-shards, sonar]
+    # With test shards, the shards and the sonar job must succeed; without, they are skipped
     if: >-
       !cancelled() && needs.build.result == 'success' && needs.build.outputs.sonar != 'failure' &&
-      needs.test-shards.result != 'failure' && needs.sonar.outputs.sonar != 'failure'
+      (needs.detect.outputs.sharded != 'true' ||
+        (needs.test-shards.result == 'success' && needs.sonar.result == 'success' && needs.sonar.outputs.sonar != 'failure'))
     uses: ./.github/workflows/graalvm-latest.yml
     secrets: inherit
   python:
-    needs: [build, test-shards, sonar]
+    needs: [detect, build, test-shards, sonar]
+    # With test shards, the shards and the sonar job must succeed; without, they are skipped
     if: >-
       !cancelled() && needs.build.result == 'success' && needs.build.outputs.sonar != 'failure' &&
-      needs.test-shards.result != 'failure' && needs.sonar.outputs.sonar != 'failure'
+      (needs.detect.outputs.sharded != 'true' ||
+        (needs.test-shards.result == 'success' && needs.sonar.result == 'success' && needs.sonar.outputs.sonar != 'failure'))
     uses: ./.github/workflows/python.yml
     secrets: inherit
