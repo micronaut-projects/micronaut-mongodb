@@ -32,6 +32,8 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -217,6 +220,32 @@ class MongoReloadTest {
             @Replaces(bean = MongoClient.class, factory = DefaultMongoClientFactory.class)
             MongoClient client(MongoClientSettings settings) {
                 return MongoClients.create(settings);
+            }
+        }
+        """;
+
+    private static final String CODEC_REGISTRY_BUILDER = """
+        package example;
+
+        import com.mongodb.MongoClientSettings;
+        import io.micronaut.configuration.mongo.core.AbstractMongoConfiguration;
+        import io.micronaut.configuration.mongo.core.CodecRegistryBuilder;
+        import io.micronaut.configuration.mongo.core.DefaultCodecRegistryBuilder;
+        import io.micronaut.context.annotation.Prototype;
+        import io.micronaut.context.annotation.Replaces;
+        import org.bson.codecs.configuration.CodecRegistries;
+        import org.bson.codecs.configuration.CodecRegistry;
+        import org.bson.codecs.pojo.PojoCodecProvider;
+
+        @Prototype
+        @Replaces(DefaultCodecRegistryBuilder.class)
+        public class PojoCodecRegistryBuilder implements CodecRegistryBuilder {
+            @Override
+            public CodecRegistry build(AbstractMongoConfiguration configuration) {
+                return CodecRegistries.fromRegistries(
+                    MongoClientSettings.getDefaultCodecRegistry(),
+                    CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
+                );
             }
         }
         """;
@@ -448,6 +477,64 @@ class MongoReloadTest {
         }
     }
 
+    @Test
+    void aRetiredLoaderRecreatesTheConfigurationsWhoseDefaultBuilderCachesDiscriminators() throws Exception {
+        String collection = "books-retired-default";
+        try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            MongoDb.getProperties().forEach(harness::property);
+            harness.property("mongodb.package-names", "example");
+            harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.BookRepository", firstRepository(collection, "", ""));
+            harness.start();
+            drop(harness.context(), collection);
+            invoke(repository(harness.context()), "save", "one");
+            List<RetainedMongoClient> retained = retained(harness.context());
+            assertEquals(2, retained.size());
+
+            // the default builder may cache discriminator classes of the retired loader: the configuration is
+            // recreated, and the retained clients built from it
+            retiredLoader(harness);
+            for (RetainedMongoClient client : retained) {
+                assertTrue(retained(harness.context()).stream().noneMatch(c -> c == client), "the client of the recreated configuration is recreated");
+            }
+            assertEquals(List.of("one"), invoke(repository(harness.context()), "titles"));
+            assertEquals(2, retained(harness.context()).size());
+        }
+    }
+
+    @Test
+    void aRetiredLoaderKeepsTheRetainedClientsWhenABuilderWithoutDiscriminatorCacheReplacesTheDefault() throws Exception {
+        String collection = "books-retired-replaced";
+        try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            MongoDb.getProperties().forEach(harness::property);
+            harness.property("mongodb.package-names", "example");
+            harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.PojoCodecRegistryBuilder", CODEC_REGISTRY_BUILDER);
+            harness.source("example.BookRepository", firstRepository(collection, "", ""));
+            harness.start();
+            drop(harness.context(), collection);
+            invoke(repository(harness.context()), "save", "one");
+            List<RetainedMongoClient> retained = retained(harness.context());
+            assertEquals(2, retained.size());
+            Object client = harness.context().getBean(MongoClient.class);
+
+            // no discriminator cache to drop: the configurations and the retained clients stay, the client beans of
+            // the generation build their codecs again
+            retiredLoader(harness);
+            assertEquals(retained.size(), retained(harness.context()).size());
+            assertTrue(retained(harness.context()).containsAll(retained), "the retained clients are kept");
+            assertNotSame(client, harness.context().getBean(MongoClient.class));
+            for (RetainedMongoClient retainedClient : retained) {
+                Object driverClient = driverClient(retainedClient);
+                if (driverClient instanceof MongoClientImpl) {
+                    assertFalse(isClosed(driverClient), "the retained client is open");
+                }
+            }
+            assertEquals(List.of("one"), invoke(repository(harness.context()), "titles"));
+            assertEquals(List.of("one"), invoke(repository(harness.context()), "reactiveTitles"));
+        }
+    }
+
     private static String firstRepository(String collection, String syncQualifier, String reactiveQualifier) {
         return REPOSITORY.formatted(syncQualifier, reactiveQualifier, collection, "", "book.getTitle()", collection, "book.getTitle()");
     }
@@ -502,6 +589,18 @@ class MongoReloadTest {
         ApplicationContext context = harness.context();
         context.publishEvent(new ClassChangeEvent(MongoReloadTest.class, Set.of(), context.getClassLoader(),
             List.of(new ClassChange(className, ClassChange.Kind.MODIFIED)), ReloadStrategy.RELOAD));
+    }
+
+    /**
+     * Tells the running generation that an in-place reload retired a classloader, as the development runtime does
+     * when it replaces the loader of the changed classes.
+     */
+    private static void retiredLoader(ReloadHarness harness) throws Exception {
+        ApplicationContext context = harness.context();
+        try (URLClassLoader retired = new URLClassLoader(new URL[0], context.getClassLoader())) {
+            context.publishEvent(new ClassChangeEvent(MongoReloadTest.class, Set.of(retired), context.getClassLoader(),
+                List.of(new ClassChange("example.Book", ClassChange.Kind.MODIFIED)), ReloadStrategy.RELOAD));
+        }
     }
 
     private static void assertReloaderPresent(ApplicationContext context) {

@@ -10,6 +10,7 @@ dependencies {
     testImplementation(platform(mn.micronaut.core.bom))
     testImplementation(projects.micronautMongoSync)
     testImplementation(projects.micronautMongoReactive)
+    testImplementation(projects.micronautMongoCoroutine)
     testImplementation(mn.reactor)
     testImplementation(mn.micronaut.dev.tck)
     // the reload harness compiles the application under test with the processors on the test classpath
