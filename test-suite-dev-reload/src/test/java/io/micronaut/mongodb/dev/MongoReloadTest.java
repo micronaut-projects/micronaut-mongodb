@@ -408,6 +408,41 @@ class MongoReloadTest {
     }
 
     @Test
+    void aDefaultServerNextToNamedServersLeavesTheRetainedClientsOfTheNamedServersOnly() throws Exception {
+        // DefaultMongoConfiguration requires mongodb.servers to be absent: with both configured, no default retained
+        // client exists, so the unqualified lookups of the clients of the default server cannot be ambiguous. Should
+        // the default server ever be allowed next to named ones, its retained clients need @Primary
+        String collection = "books-default-and-named";
+        try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
+            MongoDb.getProperties().forEach(harness::property);
+            harness.property("mongodb.servers.alpha.uri", MongoDb.getProperties().get("mongodb.uri"));
+            harness.source("example.Book", BOOK_FIRST);
+            harness.source("example.BookRepository", firstRepository(collection, "", ""));
+            harness.start();
+            drop(harness.context(), collection);
+            invoke(repository(harness.context()), "save", "one");
+            assertUnqualifiedClientsAreThoseOf(harness.context(), "alpha");
+            List<RetainedMongoClient> retained = retained(harness.context());
+            assertEquals(2, retained.size(), "the sync and the reactive retained clients of the named server");
+
+            harness.source("example.Book", BOOK_SECOND);
+            harness.source("example.BookRepository", secondRepository(collection, "", ""));
+            harness.reload();
+            assertEquals(2, harness.generation());
+            assertUnqualifiedClientsAreThoseOf(harness.context(), "alpha");
+            for (RetainedMongoClient client : retained) {
+                ReloadTck.assertRetained(harness, client);
+            }
+            assertEquals(retained.size(), retained(harness.context()).size());
+            retained = null;
+            invoke(repository(harness.context()), "save", "two");
+            assertEquals(List.of("one by null", "two by second"), invoke(repository(harness.context()), "titles"));
+            assertEquals(List.of("one by null", "two by second"), invoke(repository(harness.context()), "reactiveTitles"));
+            ReloadTck.assertRetiredGenerationsCollected(harness);
+        }
+    }
+
+    @Test
     void aSyncClientCreatedWithSettingsOfTheApplicationIsCreatedByEachGeneration() throws Exception {
         String collection = "books-settings";
         try (ReloadHarness harness = ReloadHarness.inDirectory(project)) {
@@ -550,6 +585,15 @@ class MongoReloadTest {
 
     private static void drop(ApplicationContext context, String collection, String server) {
         context.getBean(MongoClient.class, Qualifiers.byName(server)).getDatabase("dev").getCollection(collection).drop();
+    }
+
+    private static void assertUnqualifiedClientsAreThoseOf(ApplicationContext context, String server) {
+        // no default server: an unqualified lookup resolves to the clients of the named one, sync and reactive
+        assertTrue(context.getBeanDefinitions(RetainedMongoClient.class).stream()
+            .allMatch(definition -> Qualifiers.byName(server).equals(definition.getDeclaredQualifier())), "only the retained clients of " + server);
+        assertSame(context.getBean(MongoClient.class, Qualifiers.byName(server)), context.getBean(MongoClient.class));
+        assertSame(context.getBean(com.mongodb.reactivestreams.client.MongoClient.class, Qualifiers.byName(server)),
+            context.getBean(com.mongodb.reactivestreams.client.MongoClient.class));
     }
 
     private static List<RetainedMongoClient> retained(ApplicationContext context) {
