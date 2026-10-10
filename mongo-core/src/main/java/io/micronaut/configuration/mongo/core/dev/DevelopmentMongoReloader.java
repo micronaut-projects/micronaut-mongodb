@@ -35,7 +35,7 @@ import io.micronaut.context.watch.BeanDefinitionChange;
 import io.micronaut.context.watch.BeanDefinitionWatcher;
 import io.micronaut.context.watch.ClassChangeWatcher;
 import io.micronaut.context.watch.ConfigurationChange;
-import io.micronaut.context.watch.ConfigurationWatcher;
+import io.micronaut.context.watch.ReloadingConfigurationWatcher;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.order.Ordered;
 import io.micronaut.inject.BeanDefinitionReference;
@@ -108,9 +108,9 @@ final class DevelopmentMongoReloader {
     DevelopmentMongoReloader(BeanContext beanContext) {
         this.beanContext = beanContext;
         if (beanContext instanceof WatchableBeanContext watchable) {
-            watchable.watchConfiguration(MongoSettings.PREFIX, new ConfigurationChangeWatcher());
-            watchable.watchDefinitions(Object.class, new ContributionQualifier(), new ContributionDefinitionsWatcher());
-            watchable.watchClassChanges(new ClassWatcher());
+            watchable.configuration(MongoSettings.PREFIX).watchReloading(new ConfigurationChangeWatcher());
+            watchable.definitions().qualifier(new ContributionQualifier()).watch(new ContributionDefinitionsWatcher());
+            watchable.classChanges().watch(new ClassWatcher());
         }
     }
 
@@ -255,7 +255,7 @@ final class DevelopmentMongoReloader {
     /**
      * Recreates the retained clients from the configuration rebound in place.
      */
-    private final class ConfigurationChangeWatcher implements ConfigurationWatcher, Ordered {
+    private final class ConfigurationChangeWatcher implements ReloadingConfigurationWatcher, Ordered {
         @Override
         public Outcome onChange(ConfigurationChange change) {
             if (change.initial()) {
