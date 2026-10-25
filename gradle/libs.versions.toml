@@ -1,5 +1,5 @@
 [versions]
-micronaut = "5.2.17"
+micronaut = "5.2.20"
 micronaut-test = "5.0.0"
 micronaut-platform = "5.2.3"
 micronaut-gradle-plugin = "5.0.2"
@@ -8,7 +8,7 @@ managed-mongo = "5.13.0"
 managed-mongo-reactive = "5.13.0"
 
 micronaut-micrometer = "6.1.0"
-micronaut-serde = "3.2.5"
+micronaut-serde = "3.2.6"
 micronaut-validation = "5.2.1"
 
 [libraries]
