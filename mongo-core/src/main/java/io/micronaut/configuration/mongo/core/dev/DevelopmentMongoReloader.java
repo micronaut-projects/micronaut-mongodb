@@ -62,7 +62,8 @@ import java.util.stream.Stream;
  *     {@link RetainedMongoClient}s, which hold no codec of the application, stay as they are.</li>
  *     <li>A codec, codec registry, codec registry builder, command or connection pool listener or settings
  *     customizer definition registered or removed recreates the MongoDB configurations, which received them, and so
- *     everything built from them, the retained clients among them.</li>
+ *     everything built from them. The retained clients are built from configurations of their own, which receive
+ *     none of these, and stay as they are.</li>
  *     <li>A change under {@code mongodb} applied in place recreates the retained clients from the rebound
  *     configuration. A change that restarts the application releases them, as {@code @Retain} declares.</li>
  * </ul>
@@ -167,7 +168,8 @@ final class DevelopmentMongoReloader {
 
     /**
      * Recreates the configurations whose default codec registry builder may cache discriminator classes: those with
-     * packages and without Micronaut Serialization. The retained clients, built from them, are recreated too.
+     * packages and without Micronaut Serialization. The retained clients, built from configurations of
+     * their own, stay.
      */
     private void recreateDiscriminatorCaches() {
         if (!(beanContext instanceof WatchableBeanContext context)) {

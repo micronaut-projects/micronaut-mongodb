@@ -89,7 +89,7 @@ public final class DevelopmentMongoSettings {
     /**
      * The settings of a retained client: those of the configuration, with the default codec registry of the driver.
      *
-     * @param configuration The configuration
+     * @param configuration The configuration, a {@link RetainedDefaultMongoConfiguration} or a {@link RetainedNamedMongoConfiguration}
      * @return The settings, which hold nothing of the generation
      */
     public static MongoClientSettings retainedSettings(AbstractMongoConfiguration configuration) {
