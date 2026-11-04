@@ -19,12 +19,19 @@ import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoClientCloser;
+import io.micronaut.configuration.mongo.core.MongoClientSettingsBuilderCustomizer;
 import io.micronaut.configuration.mongo.core.MongoSettings;
+import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.DevelopmentActive;
+import io.micronaut.context.env.DevelopmentInactive;
 import io.micronaut.runtime.context.scope.Refreshable;
+import jakarta.inject.Singleton;
+
+import java.util.List;
 
 /**
  * Factory for the default {@link MongoClient}. Creates the injectable {@link Primary} bean
@@ -51,6 +58,7 @@ public class DefaultReactiveMongoClientFactory {
      * @return mongoClient
      */
     @Bean(preDestroy = "close")
+    @DevelopmentInactive
     @Refreshable(MongoSettings.PREFIX)
     @Primary
     MongoClient mongoClient(DefaultMongoConfiguration mongoConfiguration) {
@@ -58,5 +66,24 @@ public class DefaultReactiveMongoClientFactory {
             MongoClients.create(mongoConfiguration.buildSettings()),
             mongoConfiguration.getShutdownDelay()
         );
+    }
+
+    /**
+     * The client of a generation in development mode, over a retained driver client. Declared by this factory, so
+     * that a replacement of its client replaces this one too.
+     *
+     * @param configuration The default configuration
+     * @param customizers The settings customizers
+     * @param dependencies Resolves the retained client, as a dependency of this one
+     * @return The client of the generation
+     */
+    @Bean(preDestroy = "close")
+    @DevelopmentActive
+    @Primary
+    @Singleton
+    DevelopmentReactiveMongoClient developmentMongoClient(DefaultMongoConfiguration configuration,
+                                                          List<MongoClientSettingsBuilderCustomizer> customizers,
+                                                          BeanDependencyResolver dependencies) {
+        return DevelopmentReactiveMongoClientFactory.mongoClient(configuration, customizers, dependencies);
     }
 }
