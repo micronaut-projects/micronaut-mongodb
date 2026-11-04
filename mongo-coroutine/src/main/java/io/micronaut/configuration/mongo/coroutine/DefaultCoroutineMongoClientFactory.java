@@ -20,10 +20,13 @@ import com.mongodb.kotlin.client.coroutine.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;
 import io.micronaut.configuration.mongo.core.DefaultMongoConfiguration;
 import io.micronaut.configuration.mongo.core.MongoClientCloser;
+import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.DevelopmentActive;
+import io.micronaut.context.env.DevelopmentInactive;
 import jakarta.inject.Singleton;
 import kotlin.KotlinVersion;
 
@@ -59,11 +62,27 @@ public class DefaultCoroutineMongoClientFactory {
      * @return The tracked client
      */
     @Bean(preDestroy = "close")
+    @DevelopmentInactive
     @Primary
     @Singleton
     MongoClient mongoClient(DefaultMongoConfiguration configuration) {
         MongoClient mongoClient = new MongoClient(MongoClients.create(configuration.buildSettings()));
         mongoClient.appendMetadata(DRIVER_INFORMATION);
         return mongoClientCloser.track(mongoClient, configuration.getShutdownDelay());
+    }
+
+    /**
+     * The client of a generation in development mode, over a retained driver client. Declared by this factory, so
+     * that a replacement of its client replaces this one too. The driver client it wraps closes with its own bean.
+     *
+     * @param dependencies Resolves the driver client of the generation, as a dependency of this one
+     * @return The client of the generation
+     */
+    @Bean
+    @DevelopmentActive
+    @Primary
+    @Singleton
+    MongoClient developmentMongoClient(BeanDependencyResolver dependencies) {
+        return DevelopmentCoroutineMongoClientFactory.mongoClient(dependencies);
     }
 }
