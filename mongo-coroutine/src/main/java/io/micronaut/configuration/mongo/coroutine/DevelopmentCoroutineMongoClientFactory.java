@@ -26,6 +26,8 @@ import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.configuration.mongo.core.dev.DevelopmentMongoSettings;
 import io.micronaut.configuration.mongo.core.dev.GenerationCodecRegistry;
 import io.micronaut.configuration.mongo.core.dev.GenerationMongoClient;
+import io.micronaut.configuration.mongo.core.dev.RetainedDefaultMongoConfiguration;
+import io.micronaut.configuration.mongo.core.dev.RetainedNamedMongoConfiguration;
 import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.EachBean;
@@ -66,27 +68,27 @@ import java.util.List;
 final class DevelopmentCoroutineMongoClientFactory {
 
     /**
-     * @param configuration The default configuration, whose values the client copies
+     * @param configuration The values of the default server, which the client copies
      * @return The retained client
      */
     @Singleton
     @Primary
-    @Requires(beans = DefaultMongoConfiguration.class)
+    @Requires(beans = RetainedDefaultMongoConfiguration.class)
     @Retain(invalidatedBy = MongoSettings.PREFIX)
     @Bean(preDestroy = "close")
-    RetainedCoroutineMongoClient retainedMongoClient(DefaultMongoConfiguration configuration) {
+    RetainedCoroutineMongoClient retainedMongoClient(RetainedDefaultMongoConfiguration configuration) {
         return retain(configuration);
     }
 
     /**
-     * @param configuration A named configuration, whose values the client copies
+     * @param configuration The values of a named server, which the client copies
      * @return The retained client
      */
     @Singleton
-    @EachBean(NamedMongoConfiguration.class)
+    @EachBean(RetainedNamedMongoConfiguration.class)
     @Retain(invalidatedBy = MongoSettings.PREFIX)
     @Bean(preDestroy = "close")
-    RetainedCoroutineMongoClient namedRetainedMongoClient(NamedMongoConfiguration configuration) {
+    RetainedCoroutineMongoClient namedRetainedMongoClient(RetainedNamedMongoConfiguration configuration) {
         return retain(configuration);
     }
 

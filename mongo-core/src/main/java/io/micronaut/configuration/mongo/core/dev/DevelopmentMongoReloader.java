@@ -61,12 +61,13 @@ import java.util.stream.Stream;
  *     a bean, such as a document class, or a codec, or that retires a classloader, recreates the client beans of the
  *     generation, the {@link GenerationMongoClient}s, and the default {@link MongoClientSettings}: they build their
  *     codec registry again, and the beans that received them are recreated on top of them. The
- *     {@link RetainedMongoClient}s, which hold no codec of the application, stay as they are, unless a classloader was
- *     retired and the configurations use {@link DefaultCodecRegistryBuilder}, which caches discriminator classes: those
- *     configurations are recreated, and the retained clients with them.</li>
+ *     {@link RetainedMongoClient}s, which hold no codec of the application, stay as they are. When a classloader was
+ *     retired and the configurations use {@link DefaultCodecRegistryBuilder}, which caches discriminator classes, those
+ *     configurations are recreated too, with what was built from them.</li>
  *     <li>A codec, codec registry, codec registry builder, command or connection pool listener or settings
  *     customizer definition registered or removed recreates the MongoDB configurations, which received them, and so
- *     everything built from them, the retained clients among them.</li>
+ *     everything built from them. The retained clients are built from configurations of their own, which receive
+ *     none of these, and stay as they are.</li>
  *     <li>A change under {@code mongodb} applied in place recreates the retained clients from the rebound
  *     configuration. A change that restarts the application releases them, as {@code @Retain} declares.</li>
  * </ul>
@@ -171,9 +172,9 @@ final class DevelopmentMongoReloader {
 
     /**
      * Recreates the configurations whose default codec registry builder may cache discriminator classes: those with
-     * packages and without Micronaut Serialization. The retained clients, built from them, are recreated too. Only
-     * {@link DefaultCodecRegistryBuilder} caches them: when a builder of another module or of the application replaces
-     * it, nothing is recreated, and the retained clients stay.
+     * packages and without Micronaut Serialization. Only {@link DefaultCodecRegistryBuilder} caches them: when a builder
+     * of another module or of the application replaces it, nothing is recreated. The retained clients, built from
+     * configurations of their own, stay either way.
      */
     private void recreateDiscriminatorCaches() {
         if (!(beanContext instanceof WatchableBeanContext context) || !cachesDiscriminators()) {

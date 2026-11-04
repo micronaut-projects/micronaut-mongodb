@@ -25,6 +25,8 @@ import io.micronaut.configuration.mongo.core.MongoSettings;
 import io.micronaut.configuration.mongo.core.NamedMongoConfiguration;
 import io.micronaut.configuration.mongo.core.dev.DevelopmentMongoSettings;
 import io.micronaut.configuration.mongo.core.dev.GenerationCodecRegistry;
+import io.micronaut.configuration.mongo.core.dev.RetainedDefaultMongoConfiguration;
+import io.micronaut.configuration.mongo.core.dev.RetainedNamedMongoConfiguration;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.BeanDependencyResolver;
 import io.micronaut.context.annotation.Bean;
@@ -59,26 +61,26 @@ import java.util.List;
 final class DevelopmentMongoClientFactory {
 
     /**
-     * @param configuration The default configuration, whose values the client copies
+     * @param configuration The values of the default server, which the client copies
      * @return The retained client
      */
     @Singleton
-    @Requires(beans = DefaultMongoConfiguration.class)
+    @Requires(beans = RetainedDefaultMongoConfiguration.class)
     @Retain(invalidatedBy = MongoSettings.PREFIX)
     @Bean(preDestroy = "close")
-    RetainedSyncMongoClient retainedMongoClient(DefaultMongoConfiguration configuration) {
+    RetainedSyncMongoClient retainedMongoClient(RetainedDefaultMongoConfiguration configuration) {
         return new RetainedSyncMongoClient(MongoClients.create(DevelopmentMongoSettings.retainedSettings(configuration)));
     }
 
     /**
-     * @param configuration A named configuration, whose values the client copies
+     * @param configuration The values of a named server, which the client copies
      * @return The retained client
      */
     @Singleton
-    @EachBean(NamedMongoConfiguration.class)
+    @EachBean(RetainedNamedMongoConfiguration.class)
     @Retain(invalidatedBy = MongoSettings.PREFIX)
     @Bean(preDestroy = "close")
-    RetainedSyncMongoClient namedRetainedMongoClient(NamedMongoConfiguration configuration) {
+    RetainedSyncMongoClient namedRetainedMongoClient(RetainedNamedMongoConfiguration configuration) {
         return new RetainedSyncMongoClient(MongoClients.create(DevelopmentMongoSettings.retainedSettings(configuration)));
     }
 
