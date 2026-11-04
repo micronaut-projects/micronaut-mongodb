@@ -16,6 +16,7 @@
 package io.micronaut.configuration.mongo.core.dev;
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
 import com.mongodb.connection.ClusterSettings;
 import com.mongodb.connection.ConnectionPoolSettings;
 import com.mongodb.connection.ServerSettings;
@@ -30,6 +31,9 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.DevelopmentActive;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.runtime.ApplicationConfiguration;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The values under {@code mongodb} that a default driver client retained across a development restart is built from.
@@ -75,6 +79,26 @@ public final class RetainedDefaultMongoConfiguration extends AbstractMongoConfig
     public RetainedDefaultMongoConfiguration(ApplicationConfiguration applicationConfiguration) {
         super(applicationConfiguration);
         setCodecRegistryBuilder(configuration -> MongoClientSettings.getDefaultCodecRegistry());
+    }
+
+    /**
+     * Sets the server MongoDB server address.
+     *
+     * @param serverAddress The server address
+     */
+    public void setHost(ServerAddress serverAddress) {
+        getClusterSettings().hosts(Collections.singletonList(serverAddress));
+    }
+
+    /**
+     * Sets the server MongoDB server addresses.
+     *
+     * @param serverAddresses The server addresses
+     */
+    public void setHosts(List<ServerAddress> serverAddresses) {
+        if (serverAddresses != null) {
+            getClusterSettings().hosts(serverAddresses);
+        }
     }
 
     @Override
