@@ -68,12 +68,15 @@ public final class RetainedNamedMongoConfiguration extends AbstractMongoConfigur
     @ConfigurationBuilder(prefixes = "", configurationPrefix = "ssl")
     SslSettings.Builder sslSettings = SslSettings.builder();
 
+    private final String serverName;
+
     /**
-     * @param serverName The name of the server, which qualifies this bean
+     * @param serverName The name of the server, which qualifies this bean and the application name the client reports
      * @param applicationConfiguration The application configuration, which names the client
      */
     public RetainedNamedMongoConfiguration(@Parameter String serverName, ApplicationConfiguration applicationConfiguration) {
         super(applicationConfiguration);
+        this.serverName = serverName;
         setCodecRegistryBuilder(configuration -> MongoClientSettings.getDefaultCodecRegistry());
     }
 
@@ -105,5 +108,10 @@ public final class RetainedNamedMongoConfiguration extends AbstractMongoConfigur
     @Override
     public SslSettings.Builder getSslSettings() {
         return sslSettings;
+    }
+
+    @Override
+    protected String getApplicationName() {
+        return super.getApplicationName() + "-" + serverName;
     }
 }
