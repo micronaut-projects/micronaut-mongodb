@@ -9,6 +9,7 @@ import org.bson.BsonDocument;
 import org.bson.BsonDocumentReader;
 import org.bson.BsonString;
 import org.bson.codecs.DecoderContext;
+import org.bson.codecs.configuration.CodecConfigurationException;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.junit.jupiter.api.Assertions;
@@ -20,6 +21,53 @@ import java.util.stream.Collectors;
 
 class BsonDiscriminatorTest {
     private static final String TEST_PACKAGE = "example";
+
+    @Test
+    void registersDiscriminatorsWithoutPackages() {
+        try (ApplicationContext context = ApplicationContext.run()) {
+            DefaultMongoConfiguration configuration = new DefaultMongoConfiguration(
+                new ApplicationConfiguration(),
+                context.getEnvironment()
+            );
+            configuration.setPackageNames(List.of());
+
+            Animal animal = decodeDog(context.getBean(DefaultCodecRegistryBuilder.class).build(configuration));
+
+            Assertions.assertInstanceOf(Dog.class, animal);
+            Assertions.assertEquals("Ball", ((Dog) animal).getFavoriteToy());
+
+            configuration.setPackageNames(null);
+
+            Assertions.assertInstanceOf(Dog.class, decodeDog(context.getBean(DefaultCodecRegistryBuilder.class).build(configuration)));
+        }
+    }
+
+    @Test
+    void automaticClassModelsOffWithoutPackagesLeavesOnlyDiscriminators() {
+        try (ApplicationContext context = ApplicationContext.run()) {
+            DefaultMongoConfiguration configuration = new DefaultMongoConfiguration(
+                new ApplicationConfiguration(),
+                context.getEnvironment()
+            );
+            configuration.setPackageNames(List.of());
+            configuration.setAutomaticClassModels(false);
+
+            CodecRegistry codecRegistry = context.getBean(DefaultCodecRegistryBuilder.class).build(configuration);
+
+            Assertions.assertInstanceOf(Dog.class, decodeDog(codecRegistry));
+            Assertions.assertThrows(CodecConfigurationException.class, () -> codecRegistry.get(Book.class));
+        }
+    }
+
+    private static Animal decodeDog(CodecRegistry codecRegistry) {
+        return codecRegistry.get(Animal.class).decode(
+            new BsonDocumentReader(new BsonDocument()
+                .append("type", new BsonString("dog"))
+                .append("name", new BsonString("Fido"))
+                .append("favoriteToy", new BsonString("Ball"))),
+            DecoderContext.builder().build()
+        );
+    }
 
     @Test
     void decodesCustomDiscriminatorWithoutPrimingSubtypeCodec() {
