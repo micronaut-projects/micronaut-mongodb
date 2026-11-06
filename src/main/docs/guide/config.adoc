@@ -61,6 +61,14 @@ mongodb:
     - example.animals
 ----
 
+==== Applications without packages
+
+`mongodb.package-names` defaults to the packages of the application's environment. A context can have none, for example one built with `deducePackage(false)`. Without any packages:
+
+* With `mongodb.use-serde`, every introspected `@Serdeable` type has a codec.
+* With MongoDB POJO codecs, every introspected `@BsonDiscriminator` type is registered.
+* With `mongodb.automatic-class-models` set to `false`, no other POJO has a codec, because nothing names it. List its packages in `mongodb.package-names`: they match exactly, so include each subpackage.
+
 To keep MongoDB clients available briefly for deferred shutdown work triggered by
 api:runtime.event.ApplicationShutdownEvent[] listeners, enable Micronaut graceful
 shutdown and set `mongodb.shutdown-delay`:

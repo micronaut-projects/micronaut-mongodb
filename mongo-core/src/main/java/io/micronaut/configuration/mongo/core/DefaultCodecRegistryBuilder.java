@@ -30,6 +30,7 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,19 +82,23 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
 
         Collection<String> packageNames = configuration.getPackageNames();
         if (configuration.isUseSerde()) {
-            Collection<Class<?>> entities = Stream.concat(
-                environment.scan(Serdeable.Serializable.class, packageNames.toArray(new String[0])),
-                environment.scan(Serdeable.Deserializable.class, packageNames.toArray(new String[0]))
-            ).collect(Collectors.toSet());
+            // no entities, as opposed to an empty collection, is every introspected serdeable type
+            Collection<Class<?>> entities = null;
+            if (CollectionUtils.isNotEmpty(packageNames)) {
+                entities = Stream.concat(
+                    environment.scan(Serdeable.Serializable.class, packageNames.toArray(new String[0])),
+                    environment.scan(Serdeable.Deserializable.class, packageNames.toArray(new String[0]))
+                ).collect(Collectors.toSet());
+            }
             codecRegistries.add(new DataCodecRegistry(entities, serdeRegistry.find(null)
                 .orElseThrow(() -> new IllegalStateException("SerdeRegistry is not configured! Make sure you have added Micronaut Serialization BSON dependency."))));
         } else {
             final PojoCodecProvider.Builder builder = PojoCodecProvider.builder();
+            Collection<Class<?>> discriminatorEntities = findDiscriminatorEntities(packageNames);
+            if (CollectionUtils.isNotEmpty(discriminatorEntities)) {
+                builder.register(discriminatorEntities.toArray(Class<?>[]::new));
+            }
             if (CollectionUtils.isNotEmpty(packageNames)) {
-                Collection<Class<?>> discriminatorEntities = findDiscriminatorEntities(packageNames);
-                if (CollectionUtils.isNotEmpty(discriminatorEntities)) {
-                    builder.register(discriminatorEntities.toArray(Class<?>[]::new));
-                }
                 builder.register(packageNames.toArray(new String[0]));
             }
             codecRegistries.add(fromProviders(
@@ -103,7 +108,7 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
         return fromRegistries(codecRegistries);
     }
 
-    private Collection<Class<?>> findDiscriminatorEntities(Collection<String> packageNames) {
+    private Collection<Class<?>> findDiscriminatorEntities(@Nullable Collection<String> packageNames) {
         List<String> packageNamesKey = normalizePackageNamesForCaching(packageNames);
         Collection<Class<?>> cachedEntities = discriminatorEntitiesCache.get(packageNamesKey);
         if (cachedEntities != null) {
@@ -118,7 +123,10 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
         return existingEntities != null ? existingEntities : discoveredEntities;
     }
 
-    private List<String> normalizePackageNamesForCaching(Collection<String> packageNames) {
+    private List<String> normalizePackageNamesForCaching(@Nullable Collection<String> packageNames) {
+        if (packageNames == null) {
+            return List.of();
+        }
         // Normalize order/duplicates so logically equivalent package sets share a single cache key.
         return packageNames.stream()
             .filter(Objects::nonNull)
@@ -128,6 +136,9 @@ public final class DefaultCodecRegistryBuilder implements CodecRegistryBuilder {
     }
 
     private boolean isWithinConfiguredPackages(Class<?> beanType, Collection<String> packageNames) {
+        if (packageNames.isEmpty()) {
+            return true;
+        }
         String packageName = beanType.getPackageName();
         return packageNames.stream().anyMatch(configuredPackage ->
             packageName.equals(configuredPackage) || packageName.startsWith(configuredPackage + ".")
