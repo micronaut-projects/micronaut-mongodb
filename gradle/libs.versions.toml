@@ -1,7 +1,7 @@
 [versions]
-micronaut = "5.2.21"
+micronaut = "5.2.22"
 micronaut-test = "5.0.0"
-micronaut-platform = "5.2.4"
+micronaut-platform = "5.2.5"
 micronaut-gradle-plugin = "5.0.2"
 
 managed-mongo = "5.14.0"
